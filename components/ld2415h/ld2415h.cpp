@@ -66,71 +66,10 @@ void LD2415HComponent::loop() {
     if (this->fill_buffer_(this->read())) {
       //ESP_LOGD(TAG, "Response parsed.");
     }
-    
-    //ESP_LOGD(TAG, "Available...");
-
-/*
-    //uint8_t byte = 0x00;
-    //this->read_byte(&byte);
-    uint8_t byte = this->read();
-
-    // Last two bytes of a response are \r\n, ignore \r
-    if (byte != LD2415H_RESPONSE_FOOTER[0]) {
-      this->response_buffer_[this->response_buffer_index_] = byte;        
-
-      // If \n process response
-      if(byte == LD2415H_RESPONSE_FOOTER[1]) {
-        this->parse_buffer_();
-        this->response_buffer_index_ = 0;
-      }
-    } else {
-    //if(byte == LD2415H_RESPONSE_FOOTER[0]) {
-        ESP_LOGD(TAG, "\\r detected at index %d", this->response_buffer_index_);
-
-    }
-
-    this->response_buffer_index_++;
-
-    if (this->response_buffer_index_ > sizeof(this->response_buffer_)) {
-      this->response_buffer_index_ = 0;
-      ESP_LOGE(TAG, "Response length exceeded buffer size.");
-    }
-*/
-
-/*
-    // Sample output:  V+002.6\r\n
-    // commands start with "CF"
-    // Need to read until \r\n then update speed.
-
-    // Code below is checking for a complete record and resetting when done.
-    this->read_byte(&this->data_[this->data_index_]);
-    auto check = this->check_byte_();
-    if (!check.has_value()) {
-      // finished
-      this->parse_data_();
-      this->data_index_ = 0;
-    } else {
-      // next byte
-      this->data_index_++;
-    }
-*/
   }
 }
 
 /*
-optional<bool> LD2415HComponent::check_byte_() const {
-  uint8_t index = this->data_index_;
-  uint8_t byte = this->data_[index];
-
-  // Check if value is end of speed message
-  if (index + 1 == LD2415H_RESPONSE_SPEED_LENGTH) {
-    return byte == LD2415H_RESPONSE_SPEED_FOOTER[1];
-  }
-
-  return false;
-}
-
-
 void LD2415HComponent::parse_data_() {
   const int speed = this->get_16_bit_uint_(5);
 
@@ -143,16 +82,21 @@ void LD2415HComponent::parse_data_() {
 
 bool LD2415HComponent::fill_buffer_(char c) {
   switch(c) {
+    case 'ÿ':
     case '\r':
       break;
 
     case '\n':
+      if(this->response_buffer_index_ == 0) break;
+
       ESP_LOGD(TAG, "Response: %s", this->response_buffer_);
       clear_buffer_();
       this->response_buffer_index_ = 0;
       return true;
 
     default:
+      if(this->response_buffer_index_ == sizeof(this->response_buffer_)) break;
+
       this->response_buffer_[this->response_buffer_index_] = c;
       this->response_buffer_index_++;
       break;
