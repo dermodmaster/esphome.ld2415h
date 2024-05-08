@@ -12,20 +12,6 @@ static const uint8_t LD2415H_CONFIG_REQUEST[] = {0x43, 0x46, 0x07, 0x00, 0x00, 0
 
 void LD2415HComponent::setup() {
   // because this implementation is currently rx-only, there is nothing to setup
-
-  this->write_byte(LD2415H_CONFIG_REQUEST[0]);
-  this->write_byte(LD2415H_CONFIG_REQUEST[1]);
-  this->write_byte(LD2415H_CONFIG_REQUEST[2]);
-  this->write_byte(LD2415H_CONFIG_REQUEST[3]);
-  this->write_byte(LD2415H_CONFIG_REQUEST[4]);
-  this->write_byte(LD2415H_CONFIG_REQUEST[5]);
-  this->write_byte(LD2415H_CONFIG_REQUEST[6]);
-  this->write_byte(LD2415H_CONFIG_REQUEST[7]);
-  this->write_byte(LD2415H_CONFIG_REQUEST[8]);
-  this->write_byte(LD2415H_CONFIG_REQUEST[9]);
-  this->write_byte(LD2415H_CONFIG_REQUEST[10]);
-  this->write_byte(LD2415H_CONFIG_REQUEST[11]);
-  this->write_byte(LD2415H_CONFIG_REQUEST[12]);
 }
 
 void LD2415HComponent::update() {
@@ -42,6 +28,22 @@ void LD2415HComponent::dump_config() {
   LOG_SENSOR("  ", "Speed", this->speed_sensor_);
   LOG_UPDATE_INTERVAL(this);
   this->check_uart_settings(9600);
+
+
+  this->write_byte(LD2415H_CONFIG_REQUEST[0]);
+  this->write_byte(LD2415H_CONFIG_REQUEST[1]);
+  this->write_byte(LD2415H_CONFIG_REQUEST[2]);
+  this->write_byte(LD2415H_CONFIG_REQUEST[3]);
+  this->write_byte(LD2415H_CONFIG_REQUEST[4]);
+  this->write_byte(LD2415H_CONFIG_REQUEST[5]);
+  this->write_byte(LD2415H_CONFIG_REQUEST[6]);
+  this->write_byte(LD2415H_CONFIG_REQUEST[7]);
+  this->write_byte(LD2415H_CONFIG_REQUEST[8]);
+  this->write_byte(LD2415H_CONFIG_REQUEST[9]);
+  this->write_byte(LD2415H_CONFIG_REQUEST[10]);
+  this->write_byte(LD2415H_CONFIG_REQUEST[11]);
+  this->write_byte(LD2415H_CONFIG_REQUEST[12]);
+
 }
 
   /*
