@@ -80,6 +80,8 @@ bool LD2415HComponent::fill_buffer_(uint8_t c) {
       break;
 
     case '\n':
+      if(this->response_buffer_index_ == 0) break;
+
       clear_remaining_buffer_(this->response_buffer_index_);
       return true;
 
