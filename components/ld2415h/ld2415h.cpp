@@ -104,9 +104,9 @@ void LD2415HComponent::parse_data_() {
 
   // Output the result
   std::cout << "Parsed float value: " << floatValue << std::endl;
-*/
-}
 
+}
+*/
 
 }  // namespace ld2415h
 }  // namespace esphome
