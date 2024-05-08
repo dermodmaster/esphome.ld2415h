@@ -40,8 +40,6 @@ void LD2415HComponent::update() {
   //this->write_array(LD2415H_REQUEST, sizeof(LD2415H_REQUEST));
 }
 
-float LD2415HComponent::get_setup_priority() const { return setup_priority::DATA; }
-
 void LD2415HComponent::dump_config() {
   ESP_LOGCONFIG(TAG, "LD2415H:");
   //LOG_UART_DEVICE(this);
