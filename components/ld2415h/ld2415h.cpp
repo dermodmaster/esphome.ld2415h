@@ -32,10 +32,38 @@ static const uint8_t LD2415H_RESPONSE_FOOTER[] = {0x0D, 0x0A};
 
 void LD2415HComponent::setup() {
   // because this implementation is currently rx-only, there is nothing to setup
+}
+
+void LD2415HComponent::update() {
+  // Possibly setting config?
+  //ESP_LOGV(TAG, "sending measurement request");
+  //this->write_array(LD2415H_REQUEST, sizeof(LD2415H_REQUEST));
+}
+
+float LD2415HComponent::get_setup_priority() const { return setup_priority::DATA; }
+
+void LD2415HComponent::dump_config() {
+  ESP_LOGCONFIG(TAG, "LD2415H:");
+  //LOG_UART_DEVICE(this);
+  LOG_SENSOR("  ", "Speed", this->speed_sensor_);
+  //LOG_UPDATE_INTERVAL(this);
+  //this->check_uart_settings(9600);
+
+  this->write_array(LD2415H_CONFIG_CMD, sizeof(LD2415H_CONFIG_CMD));
+  /*
+  [00:07:09][D][uart_debug:158]: <<< "\xFF\xFF\r\n"
+  [00:07:09][D][uart_debug:158]: <<< "No.:20230801E v5.0\r\n"
+  [00:07:09][D][uart_debug:158]: <<< "X1:01 X2:00 X3:05 X4:01 X5:00 X6:00 X7:05 X8:03 X9:01 X0:01\r\n"
+  */
+}
+
+
+void LD2415HComponent::loop() {
   while (this->available()) {
     if (this->parse_(this->read())) {
       ESP_LOGD(TAG, "Response parsed.");
     }
+      ESP_LOGD(TAG, "Available...");
 
 /*
     //uint8_t byte = 0x00;
@@ -85,33 +113,6 @@ void LD2415HComponent::setup() {
   }
 }
 
-void LD2415HComponent::update() {
-  // Possibly setting config?
-  //ESP_LOGV(TAG, "sending measurement request");
-  //this->write_array(LD2415H_REQUEST, sizeof(LD2415H_REQUEST));
-}
-
-float LD2415HComponent::get_setup_priority() const { return setup_priority::DATA; }
-
-void LD2415HComponent::dump_config() {
-  ESP_LOGCONFIG(TAG, "LD2415H:");
-  //LOG_UART_DEVICE(this);
-  LOG_SENSOR("  ", "Speed", this->speed_sensor_);
-  //LOG_UPDATE_INTERVAL(this);
-  //this->check_uart_settings(9600);
-
-  this->write_array(LD2415H_CONFIG_CMD, sizeof(LD2415H_CONFIG_CMD));
-  /*
-  [00:07:09][D][uart_debug:158]: <<< "\xFF\xFF\r\n"
-  [00:07:09][D][uart_debug:158]: <<< "No.:20230801E v5.0\r\n"
-  [00:07:09][D][uart_debug:158]: <<< "X1:01 X2:00 X3:05 X4:01 X5:00 X6:00 X7:05 X8:03 X9:01 X0:01\r\n"
-  */
-}
-
-
-void LD2415HComponent::loop() {
-}
-
 /*
 optional<bool> LD2415HComponent::check_byte_() const {
   uint8_t index = this->data_index_;
@@ -135,11 +136,6 @@ void LD2415HComponent::parse_data_() {
     this->speed_sensor_->publish_state(speed);
   }
 */
-void LD2415HComponent::parse_buffer_() {
-  ESP_LOGD(TAG, "Parsing buffer: \"%s\"", this->response_buffer_);
-
-  // Parse scans up to \n in buffer
-}
 
 bool LD2415HComponent::parse_(char c) {
   ESP_LOGD(TAG, "Parsing: \"%c\"", c);

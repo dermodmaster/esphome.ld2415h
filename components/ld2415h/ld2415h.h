@@ -7,13 +7,16 @@
 namespace esphome {
 namespace ld2415h {
 
+class LD2415HComponent;
+
 class LD2415HComponent : public PollingComponent, public uart::UARTDevice {
  public:
+  float get_setup_priority() const override { return setup_priority::HARDWARE; }
+  
   //LD2415HComponent() = default;
 
   void setup() override;
   void update() override;
-  float get_setup_priority() const override;
   void dump_config() override;
   void loop() override;
 
@@ -39,7 +42,6 @@ class LD2415HComponent : public PollingComponent, public uart::UARTDevice {
   uint8_t response_buffer_[64];
   uint8_t response_buffer_index_{0};
 
-  void parse_buffer_();
   bool parse_(char c);
 };
 
