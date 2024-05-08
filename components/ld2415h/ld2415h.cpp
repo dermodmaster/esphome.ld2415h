@@ -52,12 +52,6 @@ void LD2415HComponent::dump_config() {
   //LOG_SENSOR("  ", "Speed", this->speed_sensor_);
   //LOG_UPDATE_INTERVAL(this);
   //this->check_uart_settings(9600);
-
-  /*
-  [00:07:09][D][uart_debug:158]: <<< "\xFF\xFF\r\n"
-  [00:07:09][D][uart_debug:158]: <<< "No.:20230801E v5.0\r\n"
-  [00:07:09][D][uart_debug:158]: <<< "X1:01 X2:00 X3:05 X4:01 X5:00 X6:00 X7:05 X8:03 X9:01 X0:01\r\n"
-  */
 }
 
 
@@ -84,14 +78,14 @@ void LD2415HComponent::parse_data_() {
 bool LD2415HComponent::fill_buffer_(uint8_t c) {
   switch(c) {
     case 0x00:
-      ESP_LOGD(TAG, "Ignoring: null");
     case 0xFF:
-      ESP_LOGD(TAG, "Ignoring: %c", c);
     case '\r':
       break;
 
     case '\n':
       if(this->response_buffer_index_ == 0) break;
+
+      ESP_LOGD(TAG, "Response Length: %i", this->response_buffer_index_);
 
       clear_buffer_();
       this->response_buffer_index_ = 0;
@@ -114,6 +108,14 @@ void LD2415HComponent::clear_buffer_() {
 }
 
 void LD2415HComponent::parse_buffer_() {
+
+  /*
+  [00:07:09][D][uart_debug:158]: <<< "\xFF\xFF\r\n"
+  [00:07:09][D][uart_debug:158]: <<< "No.:20230801E v5.0\r\n"
+  [00:07:09][D][uart_debug:158]: <<< "X1:01 X2:00 X3:05 X4:01 X5:00 X6:00 X7:05 X8:03 X9:01 X0:01\r\n"
+  */
+
+
 }
 
 /*
