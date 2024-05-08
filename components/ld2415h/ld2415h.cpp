@@ -162,12 +162,10 @@ bool LD2415HComponent::fill_buffer_(char c) {
 }
 
 void LD2415HComponent::clear_buffer_() {
-  this->response_buffer_index_ = '\0';
-/*
   while(this->response_buffer_index_ < sizeof(this->response_buffer_)) {
         this->response_buffer_[this->response_buffer_index_] = 0x00;
         this->response_buffer_index_++;
-  }*/
+  }
 }
 
 /*
