@@ -123,12 +123,15 @@ void LD2415HComponent::parse_buffer_() {
   switch(c) {
     case 'N':
       // Firmware Version
+      ESP_LOGD(TAG, "Firmware Response: %s", this->response_buffer_);
       break;
     case 'X':
-      // Command Response
+      // Config Response
+      ESP_LOGD(TAG, "Config Response: %s", this->response_buffer_);
       break;
     case 'V':
       // Velocity
+      ESP_LOGD(TAG, "Speed Response: %s", this->response_buffer_);
       break;
 
     case '\n':
