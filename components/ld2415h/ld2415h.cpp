@@ -134,18 +134,8 @@ void LD2415HComponent::parse_buffer_() {
       ESP_LOGD(TAG, "Speed Response: %s", this->response_buffer_);
       break;
 
-    case '\n':
-      if(this->response_buffer_index_ == 0) break;
-
-      ESP_LOGD(TAG, "Response Length: %i", this->response_buffer_index_);
-
-      clear_buffer_();
-      this->response_buffer_index_ = 0;
-      return true;
-
     default:
-      this->response_buffer_[this->response_buffer_index_] = c;
-      this->response_buffer_index_++;
+      ESP_LOGD(TAG, "Unknown Response: %s", this->response_buffer_);
       break;
   }
 }
