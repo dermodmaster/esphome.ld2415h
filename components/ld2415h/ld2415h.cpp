@@ -30,6 +30,8 @@ void LD2415HComponent::dump_config() {
   this->check_uart_settings(9600);
 
 
+  this->write(LD2415H_CONFIG_REQUEST);
+/*
   this->write_byte(LD2415H_CONFIG_REQUEST[0]);
   this->write_byte(LD2415H_CONFIG_REQUEST[1]);
   this->write_byte(LD2415H_CONFIG_REQUEST[2]);
@@ -43,6 +45,12 @@ void LD2415HComponent::dump_config() {
   this->write_byte(LD2415H_CONFIG_REQUEST[10]);
   this->write_byte(LD2415H_CONFIG_REQUEST[11]);
   this->write_byte(LD2415H_CONFIG_REQUEST[12]);
+*/
+/*
+[00:07:09][D][uart_debug:158]: <<< "\xFF\xFF\r\n"
+[00:07:09][D][uart_debug:158]: <<< "No.:20230801E v5.0\r\n"
+[00:07:09][D][uart_debug:158]: <<< "X1:01 X2:00 X3:05 X4:01 X5:00 X6:00 X7:05 X8:03 X9:01 X0:01\r\n"
+*/
 
 }
 
