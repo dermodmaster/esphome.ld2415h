@@ -63,7 +63,7 @@ void LD2415HComponent::dump_config() {
 
 void LD2415HComponent::loop() {
   while (this->available()) {
-    if (this->parse_(this->read())) {
+    if (this->fill_buffer_(this->read())) {
       //ESP_LOGD(TAG, "Response parsed.");
     }
     
