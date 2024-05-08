@@ -137,7 +137,7 @@ void LD2415HComponent::parse_data_() {
 */
 
 bool LD2415HComponent::parse_(char c) {
-  ESP_LOGD(TAG, "Parsing: \"%c\"", c);
+  //ESP_LOGD(TAG, "Parsing: \"%c\"", c);
   
   this->response_buffer_[this->response_buffer_index_] = c;
   this->response_buffer_index_++;
@@ -150,6 +150,12 @@ bool LD2415HComponent::parse_(char c) {
   case '\n':
     //ESP_LOGD(TAG, "Parsed: Line Feed");
     ESP_LOGD(TAG, "Response: \"%s\"", this->response_buffer_);
+
+    while(this->response_buffer_index_ < sizeof(this->response_buffer_)) {
+      this->response_buffer_[this->response_buffer_index_] = 0x00;
+      this->response_buffer_index_++;
+    }
+
     this->response_buffer_index_ = 0;
     return true;
   default:
