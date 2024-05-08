@@ -34,11 +34,11 @@ void LD2415HComponent::setup() {
   // because this implementation is currently rx-only, there is nothing to setup
 }
 
-//void LD2415HComponent::update() {
+void LD2415HComponent::update() {
   // Possibly setting config?
   //ESP_LOGV(TAG, "sending measurement request");
   //this->write_array(LD2415H_REQUEST, sizeof(LD2415H_REQUEST));
-//}
+}
 
 float LD2415HComponent::get_setup_priority() const { return setup_priority::DATA; }
 
@@ -59,7 +59,6 @@ void LD2415HComponent::dump_config() {
 
 
 void LD2415HComponent::loop() {
-
   while (this->available()) {
     if (this->parse_(this->read())) {
       ESP_LOGD(TAG, "Response parsed.");
@@ -111,7 +110,6 @@ void LD2415HComponent::loop() {
     }
 */
   }
-
 }
 
 /*
