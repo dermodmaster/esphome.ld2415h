@@ -139,17 +139,12 @@ void LD2415HComponent::parse_data_() {
 bool LD2415HComponent::parse_(char c) {
   //ESP_LOGD(TAG, "Parsing: \"%c\"", c);
   
-  this->response_buffer_[this->response_buffer_index_] = c;
-  this->response_buffer_index_++;
-
   switch(c)
   {
   case '\r':
-    //ESP_LOGD(TAG, "Parsed: Carriage Return");
     break;
   case '\n':
-    //ESP_LOGD(TAG, "Parsed: Line Feed");
-    ESP_LOGD(TAG, "Response: \"%s\"", this->response_buffer_);
+    ESP_LOGD(TAG, "Response: %s", this->response_buffer_);
 
     while(this->response_buffer_index_ < sizeof(this->response_buffer_)) {
       this->response_buffer_[this->response_buffer_index_] = 0x00;
@@ -159,8 +154,8 @@ bool LD2415HComponent::parse_(char c) {
     this->response_buffer_index_ = 0;
     return true;
   default:
-    //ESP_LOGD(TAG, "Parsed: %c", c);
-    //ESP_LOGD(TAG, "Parsed: Other Character");
+    this->response_buffer_[this->response_buffer_index_] = c;
+    this->response_buffer_index_++;
     break;
   }
 
