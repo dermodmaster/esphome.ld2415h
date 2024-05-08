@@ -39,10 +39,10 @@ class LD2415HComponent : public PollingComponent, public uart::UARTDevice {
   optional<bool> check_byte_() const;
 */
 
-  char response_buffer_[64];
+  uint8_t response_buffer_[64];
   uint8_t response_buffer_index_{0};
 
-  bool fill_buffer_(char c);
+  bool fill_buffer_(uint8_t c);
   void clear_buffer_();
   void parse_buffer_();
 };

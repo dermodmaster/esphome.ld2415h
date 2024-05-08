@@ -64,8 +64,8 @@ void LD2415HComponent::dump_config() {
 void LD2415HComponent::loop() {
   while (this->available()) {
     if (this->fill_buffer_(this->read())) {
+      ESP_LOGD(TAG, "Response: %s", this->response_buffer_);
       this->parse_buffer_();
-      //ESP_LOGD(TAG, "Response parsed.");
     }
   }
 }
@@ -81,9 +81,9 @@ void LD2415HComponent::parse_data_() {
   }
 */
 
-bool LD2415HComponent::fill_buffer_(char c) {
+bool LD2415HComponent::fill_buffer_(uint8_t c) {
   switch(c) {
-    case 'ÿ':
+    case 0xFF:
       ESP_LOGD(TAG, "Ignoring: %c", c);
     case '\r':
       break;
@@ -91,7 +91,6 @@ bool LD2415HComponent::fill_buffer_(char c) {
     case '\n':
       if(this->response_buffer_index_ == 0) break;
 
-      ESP_LOGD(TAG, "Response: %s", this->response_buffer_);
       clear_buffer_();
       this->response_buffer_index_ = 0;
       return true;
