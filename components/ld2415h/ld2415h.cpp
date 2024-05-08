@@ -159,7 +159,7 @@ bool LD2415HComponent::parse_(char c) {
     ESP_LOGD(TAG, "Response: \"%s\"", this->response_buffer_);
     this->response_buffer_index_ = 0;
     return true;
-  case default:
+  default:
     //ESP_LOGD(TAG, "Parsed: %c", c);
     ESP_LOGD(TAG, "Parsed: Other Character");
     break;
