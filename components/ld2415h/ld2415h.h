@@ -12,7 +12,7 @@ class LD2415HComponent : public PollingComponent, public uart::UARTDevice {
   //LD2415HComponent() = default;
 
   void setup() override;
-  void update() override;
+  //void update() override;
   float get_setup_priority() const override;
   void dump_config() override;
   void loop() override;
