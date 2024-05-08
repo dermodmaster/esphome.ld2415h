@@ -45,7 +45,7 @@ void LD2415HComponent::dump_config() {
 
   // Don't assume the buffer is full, clear it before issuing command.
   this->response_buffer_index_ = 0;
-  clear_buffer_(0);
+  clear_remaining_buffer_(0);
   this->write_array(LD2415H_CONFIG_CMD, sizeof(LD2415H_CONFIG_CMD));
 
   //LOG_UART_DEVICE(this);
@@ -83,7 +83,7 @@ bool LD2415HComponent::fill_buffer_(uint8_t c) {
       break;
 
     case '\n':
-      clear_buffer_(this->response_buffer_index_);
+      clear_remaining_buffer_(this->response_buffer_index_);
       return true;
 
     default:
