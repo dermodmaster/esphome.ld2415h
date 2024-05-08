@@ -93,7 +93,7 @@ Example:
 
     | Param | Default | Min  | Max  | Description |
     | ----- | --------| ---- | ---- | ----------- |
-    | 1     | 0x01    | 0x01 | 0x02 | Negotiation Mode: <br>**0x01** : Custom Agrement <br>**0x02** : Standard Protocol |
+    | 1     | 0x01    | 0x01 | 0x02 | Negotiation Mode: <br>**0x01** : Custom Agreement <br>**0x02** : Standard Protocol |
     | 2-8   |         |      |      | Mode 1:<br>    **0x00 0x00 0x00 0x00 0x00 0x00**<br> Mode 2 first call:<br> **0xfa 0x31 0x30 0x3d 0xfb**<br> Mode 2 second call:<br> **0xfa 0x55 0xaa 0xff 0xfb** |
 
     Example:
@@ -111,23 +111,25 @@ Example:
 
     Example:
 
-        > 0x43 0x46 0x07 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
-        0x43 0x46 0x07 0x01 0x00 0x05 0x00 0x02 0x01 0x05 0x02 0x0a 0x01
+        >>> 0x43 0x46 0x07 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00
+        <<< xFFxFF\r\n
+        <<< No.:20230801E v5.0\r\n
+        <<< X1:01 X2:00 X3:05 X4:01 X5:00 X6:00 X7:05 X8:03 X9:01 X0:01\r\n
 
     Output parameters:
   
     | Param | Description |
     | ----- | ----------- |
-    | 1     | Represents the minimum speed reported by the sensor. |
-    | 2     | Angle of compensation between the center of the radar beam axis and the travel direction of objects. |
-    | 3     | Radar sensitivity. Smaller values have higher sensitivity and more interference. Larger values are less sensitive and more resilient to interference. |
-    | 4     | Tracking Mode: <br>**0x00** : Approaching and retreating <br>**0x01** : Approaching <br>**0x02** : Retreating
-    | 5     | The sample rate, higher values lower the rate. A value of 0 is ~22 samples per second, 1 is ~11. |
-    | 6     | Unit of Measure: <br>**0x00** : km/h <br>**0x01** : mi/h <br>**0x02** : m/s |
-    | 7     | Vibration anti-interference coefficient used to reject false positives.  For example if the sensor is mounted to gently swaying pole. |
-    | 8     | Relay closure time when speed exceeds Param 9. |
-    | 9     | The lowest detection value for the photocoupler pickup in km/h. |
-    | 10    | Negotiation Mode: <br>**0x01** : Custom Agrement <br>**0x02** : Standard Protocol |
+    | X1    | Represents the minimum speed reported by the sensor. |
+    | X2    | Angle of compensation between the center of the radar beam axis and the travel direction of objects. |
+    | X3    | Radar sensitivity. Smaller values have higher sensitivity and more interference. Larger values are less sensitive and more resilient to interference. |
+    | X4    | Tracking Mode: <br>**0x00** : Approaching and retreating <br>**0x01** : Approaching <br>**0x02** : Retreating
+    | X5    | The sample rate, higher values lower the rate. A value of 0 is ~22 samples per second, 1 is ~11. |
+    | X6    | Unit of Measure: <br>**0x00** : km/h <br>**0x01** : mi/h <br>**0x02** : m/s |
+    | X7    | Vibration anti-interference coefficient used to reject false positives.  For example if the sensor is mounted to gently swaying pole. |
+    | X8    | Relay closure time when speed exceeds Param 9. |
+    | X9    | The lowest detection value for the photocoupler pickup in km/h. |
+    | X0    | Negotiation Mode: <br>**0x01** : Custom Agrement <br>**0x02** : Standard Protocol |
 
 
 ## ESPHome Example Configuration

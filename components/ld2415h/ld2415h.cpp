@@ -10,15 +10,34 @@ static const uint8_t LD2415H_RESPONSE_SPEED_LENGTH = 9;
 static const uint8_t LD2415H_RESPONSE_SPEED_FOOTER[] = {0x0D, 0x0A};
 static const uint8_t LD2415H_CONFIG_REQUEST[] = {0x43, 0x46, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
+/* TODO ::
+     * Define Commands as consts
+     * Create function to send cmd and params
+     * Create controls that expose settings
+     * Setup should initialize settings
+     * In loop constantly reading bytes into an array
+     * When \n is encountered, parse array and reset loop
+     * parse array should interpret response and update internal settings
+     * If not read available set speed to 0km/h
+
+     * Create Detected Sensor?
+     * If not read available and last read was 1km/h then set detected to false
+     * Create Last Top Speed Sensor
+     * While Detected, if speed is greater than top speed update top speed
+*/
+
+
+
+
 void LD2415HComponent::setup() {
   // because this implementation is currently rx-only, there is nothing to setup
 }
 
-void LD2415HComponent::update() {
+//void LD2415HComponent::update() {
   // Possibly setting config?
   //ESP_LOGV(TAG, "sending measurement request");
   //this->write_array(LD2415H_REQUEST, sizeof(LD2415H_REQUEST));
-}
+//}
 
 float LD2415HComponent::get_setup_priority() const { return setup_priority::DATA; }
 
@@ -30,7 +49,7 @@ void LD2415HComponent::dump_config() {
   this->check_uart_settings(9600);
 
 
-  this->write(LD2415H_CONFIG_REQUEST);
+  this->write_array(LD2415H_CONFIG_REQUEST);
 /*
   this->write_byte(LD2415H_CONFIG_REQUEST[0]);
   this->write_byte(LD2415H_CONFIG_REQUEST[1]);
@@ -54,15 +73,15 @@ void LD2415HComponent::dump_config() {
 
 }
 
-  /*
+
 void LD2415HComponent::loop() {
+/*
   while (this->available()) {
     // Sample output:  V+002.6\r\n
     // commands start with "CF"
     // Need to read until \r\n then update speed.
 
     // Code below is checking for a complete record and resetting when done.
-
     this->read_byte(&this->data_[this->data_index_]);
     auto check = this->check_byte_();
     if (!check.has_value()) {
@@ -74,6 +93,7 @@ void LD2415HComponent::loop() {
       this->data_index_++;
     }
   }
+*/
 }
 
 
