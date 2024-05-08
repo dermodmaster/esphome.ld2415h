@@ -83,6 +83,7 @@ void LD2415HComponent::parse_data_() {
 bool LD2415HComponent::fill_buffer_(char c) {
   switch(c) {
     case 'ÿ':
+      ESP_LOGD(TAG, "Ignoring: %c", c);
     case '\r':
       break;
 
@@ -95,8 +96,6 @@ bool LD2415HComponent::fill_buffer_(char c) {
       return true;
 
     default:
-      if(this->response_buffer_index_ == sizeof(this->response_buffer_)) break;
-
       this->response_buffer_[this->response_buffer_index_] = c;
       this->response_buffer_index_++;
       break;
