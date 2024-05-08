@@ -45,7 +45,7 @@ void LD2415HComponent::dump_config() {
   ESP_LOGCONFIG(TAG, "LD2415H:");
   //LOG_UART_DEVICE(this);
   LOG_SENSOR("  ", "Speed", this->speed_sensor_);
-  LOG_UPDATE_INTERVAL(this);
+  //LOG_UPDATE_INTERVAL(this);
   this->check_uart_settings(9600);
 
 
