@@ -38,7 +38,7 @@ float LD2415HComponent::get_setup_priority() const { return setup_priority::DATA
 
 void LD2415HComponent::dump_config() {
   ESP_LOGCONFIG(TAG, "LD2415H:");
-  LOG_UART_DEVICE(this);
+  //LOG_UART_DEVICE(this);
   LOG_SENSOR("  ", "Speed", this->speed_sensor_);
   LOG_UPDATE_INTERVAL(this);
   this->check_uart_settings(9600);
