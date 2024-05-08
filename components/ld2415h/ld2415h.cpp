@@ -49,7 +49,7 @@ void LD2415HComponent::dump_config() {
   this->check_uart_settings(9600);
 
 
-  this->write_array(LD2415H_CONFIG_REQUEST);
+  this->write_array(LD2415H_CONFIG_REQUEST, sizeof(LD2415H_CONFIG_REQUEST));
 /*
   this->write_byte(LD2415H_CONFIG_REQUEST[0]);
   this->write_byte(LD2415H_CONFIG_REQUEST[1]);
