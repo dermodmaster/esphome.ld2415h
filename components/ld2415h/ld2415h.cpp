@@ -16,21 +16,24 @@ void LD2415HComponent::setup() {
   this->write_bytes(LD2415H_CONFIG_REQUEST);
 }
 
-void LD2415HComponent::dump_config() {
-  ESP_LOGCONFIG(TAG, "LD2415H:");
-  LOG_SENSOR("  ", "Speed", this->speed_sensor_);
-  LOG_UPDATE_INTERVAL(this);
-  this->check_uart_settings(9600);
-}
-
 void LD2415HComponent::update() {
   // Possibly setting config?
   //ESP_LOGV(TAG, "sending measurement request");
   //this->write_array(LD2415H_REQUEST, sizeof(LD2415H_REQUEST));
 }
 
-void LD2415HComponent::loop() {
+float LD2415HComponent::get_setup_priority() const { return setup_priority::DATA; }
+
+void LD2415HComponent::dump_config() {
+  ESP_LOGCONFIG(TAG, "LD2415H:");
+  LOG_UART_DEVICE(this);
+  LOG_SENSOR("  ", "Speed", this->speed_sensor_);
+  LOG_UPDATE_INTERVAL(this);
+  this->check_uart_settings(9600);
+}
+
   /*
+void LD2415HComponent::loop() {
   while (this->available()) {
     // Sample output:  V+002.6\r\n
     // commands start with "CF"
@@ -49,10 +52,8 @@ void LD2415HComponent::loop() {
       this->data_index_++;
     }
   }
-  */
 }
 
-float LD2415HComponent::get_setup_priority() const { return setup_priority::DATA; }
 
 optional<bool> LD2415HComponent::check_byte_() const {
   uint8_t index = this->data_index_;
@@ -75,6 +76,7 @@ void LD2415HComponent::parse_data_() {
   if (this->speed_sensor_ != nullptr) {
     this->speed_sensor_->publish_state(speed);
   }
+  */
 
 
 /*
