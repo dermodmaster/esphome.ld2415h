@@ -83,6 +83,8 @@ void LD2415HComponent::parse_data_() {
 
 bool LD2415HComponent::fill_buffer_(uint8_t c) {
   switch(c) {
+    case 0x00:
+      ESP_LOGD(TAG, "Ignoring: null");
     case 0xFF:
       ESP_LOGD(TAG, "Ignoring: %c", c);
     case '\r':
