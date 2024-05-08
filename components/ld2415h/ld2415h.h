@@ -34,6 +34,19 @@ class LD2415HComponent : public PollingComponent, public uart::UARTDevice {
 
 
  protected:
+  
+  int min_speed_reported_ = 1;    // 1 km/h
+  int angle_comp_ = 0;            // None
+  int sensitivity_ = 0;           // High
+  int tracking_mode_ = 1;         // Approaching
+  int sample_rate_ = 0;           // 22 fps
+  int unit_of_measure = 0;        // km/h
+  int vibration_correction = 5;   // 0-112
+  int relay_trigger_duration = 3; // 3 sec
+  int relay_trigger_speed = 1;    // 1 km/h
+  int negotiation_mode = 1;       // Custom Agreement
+
+
   sensor::Sensor *speed_sensor_{nullptr};
 /*
   optional<bool> check_byte_() const;
@@ -45,6 +58,8 @@ class LD2415HComponent : public PollingComponent, public uart::UARTDevice {
   bool fill_buffer_(uint8_t c);
   void clear_remaining_buffer_(uint8_t pos);
   void parse_buffer_();
+
+  void parse_config_(char* cfg)
 };
 
 }  // namespace ld2415h

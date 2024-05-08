@@ -127,6 +127,7 @@ void LD2415HComponent::parse_buffer_() {
     case 'X':
       // Config Response
       ESP_LOGD(TAG, "Config Response: %s", this->response_buffer_);
+      this->parse_config_(this->response_buffer_);
       break;
     case 'V':
       // Velocity
@@ -145,6 +146,23 @@ void LD2415HComponent::parse_buffer_() {
       ESP_LOGD(TAG, "Unknown Response: %s", this->response_buffer_);
       break;
   }
+}
+
+void LD2415HComponent::parse_config_(char* cfg) {
+  /*
+    int min_speed_reported_ = 1;    // 1 km/h
+    int angle_comp_ = 0;            // None
+    int sensitivity_ = 0;           // High
+    int tracking_mode_ = 1;         // Approaching
+    int sample_rate_ = 0;           // 22 fps
+    int unit_of_measure = 0;        // km/h
+    int vibration_correction = 5;   // 0-112
+    int relay_trigger_duration = 3; // 3 sec
+    int relay_trigger_speed = 1;    // 1 km/h
+    int negotiation_mode = 1;       // Custom Agreement
+  */
+
+
 }
 
 /*

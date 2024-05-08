@@ -77,7 +77,7 @@ Example:
 
         > 0x43 0x46 0x03 0x00 0x00 0x00 0x0d 0x0a
 
-  - **0x04** : Set relay clam time and trigger speed
+  - **0x04** : Set relay trigger time and trigger speed (only when using the photocoupler function)
 
     | Param | Default | Min  | Max  | Description |
     | ----- | --------| ---- | ---- | ----------- |
@@ -89,7 +89,7 @@ Example:
 
         > 0x43 0x46 0x04 0x05 0x20 0x00 0x0d 0x0a
 
-  - **0x05** : Switch to custom protocol (untested)
+  - **0x05** : Changes the Negotiation Mode (unknown purpose)
 
     | Param | Default | Min  | Max  | Description |
     | ----- | --------| ---- | ---- | ----------- |
@@ -129,7 +129,7 @@ Example:
     | X7    | Vibration anti-interference coefficient used to reject false positives.  For example if the sensor is mounted to gently swaying pole. |
     | X8    | Relay closure time when speed exceeds Param 9. |
     | X9    | The lowest detection value for the photocoupler pickup in km/h. |
-    | X0    | Negotiation Mode: <br>**0x01** : Custom Agrement <br>**0x02** : Standard Protocol |
+    | X0    | Negotiation Mode: <br>**0x01** : Custom Agreement <br>**0x02** : Standard Protocol |
 
 
 ## ESPHome Example Configuration
