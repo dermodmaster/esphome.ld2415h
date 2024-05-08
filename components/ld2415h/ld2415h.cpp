@@ -53,7 +53,6 @@ void LD2415HComponent::dump_config() {
   //this->check_uart_settings(9600);
 }
 
-
 void LD2415HComponent::loop() {
   while (this->available()) {
     if (this->fill_buffer_(this->read())) {
@@ -140,7 +139,7 @@ void LD2415HComponent::parse_buffer_() {
       }
 
       ESP_LOGD(TAG, "Unknown Response Length: %i", len);
-      ESP_LOGD(TAG, "Unknown Response: %i", this->response_buffer_);
+      ESP_LOGD(TAG, "Unknown Response: %x", this->response_buffer_);
       ESP_LOGD(TAG, "Unknown Response: %s", this->response_buffer_);
       break;
   }
