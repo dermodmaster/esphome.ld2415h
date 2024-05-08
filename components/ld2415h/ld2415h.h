@@ -12,7 +12,7 @@ class LD2415HComponent;
 class LD2415HComponent : public PollingComponent, public uart::UARTDevice {
  public:
   float get_setup_priority() const override { return setup_priority::HARDWARE; }
-  
+
   //LD2415HComponent() = default;
 
   void setup() override;
