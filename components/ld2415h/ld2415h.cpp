@@ -139,7 +139,7 @@ void LD2415HComponent::parse_buffer_() {
       }
 
       ESP_LOGD(TAG, "Unknown Response Length: %i", len);
-      ESP_LOGD(TAG, "Unknown Response: %x", this->response_buffer_);
+      //ESP_LOGD(TAG, "Unknown Response: %x", this->response_buffer_);
       ESP_LOGD(TAG, "Unknown Response: %s", this->response_buffer_);
       break;
   }
