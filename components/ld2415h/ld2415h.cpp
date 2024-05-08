@@ -71,7 +71,7 @@ void LD2415HComponent::loop() {
       this->response_buffer_[response_buffer_index_] = byte;        
 
       // If \n process response
-      if(byte == LD2415H_RESPONSE_FOOTER[0]) {
+      if(byte == LD2415H_RESPONSE_FOOTER[1]) {
         this->parse_buffer_();
         this->response_buffer_index_ = 0;
       }
