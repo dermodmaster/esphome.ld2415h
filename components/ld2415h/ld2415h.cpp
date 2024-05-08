@@ -61,11 +61,12 @@ void LD2415HComponent::dump_config() {
 void LD2415HComponent::loop() {
 
   while (this->available()) {
-    uint8_t byte = 0x00;
-    this->read_byte(&byte);
+    //uint8_t byte = 0x00;
+    //this->read_byte(&byte);
+    uint8_t byte = this->read();
 
     // Last two bytes of a response are \r\n, ignore \r
-    if(byte != LD2415H_RESPONSE_FOOTER[0]) {
+    //if(byte != LD2415H_RESPONSE_FOOTER[0]) {
       this->response_buffer_[this->response_buffer_index_] = byte;        
 
       // If \n process response
@@ -73,8 +74,9 @@ void LD2415HComponent::loop() {
         this->parse_buffer_();
         this->response_buffer_index_ = 0;
       }
-    } else {
-      ESP_LOGD(TAG, "\\r detected at index %d", this->response_buffer_index_);
+    //} else {
+    if(byte == LD2415H_RESPONSE_FOOTER[0]) {
+        ESP_LOGD(TAG, "\\r detected at index %d", this->response_buffer_index_);
 
     }
 
