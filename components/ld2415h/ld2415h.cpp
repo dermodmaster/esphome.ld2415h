@@ -7,7 +7,7 @@ namespace ld2415h {
 static const char *const TAG = "ld2415h";
 
 static const uint8_t LD2415H_RESPONSE_SPEED_LENGTH = 9;
-static const uint8_t LD2415H_RESPONSE_SPEED_FOOTER[] = {0x0D 0x0A};
+static const uint8_t LD2415H_RESPONSE_SPEED_FOOTER[] = {0x0D, 0x0A};
 static const uint8_t LD2415H_CONFIG_REQUEST[] = {0x43, 0x46, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
 void LD2415HComponent::setup() {
