@@ -34,12 +34,12 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
   sensor::Sensor *speed_sensor_{nullptr};
 /*
   optional<bool> check_byte_() const;
-  void parse_data_();
-  
-  uint8_t data_[20];
-  uint8_t data_index_{0};
-  uint32_t last_transmission_{0};
 */
+
+  uint8_t response_buffer_[64];
+  uint8_t response_buffer_index_{0};
+
+  void parse_buffer_();
 };
 
 }  // namespace ld2415h

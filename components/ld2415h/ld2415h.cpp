@@ -6,9 +6,10 @@ namespace ld2415h {
 
 static const char *const TAG = "ld2415h";
 
-static const uint8_t LD2415H_RESPONSE_SPEED_LENGTH = 9;
-static const uint8_t LD2415H_RESPONSE_SPEED_FOOTER[] = {0x0D, 0x0A};
-static const uint8_t LD2415H_CONFIG_REQUEST[] = {0x43, 0x46, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+static const uint8_t LD2415H_CONFIG_CMD[] = {0x43, 0x46, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+
+static const uint8_t LD2415H_RESPONSE_FOOTER[] = {0x0D, 0x0A};
+
 
 /* TODO ::
      * Define Commands as consts
@@ -49,34 +50,42 @@ void LD2415HComponent::dump_config() {
   this->check_uart_settings(9600);
 
 
-  this->write_array(LD2415H_CONFIG_REQUEST, sizeof(LD2415H_CONFIG_REQUEST));
-/*
-  this->write_byte(LD2415H_CONFIG_REQUEST[0]);
-  this->write_byte(LD2415H_CONFIG_REQUEST[1]);
-  this->write_byte(LD2415H_CONFIG_REQUEST[2]);
-  this->write_byte(LD2415H_CONFIG_REQUEST[3]);
-  this->write_byte(LD2415H_CONFIG_REQUEST[4]);
-  this->write_byte(LD2415H_CONFIG_REQUEST[5]);
-  this->write_byte(LD2415H_CONFIG_REQUEST[6]);
-  this->write_byte(LD2415H_CONFIG_REQUEST[7]);
-  this->write_byte(LD2415H_CONFIG_REQUEST[8]);
-  this->write_byte(LD2415H_CONFIG_REQUEST[9]);
-  this->write_byte(LD2415H_CONFIG_REQUEST[10]);
-  this->write_byte(LD2415H_CONFIG_REQUEST[11]);
-  this->write_byte(LD2415H_CONFIG_REQUEST[12]);
-*/
-/*
-[00:07:09][D][uart_debug:158]: <<< "\xFF\xFF\r\n"
-[00:07:09][D][uart_debug:158]: <<< "No.:20230801E v5.0\r\n"
-[00:07:09][D][uart_debug:158]: <<< "X1:01 X2:00 X3:05 X4:01 X5:00 X6:00 X7:05 X8:03 X9:01 X0:01\r\n"
-*/
+  this->write_array(LD2415H_CONFIG_CMD, sizeof(LD2415H_CONFIG_CMD));
+  /*
+  [00:07:09][D][uart_debug:158]: <<< "\xFF\xFF\r\n"
+  [00:07:09][D][uart_debug:158]: <<< "No.:20230801E v5.0\r\n"
+  [00:07:09][D][uart_debug:158]: <<< "X1:01 X2:00 X3:05 X4:01 X5:00 X6:00 X7:05 X8:03 X9:01 X0:01\r\n"
+  */
 
 }
 
 
 void LD2415HComponent::loop() {
-/*
+
   while (this->available()) {
+    uint8_t byte = 0x00;
+    this->read_byte(&byte);
+
+    // Last two bytes of a response are \r\n, ignore \r
+    if(byte != LD2415H_RESPONSE_FOOTER[0])
+    {
+      this->response_buffer_[response_buffer_index_] = byte;        
+
+      // If \n process response
+      if(byte == LD2415H_RESPONSE_FOOTER[0])
+        this->parse_buffer_();
+        this->response_buffer_index_ = 0;
+    }
+
+    this->response_buffer_index_++;
+
+    if(this->response_buffer_index_ > sizeof(this->response_buffer_))
+    {
+      this->response_buffer_index_ = 0;
+      ESP_LOGE(TAG, "Response length exceeded buffer size.");
+    }
+
+/*
     // Sample output:  V+002.6\r\n
     // commands start with "CF"
     // Need to read until \r\n then update speed.
@@ -92,8 +101,9 @@ void LD2415HComponent::loop() {
       // next byte
       this->data_index_++;
     }
-  }
 */
+  }
+
 }
 
 /*
@@ -119,7 +129,12 @@ void LD2415HComponent::parse_data_() {
     this->speed_sensor_->publish_state(speed);
   }
 */
+void LD2415HComponent::parse_response_() {
+  ESP_LOGD(TAG, "Parsing response.");
+  ESP_LOGD(TAG, this->response_buffer_);
 
+  // Parse scans up to \n in buffer
+}
 
 /*
   char byteArray[] = "V+002.6\r\n";
