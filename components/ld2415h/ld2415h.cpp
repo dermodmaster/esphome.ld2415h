@@ -61,7 +61,8 @@ void LD2415HComponent::loop() {
     if (this->parse_(this->read())) {
       ESP_LOGD(TAG, "Response parsed.");
     }
-      ESP_LOGD(TAG, "Available...");
+    
+    //ESP_LOGD(TAG, "Available...");
 
 /*
     //uint8_t byte = 0x00;
@@ -144,16 +145,16 @@ bool LD2415HComponent::parse_(char c) {
   switch(c)
   {
   case '\r':
-    ESP_LOGD(TAG, "Parsed: Carriage Return");
+    //ESP_LOGD(TAG, "Parsed: Carriage Return");
     break;
   case '\n':
-    ESP_LOGD(TAG, "Parsed: Line Feed");
+    //ESP_LOGD(TAG, "Parsed: Line Feed");
     ESP_LOGD(TAG, "Response: \"%s\"", this->response_buffer_);
     this->response_buffer_index_ = 0;
     return true;
   default:
     //ESP_LOGD(TAG, "Parsed: %c", c);
-    ESP_LOGD(TAG, "Parsed: Other Character");
+    //ESP_LOGD(TAG, "Parsed: Other Character");
     break;
   }
 
