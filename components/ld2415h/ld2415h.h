@@ -32,6 +32,14 @@ class LD2415HComponent : public PollingComponent, public uart::UARTDevice {
 
  protected:
   sensor::Sensor *speed_sensor_{nullptr};
+/*
+  optional<bool> check_byte_() const;
+  void parse_data_();
+  
+  uint8_t data_[20];
+  uint8_t data_index_{0};
+  uint32_t last_transmission_{0};
+*/
 };
 
 }  // namespace ld2415h

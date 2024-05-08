@@ -96,7 +96,7 @@ void LD2415HComponent::loop() {
 */
 }
 
-
+/*
 optional<bool> LD2415HComponent::check_byte_() const {
   uint8_t index = this->data_index_;
   uint8_t byte = this->data_[index];
@@ -118,7 +118,7 @@ void LD2415HComponent::parse_data_() {
   if (this->speed_sensor_ != nullptr) {
     this->speed_sensor_->publish_state(speed);
   }
-  */
+*/
 
 
 /*
