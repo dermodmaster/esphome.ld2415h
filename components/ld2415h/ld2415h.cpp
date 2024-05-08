@@ -128,8 +128,8 @@ void LD2415HComponent::parse_data_() {
     this->speed_sensor_->publish_state(speed);
   }
 */
-void LD2415HComponent::parse_response_() {
-  ESP_LOGD(TAG, "Parsing response.");
+void LD2415HComponent::parse_buffer_() {
+  ESP_LOGD(TAG, "Parsing buffer:");
   ESP_LOGD(TAG, this->response_buffer_);
 
   // Parse scans up to \n in buffer
