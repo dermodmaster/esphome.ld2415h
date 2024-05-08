@@ -7,7 +7,7 @@
 namespace esphome {
 namespace ld2415h {
 
-class LD2415HComponent : public Component, public uart::UARTDevice {
+class LD2415HComponent : public PollingComponent, public uart::UARTDevice {
  public:
   //LD2415HComponent() = default;
 
@@ -40,6 +40,7 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
   uint8_t response_buffer_index_{0};
 
   void parse_buffer_();
+  bool parse_buffer_(char c);
 };
 
 }  // namespace ld2415h

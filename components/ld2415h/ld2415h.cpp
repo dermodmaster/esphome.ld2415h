@@ -61,12 +61,17 @@ void LD2415HComponent::dump_config() {
 void LD2415HComponent::loop() {
 
   while (this->available()) {
+    if (this->parse_(this->read())) {
+      ESP_LOGD(TAG, "Response parsed.");
+    }
+
+/*
     //uint8_t byte = 0x00;
     //this->read_byte(&byte);
     uint8_t byte = this->read();
 
     // Last two bytes of a response are \r\n, ignore \r
-    //if(byte != LD2415H_RESPONSE_FOOTER[0]) {
+    if (byte != LD2415H_RESPONSE_FOOTER[0]) {
       this->response_buffer_[this->response_buffer_index_] = byte;        
 
       // If \n process response
@@ -74,18 +79,19 @@ void LD2415HComponent::loop() {
         this->parse_buffer_();
         this->response_buffer_index_ = 0;
       }
-    //} else {
-    if(byte == LD2415H_RESPONSE_FOOTER[0]) {
+    } else {
+    //if(byte == LD2415H_RESPONSE_FOOTER[0]) {
         ESP_LOGD(TAG, "\\r detected at index %d", this->response_buffer_index_);
 
     }
 
     this->response_buffer_index_++;
 
-    if(this->response_buffer_index_ > sizeof(this->response_buffer_)) {
+    if (this->response_buffer_index_ > sizeof(this->response_buffer_)) {
       this->response_buffer_index_ = 0;
       ESP_LOGE(TAG, "Response length exceeded buffer size.");
     }
+*/
 
 /*
     // Sample output:  V+002.6\r\n
@@ -133,6 +139,28 @@ void LD2415HComponent::parse_data_() {
 */
 void LD2415HComponent::parse_buffer_() {
   ESP_LOGD(TAG, "Parsing buffer: \"%s\"", this->response_buffer_);
+
+  // Parse scans up to \n in buffer
+}
+
+bool LD2415HComponent::parse_(char c) {
+  ESP_LOGD(TAG, "Parsing: \"%c\"", c);
+  
+  this->response_buffer_[this->response_buffer_index_] = c;
+  this->response_buffer_index_++;
+
+  switch(c)
+  {
+  case '\r':
+    ESP_LOGD(TAG, "Parsed: Carriage Return");
+  case '\n':
+    ESP_LOGD(TAG, "Parsed: Line Feed");
+    ESP_LOGD(TAG, "Response: \"%s\"", this->response_buffer_);
+    this->response_buffer_index_ = 0;
+  case default:
+    //ESP_LOGD(TAG, "Parsed: %c", c);
+
+  }
 
   // Parse scans up to \n in buffer
 }
