@@ -40,7 +40,7 @@ class LD2415HComponent : public PollingComponent, public uart::UARTDevice {
   uint8_t response_buffer_index_{0};
 
   void parse_buffer_();
-  bool parse_buffer_(char c);
+  bool parse_(char c);
 };
 
 }  // namespace ld2415h
