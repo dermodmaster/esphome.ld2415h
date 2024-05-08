@@ -44,7 +44,6 @@ void LD2415HComponent::dump_config() {
   ESP_LOGCONFIG(TAG, "LD2415H:");
 
   // Don't assume the buffer is full, clear it before issuing command.
-  this->response_buffer_index_ = 0;
   clear_remaining_buffer_(0);
   this->write_array(LD2415H_CONFIG_CMD, sizeof(LD2415H_CONFIG_CMD));
 
@@ -58,7 +57,6 @@ void LD2415HComponent::dump_config() {
 void LD2415HComponent::loop() {
   while (this->available()) {
     if (this->fill_buffer_(this->read())) {
-      ESP_LOGD(TAG, "Response: %s", this->response_buffer_);
       this->parse_buffer_();
     }
   }
@@ -135,6 +133,14 @@ void LD2415HComponent::parse_buffer_() {
       break;
 
     default:
+      uint8_t len = 0;
+      while(len < sizeof(this->response_buffer_)) {
+        if (this->response_buffer_[len] == 0x00) break;
+        len++;
+      }
+
+      ESP_LOGD(TAG, "Unknown Response Length: %i", len);
+      ESP_LOGD(TAG, "Unknown Response: %i", this->response_buffer_);
       ESP_LOGD(TAG, "Unknown Response: %s", this->response_buffer_);
       break;
   }
