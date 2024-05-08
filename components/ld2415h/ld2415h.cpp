@@ -161,7 +161,8 @@ bool LD2415HComponent::parse_(char c) {
     return true;
   case default:
     //ESP_LOGD(TAG, "Parsed: %c", c);
-
+    ESP_LOGD(TAG, "Parsed: Other Character");
+    break;
   }
 
   return false;
