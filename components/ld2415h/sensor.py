@@ -5,6 +5,7 @@ from esphome.const import (
     CONF_ID,
     CONF_SPEED,
     DEVICE_CLASS_SPEED, 
+    STATE_CLASS_MEASUREMENT,
     UNIT_KILOMETER_PER_HOUR,
 )
 
