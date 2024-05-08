@@ -13,7 +13,7 @@ static const uint8_t LD2415H_CONFIG_REQUEST[] = {0x43, 0x46, 0x07, 0x00, 0x00, 0
 void LD2415HComponent::setup() {
   // because this implementation is currently rx-only, there is nothing to setup
 
-  this->write_bytes(LD2415H_CONFIG_REQUEST);
+  this->write_byte(LD2415H_CONFIG_REQUEST);
 }
 
 void LD2415HComponent::update() {
