@@ -7,7 +7,7 @@
 namespace esphome {
 namespace ld2415h {
 
-class LD2415HComponent : public PollingComponent, public uart::UARTDevice {
+class LD2415HComponent : public Component, public uart::UARTDevice {
  public:
   //LD2415HComponent() = default;
 
