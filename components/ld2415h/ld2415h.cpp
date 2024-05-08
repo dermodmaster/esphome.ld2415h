@@ -47,8 +47,7 @@ void LD2415HComponent::dump_config() {
   //LOG_UART_DEVICE(this);
   LOG_SENSOR("  ", "Speed", this->speed_sensor_);
   //LOG_UPDATE_INTERVAL(this);
-  this->check_uart_settings(9600);
-
+  //this->check_uart_settings(9600);
 
   this->write_array(LD2415H_CONFIG_CMD, sizeof(LD2415H_CONFIG_CMD));
   /*
@@ -56,7 +55,6 @@ void LD2415HComponent::dump_config() {
   [00:07:09][D][uart_debug:158]: <<< "No.:20230801E v5.0\r\n"
   [00:07:09][D][uart_debug:158]: <<< "X1:01 X2:00 X3:05 X4:01 X5:00 X6:00 X7:05 X8:03 X9:01 X0:01\r\n"
   */
-
 }
 
 
@@ -68,13 +66,16 @@ void LD2415HComponent::loop() {
 
     // Last two bytes of a response are \r\n, ignore \r
     if(byte != LD2415H_RESPONSE_FOOTER[0]) {
-      this->response_buffer_[response_buffer_index_] = byte;        
+      this->response_buffer_[this->response_buffer_index_] = byte;        
 
       // If \n process response
       if(byte == LD2415H_RESPONSE_FOOTER[1]) {
         this->parse_buffer_();
         this->response_buffer_index_ = 0;
       }
+    } else {
+      ESP_LOGD(TAG, "\\r detected at index %d", this->response_buffer_index_);
+
     }
 
     this->response_buffer_index_++;
@@ -129,7 +130,7 @@ void LD2415HComponent::parse_data_() {
   }
 */
 void LD2415HComponent::parse_buffer_() {
-  ESP_LOGD(TAG, "Parsing buffer: \r\n %s", this->response_buffer_);
+  ESP_LOGD(TAG, "Parsing buffer: \"%s\"", this->response_buffer_);
 
   // Parse scans up to \n in buffer
 }
