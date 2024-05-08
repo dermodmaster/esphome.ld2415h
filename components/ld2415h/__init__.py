@@ -10,7 +10,7 @@ DEPENDENCIES = ["uart"]
 MULTI_CONF = True
 
 ld2415h_ns = cg.esphome_ns.namespace("ld2415h")
-LD2415HComponent = ld2415h_ns.class_("LD2415hComponent", cg.Component, uart.UARTDevice)
+LD2415HComponent = ld2415h_ns.class_("LD2415HComponent", cg.Component, uart.UARTDevice)
 
 CONF_LD2415H_ID = "ld2415h_id"
 
