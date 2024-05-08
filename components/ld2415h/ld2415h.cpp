@@ -42,12 +42,17 @@ void LD2415HComponent::update() {
 
 void LD2415HComponent::dump_config() {
   ESP_LOGCONFIG(TAG, "LD2415H:");
+
+  // Don't assume the buffer is full, clear it before issuing command.
+  this->response_buffer_index_ = 0;
+  clear_buffer_();
+  this->write_array(LD2415H_CONFIG_CMD, sizeof(LD2415H_CONFIG_CMD));
+
   //LOG_UART_DEVICE(this);
-  LOG_SENSOR("  ", "Speed", this->speed_sensor_);
+  //LOG_SENSOR("  ", "Speed", this->speed_sensor_);
   //LOG_UPDATE_INTERVAL(this);
   //this->check_uart_settings(9600);
 
-  this->write_array(LD2415H_CONFIG_CMD, sizeof(LD2415H_CONFIG_CMD));
   /*
   [00:07:09][D][uart_debug:158]: <<< "\xFF\xFF\r\n"
   [00:07:09][D][uart_debug:158]: <<< "No.:20230801E v5.0\r\n"
@@ -59,7 +64,7 @@ void LD2415HComponent::dump_config() {
 void LD2415HComponent::loop() {
   while (this->available()) {
     if (this->parse_(this->read())) {
-      ESP_LOGD(TAG, "Response parsed.");
+      //ESP_LOGD(TAG, "Response parsed.");
     }
     
     //ESP_LOGD(TAG, "Available...");
@@ -136,31 +141,31 @@ void LD2415HComponent::parse_data_() {
   }
 */
 
-bool LD2415HComponent::parse_(char c) {
-  //ESP_LOGD(TAG, "Parsing: \"%c\"", c);
-  
-  switch(c)
-  {
-  case '\r':
-    break;
-  case '\n':
-    ESP_LOGD(TAG, "Response: %s", this->response_buffer_);
+bool LD2415HComponent::fill_buffer_(char c) {
+  switch(c) {
+    case '\r':
+      break;
 
-    while(this->response_buffer_index_ < sizeof(this->response_buffer_)) {
-      this->response_buffer_[this->response_buffer_index_] = 0x00;
+    case '\n':
+      ESP_LOGD(TAG, "Response: %s", this->response_buffer_);
+      clear_buffer_();
+      this->response_buffer_index_ = 0;
+      return true;
+
+    default:
+      this->response_buffer_[this->response_buffer_index_] = c;
       this->response_buffer_index_++;
-    }
-
-    this->response_buffer_index_ = 0;
-    return true;
-  default:
-    this->response_buffer_[this->response_buffer_index_] = c;
-    this->response_buffer_index_++;
-    break;
+      break;
   }
 
   return false;
-  // Parse scans up to \n in buffer
+}
+
+void LD2415HComponent::clear_buffer_() {
+  while(this->response_buffer_index_ < sizeof(this->response_buffer_)) {
+        this->response_buffer_[this->response_buffer_index_] = 0x00;
+        this->response_buffer_index_++;
+  }
 }
 
 /*
