@@ -67,20 +67,19 @@ void LD2415HComponent::loop() {
     this->read_byte(&byte);
 
     // Last two bytes of a response are \r\n, ignore \r
-    if(byte != LD2415H_RESPONSE_FOOTER[0])
-    {
+    if(byte != LD2415H_RESPONSE_FOOTER[0]) {
       this->response_buffer_[response_buffer_index_] = byte;        
 
       // If \n process response
-      if(byte == LD2415H_RESPONSE_FOOTER[0])
+      if(byte == LD2415H_RESPONSE_FOOTER[0]) {
         this->parse_buffer_();
         this->response_buffer_index_ = 0;
+      }
     }
 
     this->response_buffer_index_++;
 
-    if(this->response_buffer_index_ > sizeof(this->response_buffer_))
-    {
+    if(this->response_buffer_index_ > sizeof(this->response_buffer_)) {
       this->response_buffer_index_ = 0;
       ESP_LOGE(TAG, "Response length exceeded buffer size.");
     }
