@@ -129,8 +129,7 @@ void LD2415HComponent::parse_data_() {
   }
 */
 void LD2415HComponent::parse_buffer_() {
-  ESP_LOGD(TAG, "Parsing buffer:");
-  ESP_LOGD(TAG, this->response_buffer_);
+  ESP_LOGD(TAG, "Parsing buffer: \r\n %x", this->response_buffer_);
 
   // Parse scans up to \n in buffer
 }
