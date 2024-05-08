@@ -153,15 +153,18 @@ bool LD2415HComponent::parse_(char c) {
   {
   case '\r':
     ESP_LOGD(TAG, "Parsed: Carriage Return");
+    break;
   case '\n':
     ESP_LOGD(TAG, "Parsed: Line Feed");
     ESP_LOGD(TAG, "Response: \"%s\"", this->response_buffer_);
     this->response_buffer_index_ = 0;
+    return true;
   case default:
     //ESP_LOGD(TAG, "Parsed: %c", c);
 
   }
 
+  return false;
   // Parse scans up to \n in buffer
 }
 
