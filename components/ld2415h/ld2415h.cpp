@@ -60,11 +60,11 @@ void LD2415HComponent::loop() {
 void LD2415HComponent::issue_command_(const uint8_t cmd[], const uint8_t size) {
   // Don't assume the response buffer is empty, clear it before issuing a command.
   clear_remaining_buffer_(0);
-  this->write_array(cmd, sizeof(cmd));
+  this->write_array(cmd, size);
 
   //ESP_LOGD(TAG, "Command: %x", cmd);
   //ESP_LOGD(TAG, "Command Length: %i", size);
-  ESP_LOGD(TAG, "Command Size: %i", size);
+  //ESP_LOGD(TAG, "Command Size: %i", size);
 
 }
 
