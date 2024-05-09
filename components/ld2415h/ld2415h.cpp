@@ -120,7 +120,7 @@ void LD2415HComponent::parse_buffer_() {
       // Config Response
       ESP_LOGD(TAG, "Config Response: %s", this->response_buffer_);
       ESP_LOGD(TAG, "Config Lenght: %i", std::strlen(this->response_buffer_));
-      this->parse_config_(this->response_buffer_);
+      this->parse_config_();
       break;
     case 'V':
       // Velocity
@@ -133,8 +133,9 @@ void LD2415HComponent::parse_buffer_() {
   }
 }
 
-void LD2415HComponent::parse_config_(char* cfg) {
+void LD2415HComponent::parse_config_() {
   // "X1:01 X2:00 X3:05 X4:01 X5:00 X6:00 X7:05 X8:03 X9:01 X0:01"
+/*  
   ESP_LOGD(TAG, "Copying Configuration...");
 
   char ccfg[std::strlen(cfg)];
@@ -142,29 +143,32 @@ void LD2415HComponent::parse_config_(char* cfg) {
   ESP_LOGD(TAG, "cfg::%i", std::strlen(cfg));
   ESP_LOGD(TAG, "ccfg::%i", std::strlen(ccfg));
 
-/*
+
   std::strcpy(ccfg, cfg);
 
+  ESP_LOGD(TAG, "cfg::%i", std::strlen(cfg));
+  ESP_LOGD(TAG, "ccfg::%i", std::strlen(ccfg));
+*/
+
   ESP_LOGD(TAG, "Extracting First Key...");
-  char* key = strtok(ccfg, ":");
-  while (ccfg != NULL)
+  char* key = strtok(this->response_buffer_, ": ");
+
+  while (this->response_buffer_ != NULL)
   {
     ESP_LOGD(TAG, "Extracting Value...");
-    char* value = strtok(ccfg, " ");
+    char* value = strtok(NULL, ": ");
 
     ESP_LOGD(TAG, "Storing Key:Value :: %s:%s", key, value);
-    store_config_(key, value);
+    //store_config_(key, value);
+
+    if(this->response_buffer_ == NULL) {
+      ESP_LOGD(TAG, "Buffer exhausted...");
+      return;
+    }
 
     ESP_LOGD(TAG, "Extracting Next Key...");
-    char* key = strtok(ccfg, ":");
+    char* key = strtok(NULL, ": ");
   }
-
-  if(ct % 2 != 0)
-    ESP_LOGE(TAG, "Invalid Configuration: %s", cfg);
-
-  ESP_LOGD(TAG, "Length: %i", sizeof(tokens));
-  ESP_LOGD(TAG, "Params: %i", ct/2);
-*/
 }
 
 void LD2415HComponent::store_config_(char* key, char* value) {
