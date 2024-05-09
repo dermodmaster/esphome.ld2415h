@@ -159,19 +159,21 @@ void LD2415HComponent::parse_config_() {
 
   while (key != NULL)
   {
-    ESP_LOGD(TAG, "Extracting Value...");
-    char* value = strtok(NULL, " ");
+    //ESP_LOGD(TAG, "Extracting Value...");
+    //char* value = strtok(NULL, " ");
 
-    ESP_LOGD(TAG, "Storing Key:Value :: %s:%s", key, value);
+    //ESP_LOGD(TAG, "Storing Key:Value :: %s:%s", key, value);
     //store_config_(key, value);
 
-    if(value == NULL) {
-      ESP_LOGD(TAG, "Buffer exhausted...");
-      return;
-    }
+    //if(value == NULL) {
+    //  ESP_LOGD(TAG, "Buffer exhausted...");
+    //  return;
+    //}
 
     ESP_LOGD(TAG, "Extracting Next Key...");
-    char* key = strtok(NULL, ":");
+    key = strtok(NULL, ":");
+    ESP_LOGD(TAG, "Token: %s", key);
+ 
   }
 
 }
