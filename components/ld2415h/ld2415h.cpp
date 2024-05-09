@@ -170,7 +170,7 @@ void LD2415HComponent::parse_config_() {
   }
 }
 
-void LD2415HComponent::fetch_config_(char* key, char* value) {
+void LD2415HComponent::render_config_(char* key, char* value) {
   if(std::strlen(key) != 2 || std::strlen(value) != 2 || key[0] != 'X') {
       ESP_LOGE(TAG, "Invalid Parameter %s:%s", key, value);
       return;
