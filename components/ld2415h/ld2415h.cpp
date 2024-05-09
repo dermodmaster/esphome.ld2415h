@@ -119,7 +119,7 @@ void LD2415HComponent::parse_buffer_() {
     case 'X':
       // Config Response
       ESP_LOGD(TAG, "Config Response: %s", this->response_buffer_);
-      this->parse_config_(this->response_buffer_);
+      //this->parse_config_(this->response_buffer_);
       break;
     case 'V':
       // Velocity
