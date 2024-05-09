@@ -153,31 +153,17 @@ for (token = strtok(str, delim); token; token = strtok(NULL, delim))
   char key[token_len+1] = "";
   char val[token_len+1] = "";
 
-  ESP_LOGD(TAG, "Extracting first Key...");
   char* token = strtok(this->response_buffer_, delim);
   
   while (token != NULL)
   {
-    if(std::strlen(token) != token_len) {
-      ESP_LOGE(TAG, "Configuration key length invalid.");
-      break;
-    }
     std::strncpy(key, token, token_len);
 
     token = strtok(NULL, delim);
-    if(std::strlen(token) != token_len) {
-      ESP_LOGE(TAG, "Configuration value length invalid.");
-      break;
-    }
     std::strncpy(val, token, token_len);
     
-    ESP_LOGD(TAG, "Key: %s", key);
-    ESP_LOGD(TAG, "Val: %s", val);
-   
     ESP_LOGD(TAG, "Storing Key:Value :: %s:%s", key, val);
     //store_config_(key, val);
-
-    ESP_LOGD(TAG, "Extracting next Key...");
 
     token = strtok(NULL, delim);
   }
