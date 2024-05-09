@@ -150,6 +150,10 @@ void LD2415HComponent::parse_buffer_() {
 
 void LD2415HComponent::parse_config_(std::string cfg) {
   /*
+  "X1:01 X2:00 X3:05 X4:01 X5:00 X6:00 X7:05 X8:03 X9:01 X0:01"
+  */
+ 
+  /*
     int min_speed_reported_ = 1;    // 1 km/h
     int angle_comp_ = 0;            // None
     int sensitivity_ = 0;           // High
