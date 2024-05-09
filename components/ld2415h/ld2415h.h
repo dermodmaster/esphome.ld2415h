@@ -57,6 +57,8 @@ class LD2415HComponent : public PollingComponent, public uart::UARTDevice {
   void clear_remaining_buffer_(uint8_t pos);
   void parse_buffer_();
   void parse_config_();
+  void parse_firmware_();
+  void parse_velocity_();
   void render_config_(char* key, char* value);
 };
 
