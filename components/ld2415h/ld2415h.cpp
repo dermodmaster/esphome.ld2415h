@@ -57,7 +57,7 @@ void LD2415HComponent::loop() {
   }
 }
 
-void LD2415HComponent::issue_command_(char* cmd) {
+void LD2415HComponent::issue_command_(uint8_t* cmd) {
   // Don't assume the response buffer is empty, clear it before issuing a command.
   clear_remaining_buffer_(0);
   this->write_array(cmd, std::strlen(cmd));
