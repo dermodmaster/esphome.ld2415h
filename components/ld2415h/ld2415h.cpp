@@ -119,7 +119,7 @@ void LD2415HComponent::parse_buffer_() {
     case 'X':
       // Config Response
       ESP_LOGD(TAG, "Config Response: %s", this->response_buffer_);
-      //this->parse_config_(this->response_buffer_);
+      this->parse_config_(this->response_buffer_);
       break;
     case 'V':
       // Velocity
@@ -137,6 +137,10 @@ void LD2415HComponent::parse_config_(char* cfg) {
   ESP_LOGD(TAG, "Copying Configuration...");
 
   char ccfg[sizeof(cfg)];
+
+  ESP_LOGD(TAG, "ccfg::%i", sizeof(ccfg));
+
+/*
   std::strcpy(ccfg, cfg);
 
   ESP_LOGD(TAG, "Extracting First Key...");
@@ -153,7 +157,6 @@ void LD2415HComponent::parse_config_(char* cfg) {
     char* key = strtok(ccfg, ":");
   }
 
-/*
   if(ct % 2 != 0)
     ESP_LOGE(TAG, "Invalid Configuration: %s", cfg);
 
