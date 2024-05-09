@@ -149,28 +149,40 @@ void LD2415HComponent::parse_config_() {
   ESP_LOGD(TAG, "ccfg::%i", std::strlen(ccfg));
 */
 
-  ESP_LOGD(TAG, "Extracting First Key...");
-  char* key = strtok(this->response_buffer_, ": ");
+  ESP_LOGD(TAG, "Extracting first Key...");
+  char* token = strtok(this->response_buffer_, ": ");
 
-  //ESP_LOGD(TAG, "Buffer Lenght: %i", std::strlen(this->response_buffer_));
+  char[2] key;
+  char[2] value;
 
-
-  while (key != NULL)
+  while (token != NULL)
   {
-    ESP_LOGD(TAG, "Token: %s", key);
-    ESP_LOGD(TAG, "Length::%i", std::strlen(key));
-
-    char[std::strlen(key)] token;
-    std::strcpy(token, key);
-
     ESP_LOGD(TAG, "Token: %s", token);
     ESP_LOGD(TAG, "Length::%i", std::strlen(token));
 
+    if(std::strlen(token) != 2) {
+      ESP_LOGE(TAG, "Configuration key length invalid.");
+      break;
+    }
 
-    //ESP_LOGD(TAG, "Extracting Value...");
+    std::strcpy(key, token);
+
+    ESP_LOGD(TAG, "Key: %s", key);
+    ESP_LOGD(TAG, "Length::%i", std::strlen(key));
+
+    ESP_LOGD(TAG, "Extracting Value...");
+    token = strtok(NULL, ": ");
+
+    if(std::strlen(token) != 2) {
+      ESP_LOGE(TAG, "Configuration value length invalid.");
+      break;
+    }
+    
+    std::strcpy(value, token);
+
     //char* value = strtok(NULL, " ");
 
-    //ESP_LOGD(TAG, "Storing Key:Value :: %s:%s", key, value);
+    ESP_LOGD(TAG, "Storing Key:Value :: %s:%s", key, value);
     //store_config_(key, value);
 
     //if(value == NULL) {
@@ -178,9 +190,8 @@ void LD2415HComponent::parse_config_() {
     //  return;
     //}
 
-    ESP_LOGD(TAG, "Extracting Next token...");
-    key = strtok(NULL, ": ");
-    //ESP_LOGD(TAG, "Token: %s", key);
+    ESP_LOGD(TAG, "Extracting next Key...");
+    token = strtok(NULL, ": ");
  
   }
 
