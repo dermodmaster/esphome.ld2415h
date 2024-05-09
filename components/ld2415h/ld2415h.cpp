@@ -57,10 +57,10 @@ void LD2415HComponent::loop() {
   }
 }
 
-void LD2415HComponent::issue_command_(uint8_t* cmd) {
+void LD2415HComponent::issue_command_(uint8_t[] cmd) {
   // Don't assume the response buffer is empty, clear it before issuing a command.
   clear_remaining_buffer_(0);
-  this->write_array(cmd, std::strlen(cmd));
+  this->write_array(cmd, sizeof(cmd));
 }
 
 /*
@@ -209,7 +209,7 @@ void LD2415HComponent::render_config_(char* key, char* value) {
       break;
     default:
       ESP_LOGD(TAG, "Unknown Parameter %s:%s", key, value);
-      break
+      break;
   }
 }
 
