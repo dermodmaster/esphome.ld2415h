@@ -60,7 +60,7 @@ bool approaching_ = 1;
 
 void LD2415HComponent::dump_config() {
   ESP_LOGCONFIG(TAG, "LD2415H:");
-  ESP_LOGD(TAG, "Firmware: %s", this->firmware);
+  ESP_LOGD(TAG, "Firmware: %s", this->firmware_);
 
   // This triggers current sensor configurations to be dumped
   //issue_command_(LD2415H_CONFIG_CMD, sizeof(LD2415H_CONFIG_CMD));
