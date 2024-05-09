@@ -40,7 +40,7 @@ void LD2415HComponent::dump_config() {
   ESP_LOGCONFIG(TAG, "LD2415H:");
 
   // This triggers current sensor configurations to be dumped
-  issue_command_(LD2415H_CONFIG_CMD);
+  issue_command_(LD2415H_CONFIG_CMD, sizeof(LD2415H_CONFIG_CMD));
 
   //LOG_UART_DEVICE(this);
   //LOG_SENSOR("  ", "Speed", this->speed_sensor_);
@@ -57,14 +57,14 @@ void LD2415HComponent::loop() {
   }
 }
 
-void LD2415HComponent::issue_command_(const uint8_t* cmd) {
+void LD2415HComponent::issue_command_(uint8_t cmd[], uint8_t size) {
   // Don't assume the response buffer is empty, clear it before issuing a command.
   //clear_remaining_buffer_(0);
   //this->write_array(cmd, sizeof(cmd));
 
   ESP_LOGD(TAG, "Command: %s", cmd);
-  //ESP_LOGD(TAG, "Command Length: %i", std::strlen(cmd));
-  ESP_LOGD(TAG, "Command Size: %i", sizeof(cmd));
+  //ESP_LOGD(TAG, "Command Length: %i", size);
+  ESP_LOGD(TAG, "Command Size: %i", size);
 
 }
 
