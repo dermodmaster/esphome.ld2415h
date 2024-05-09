@@ -119,7 +119,6 @@ void LD2415HComponent::parse_buffer_() {
     case 'X':
       // Config Response
       ESP_LOGD(TAG, "Config Response: %s", this->response_buffer_);
-      ESP_LOGD(TAG, "Config Lenght: %i", std::strlen(this->response_buffer_));
       this->parse_config_();
       break;
     case 'V':
@@ -160,6 +159,14 @@ void LD2415HComponent::parse_config_() {
   {
     ESP_LOGD(TAG, "Token: %s", key);
     ESP_LOGD(TAG, "Length::%i", std::strlen(key));
+
+    char[std::strlen(key)] token;
+    std::strcpy(token, key);
+
+    ESP_LOGD(TAG, "Token: %s", token);
+    ESP_LOGD(TAG, "Length::%i", std::strlen(token));
+
+
     //ESP_LOGD(TAG, "Extracting Value...");
     //char* value = strtok(NULL, " ");
 
