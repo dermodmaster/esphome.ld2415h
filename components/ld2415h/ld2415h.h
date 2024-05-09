@@ -45,7 +45,7 @@ class LD2415HComponent : public PollingComponent, public uart::UARTDevice {
   uint8_t relay_trigger_speed = 1;    // 1 km/h
   uint8_t negotiation_mode = 1;       // Custom Agreement
 
-  char* firmware;
+  char* firmware = nullptr;
   float velocity = 0;
   bool approaching = 1;
 
