@@ -134,14 +134,23 @@ void LD2415HComponent::parse_buffer_() {
 
 void LD2415HComponent::parse_config_(char* cfg) {
   // "X1:01 X2:00 X3:05 X4:01 X5:00 X6:00 X7:05 X8:03 X9:01 X0:01"
+  ESP_LOGD(TAG, "Copying Configuration...");
+
   char ccfg[sizeof(cfg)];
   std::strcpy(ccfg, cfg);
 
+  ESP_LOGD(TAG, "Extracting First Key...");
   char* key = strtok(ccfg, ":");
   while (ccfg != NULL)
   {
+    ESP_LOGD(TAG, "Extracting Value...");
     char* value = strtok(ccfg, " ");
+
+    ESP_LOGD(TAG, "Storing Key:Value :: %s:%s", key, value);
     store_config_(key, value);
+
+    ESP_LOGD(TAG, "Extracting Next Key...");
+    char* key = strtok(ccfg, ":");
   }
 
 /*
