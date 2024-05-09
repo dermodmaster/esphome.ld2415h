@@ -152,8 +152,8 @@ void LD2415HComponent::parse_config_() {
   ESP_LOGD(TAG, "Extracting first Key...");
   char* token = strtok(this->response_buffer_, ": ");
 
-  char[2] key;
-  char[2] value;
+  char key[2];
+  char value[2];
 
   while (token != NULL)
   {
