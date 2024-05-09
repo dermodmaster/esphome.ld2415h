@@ -135,8 +135,6 @@ void LD2415HComponent::parse_buffer_() {
 void LD2415HComponent::parse_config_(char* cfg) {
   // "X1:01 X2:00 X3:05 X4:01 X5:00 X6:00 X7:05 X8:03 X9:01 X0:01"
  
-  char* ds = ":";
-
   char* key = strtok(cfg, ':');
   while (cfg != NULL)
   {
