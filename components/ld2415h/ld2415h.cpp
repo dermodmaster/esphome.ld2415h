@@ -150,8 +150,8 @@ for (token = strtok(str, delim); token; token = strtok(NULL, delim))
 
   char delim[] = ": ";
   uint8_t token_len = 2;
-  char key[token_len] = "";
-  char val[token_len] = "";
+  char key[token_len+1] = "";
+  char val[token_len+1] = "";
 
   ESP_LOGD(TAG, "Extracting first Key...");
   char* token = strtok(this->response_buffer_, delim);
