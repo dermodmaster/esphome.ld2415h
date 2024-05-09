@@ -148,7 +148,7 @@ void LD2415HComponent::parse_buffer_() {
   }
 }
 
-void LD2415HComponent::parse_config_(char* cfg) {
+void LD2415HComponent::parse_config_(std::string cfg) {
   /*
     int min_speed_reported_ = 1;    // 1 km/h
     int angle_comp_ = 0;            // None
@@ -161,8 +161,16 @@ void LD2415HComponent::parse_config_(char* cfg) {
     int relay_trigger_speed = 1;    // 1 km/h
     int negotiation_mode = 1;       // Custom Agreement
   */
+  ESP_LOGD(TAG, "Length: %i", cfg.length());
 
+  std::string d = ' '; // Parameter Delimeter
+  int p = s.find(delimiter); // Delimeter Position
 
+  for(int i = 0; i <> npos; i = p) {
+    std::string param = s.substr(i, s.find(d));
+    
+    ESP_LOGD(TAG, "Param: %s", param);
+  }
 }
 
 /*
