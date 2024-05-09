@@ -134,19 +134,18 @@ void LD2415HComponent::parse_buffer_() {
 
 void LD2415HComponent::parse_config_() {
   // "X1:01 X2:00 X3:05 X4:01 X5:00 X6:00 X7:05 X8:03 X9:01 X0:01"
-/*  
-  ESP_LOGD(TAG, "Copying Configuration...");
-
-  char ccfg[std::strlen(cfg)];
-
-  ESP_LOGD(TAG, "cfg::%i", std::strlen(cfg));
-  ESP_LOGD(TAG, "ccfg::%i", std::strlen(ccfg));
 
 
-  std::strcpy(ccfg, cfg);
+/*
+char str[] = "this, is the string - I want to parse";
+char delim[] = " ,-";
+char* token;
 
-  ESP_LOGD(TAG, "cfg::%i", std::strlen(cfg));
-  ESP_LOGD(TAG, "ccfg::%i", std::strlen(ccfg));
+for (token = strtok(str, delim); token; token = strtok(NULL, delim))
+{
+    printf("token=%s\n", token);
+}
+
 */
 
   ESP_LOGD(TAG, "Extracting first Key...");
@@ -157,18 +156,16 @@ void LD2415HComponent::parse_config_() {
 
   while (token != NULL)
   {
-    ESP_LOGD(TAG, "Token: %s", token);
-    ESP_LOGD(TAG, "Length::%i", std::strlen(token));
-
     if(std::strlen(token) != 2) {
       ESP_LOGE(TAG, "Configuration key length invalid.");
       break;
     }
 
-    std::strcpy(key, token);
-
+    std::memcpy(key, token, std::strlen(source));
     ESP_LOGD(TAG, "Key: %s", key);
     ESP_LOGD(TAG, "Length::%i", std::strlen(key));
+
+
 
     ESP_LOGD(TAG, "Extracting Value...");
     token = strtok(NULL, ": ");
@@ -178,17 +175,13 @@ void LD2415HComponent::parse_config_() {
       break;
     }
     
-    std::strcpy(value, token);
+    std::memcpy(value, token, std::strlen(source));
+    ESP_LOGD(TAG, "Value: %s", value);
+    ESP_LOGD(TAG, "Length::%i", std::strlen(value));
 
-    //char* value = strtok(NULL, " ");
 
     ESP_LOGD(TAG, "Storing Key:Value :: %s:%s", key, value);
     //store_config_(key, value);
-
-    //if(value == NULL) {
-    //  ESP_LOGD(TAG, "Buffer exhausted...");
-    //  return;
-    //}
 
     ESP_LOGD(TAG, "Extracting next Key...");
     token = strtok(NULL, ": ");
