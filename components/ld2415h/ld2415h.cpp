@@ -177,11 +177,16 @@ void LD2415HComponent::parse_config_() {
 void LD2415HComponent::parse_firmware_() {
   // Example: "No.:20230801E v5.0"
 
+  ESP_LOGE(TAG, "Buffer: %s", this->response_buffer_);
+
+
   const char* delim = ":";
   char* fw = strtok(this->response_buffer_, delim);
 
-  if(fw != nullptr)
-    this->firmware = fw;  
+  ESP_LOGE(TAG, "fw: %s", fw);
+
+//  if(fw != nullptr)
+//    this->firmware = fw;  
   
 }
 
