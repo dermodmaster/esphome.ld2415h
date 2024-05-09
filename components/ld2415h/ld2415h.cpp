@@ -174,58 +174,53 @@ void LD2415HComponent::parse_config_() {
   }
 }
 
-char firmware[20] = "";
-
 void LD2415HComponent::parse_firmware_() {
     // Example: "No.:20230801E v5.0"
 
     ESP_LOGD(TAG, "Buffer: %s", this->response_buffer_);
 
-    const char* delim = ":";
+    //const char* delim = ':';
     //char* fw = strtok(this->response_buffer_, delim);
 
-    const char* defwlim = strchr(this->response_buffer_, delim);
-
+    const char* fw = strchr(this->response_buffer_, ':');
 
     if (fw != nullptr) {
-        ++fw;
+      // Move p to the character after ':'
+      ++fw;
 
-        ESP_LOGD(TAG, "fw: %s", fw);
-        std::strcpy(this->firmware, fw);
+      ESP_LOGD(TAG, "fw: %s", fw);
+      // Copy string into firmware
+      std::strcpy(this->firmware, fw);
+    } else {
+      ESP_LOGE(TAG, "Firmware value invalid.");
     }
 }
+
 void LD2415HComponent::parse_velocity_() {
-  // Example: "V+001.9"
+    // Example: "V+001.9"
 
-  // float velocity = 0;
-  // bool approaching = 1;
+    ESP_LOGD(TAG, "Buffer: %s", this->response_buffer_);
 
-  const char* delim = ": ";
-  uint8_t token_len = 2;
-  char* key;
-  char* val;
+    // Find 'V' in the buffer
+    const char* p = strchr(this->response_buffer_, 'V');
 
-  char* token = strtok(this->response_buffer_, delim);
-  
-  while (token != NULL)
-  {
-    if(std::strlen(token) != token_len) {
-      ESP_LOGE(TAG, "Configuration key length invalid.");
-      break;
+    if (p != nullptr) {
+      // Move p to the character after 'V'
+      ++p;
+
+      // Determine approaching based on the character after 'V'
+      bool approaching = (*p == '+');
+
+      // Move p to the beginning of the velocity value
+      ++p;
+
+      // Parse velocity
+      float velocity = atof(p);
+
+      ESP_LOGD(TAG, "Velocity: %f, Approaching: %s", velocity, approaching ? "true" : "false");
+    } else {
+      ESP_LOGE(TAG, "Firmware value invalid.");
     }
-    key = token;
-
-    token = strtok(NULL, delim);
-    if(std::strlen(token) != token_len) {
-      ESP_LOGE(TAG, "Configuration value length invalid.");
-      break;
-    }
-    val = token;
-    
-    this->render_config_(key, val);
-
-    token = strtok(NULL, delim);
-  }
 }
 
 void LD2415HComponent::render_config_(char* key, char* value) {
