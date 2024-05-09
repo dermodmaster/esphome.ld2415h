@@ -119,6 +119,7 @@ void LD2415HComponent::parse_buffer_() {
     case 'X':
       // Config Response
       ESP_LOGD(TAG, "Config Response: %s", this->response_buffer_);
+      ESP_LOGD(TAG, "Config Lenght: %i", std::strlen(cfg));
       this->parse_config_(this->response_buffer_);
       break;
     case 'V':
@@ -138,6 +139,7 @@ void LD2415HComponent::parse_config_(char* cfg) {
 
   char ccfg[std::strlen(cfg)];
 
+  ESP_LOGD(TAG, "cfg::%i", std::strlen(cfg));
   ESP_LOGD(TAG, "ccfg::%i", std::strlen(ccfg));
 
 /*
