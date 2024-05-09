@@ -62,7 +62,7 @@ void LD2415HComponent::issue_command_(const uint8_t cmd[], const uint8_t size) {
   //clear_remaining_buffer_(0);
   //this->write_array(cmd, sizeof(cmd));
 
-  ESP_LOGD(TAG, "Command: %s", cmd);
+  ESP_LOGD(TAG, "Command: %x", cmd);
   //ESP_LOGD(TAG, "Command Length: %i", size);
   ESP_LOGD(TAG, "Command Size: %i", size);
 
