@@ -132,13 +132,6 @@ void LD2415HComponent::clear_remaining_buffer_(uint8_t pos) {
 }
 
 void LD2415HComponent::parse_buffer_() {
-
-  /*
-  [00:07:09][D][uart_debug:158]: <<< "\xFF\xFF\r\n"
-  [00:07:09][D][uart_debug:158]: <<< "No.:20230801E v5.0\r\n"
-  [00:07:09][D][uart_debug:158]: <<< "X1:01 X2:00 X3:05 X4:01 X5:00 X6:00 X7:05 X8:03 X9:01 X0:01\r\n"
-  */
-
   char c = this->response_buffer_[0];
 
   switch(c) {
@@ -249,19 +242,19 @@ void LD2415HComponent::render_config_(char* key, char* value) {
       this->sample_rate_ = std::stoi(value, nullptr, 16);
       break;
     case '6':
-      this->unit_of_measure = std::stoi(value, nullptr, 16);
+      this->unit_of_measure_ = std::stoi(value, nullptr, 16);
       break;
     case '7':
-      this->vibration_correction = std::stoi(value, nullptr, 16);
+      this->vibration_correction_ = std::stoi(value, nullptr, 16);
       break;
     case '8':
-      this->relay_trigger_duration = std::stoi(value, nullptr, 16);
+      this->relay_trigger_duration_ = std::stoi(value, nullptr, 16);
       break;
     case '9':
-      this->relay_trigger_speed = std::stoi(value, nullptr, 16);
+      this->relay_trigger_speed_ = std::stoi(value, nullptr, 16);
       break;
     case '0':
-      this->negotiation_mode = std::stoi(value, nullptr, 16);
+      this->negotiation_mode_ = std::stoi(value, nullptr, 16);
       break;
     default:
       ESP_LOGD(TAG, "Unknown Parameter %s:%s", key, value);
