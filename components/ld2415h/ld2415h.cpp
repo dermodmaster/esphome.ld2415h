@@ -166,7 +166,7 @@ void LD2415HComponent::parse_config_() {
 }
 
 void LD2415HComponent::store_config_(char* key, char* value) {
-  if(sizeof(key) != 2 || sizeof(value) != 2 || key[0] != 'X')
+  if(std::strlen(key) != 2 || std::strlen(value) != 2 || key[0] != 'X')
       ESP_LOGE(TAG, "Invalid Parameter %s:%s", key, value);
       return;
 
