@@ -38,12 +38,12 @@ void LD2415HComponent::update() {
 
 void LD2415HComponent::dump_config() {
   ESP_LOGCONFIG(TAG, "LD2415H:");
-  ESP_LOGE(TAG, "Firmware: %s", this->firmware);
+  //ESP_LOGE(TAG, "Firmware: %s", this->firmware);
 
   // This triggers current sensor configurations to be dumped
-  //issue_command_(LD2415H_CONFIG_CMD, sizeof(LD2415H_CONFIG_CMD));
+  issue_command_(LD2415H_CONFIG_CMD, sizeof(LD2415H_CONFIG_CMD));
 
-  ESP_LOGE(TAG, "Firmware: %s", this->firmware);
+  //ESP_LOGE(TAG, "Firmware: %s", this->firmware);
   //LOG_UART_DEVICE(this);
   //LOG_SENSOR("  ", "Speed", this->speed_sensor_);
   //LOG_UPDATE_INTERVAL(this);
