@@ -16,8 +16,6 @@ static const uint8_t LD2415H_RESPONSE_FOOTER[] = {0x0D, 0x0A};
      * Create function to send cmd and params
      * Create controls that expose settings
      * Setup should initialize settings
-     * In loop constantly reading bytes into an array
-     * When \n is encountered, parse array and reset loop
      * parse array should interpret response and update internal settings
      * If not read available set speed to 0km/h
 
@@ -72,7 +70,7 @@ void LD2415HComponent::parse_data_() {
   }
 */
 
-bool LD2415HComponent::fill_buffer_(uint8_t c) {
+bool LD2415HComponent::fill_buffer_(char c) {
   switch(c) {
     case 0x00:
     case 0xFF:
@@ -99,12 +97,6 @@ void LD2415HComponent::clear_remaining_buffer_(uint8_t pos) {
         this->response_buffer_[pos] = 0x00;
         pos++;
   }
-/*
-  while(this->response_buffer_index_ < sizeof(this->response_buffer_)) {
-        this->response_buffer_[this->response_buffer_index_] = 0x00;
-        this->response_buffer_index_++;
-  }
-*/
 
   this->response_buffer_index_ = 0;
 }
@@ -117,7 +109,7 @@ void LD2415HComponent::parse_buffer_() {
   [00:07:09][D][uart_debug:158]: <<< "X1:01 X2:00 X3:05 X4:01 X5:00 X6:00 X7:05 X8:03 X9:01 X0:01\r\n"
   */
 
-  uint8_t c = this->response_buffer_[0];
+  char c = this->response_buffer_[0];
 
   switch(c) {
     case 'N':
@@ -135,21 +127,22 @@ void LD2415HComponent::parse_buffer_() {
       break;
 
     default:
+      /*
       uint8_t len = 0;
       while(len < sizeof(this->response_buffer_)) {
         if (this->response_buffer_[len] == 0x00) break;
         len++;
       }
+      */
 
       ESP_LOGD(TAG, "Unknown Response Length: %i", len);
-      //ESP_LOGD(TAG, "Unknown Response: %x", this->response_buffer_);
       ESP_LOGD(TAG, "Unknown Response: %s", this->response_buffer_);
       break;
   }
 }
 
-void LD2415HComponent::parse_config_(uint8_t* cfg) {
-   std::string s = (char*)cfg;
+void LD2415HComponent::parse_config_(char* cfg) {
+
   /*
   "X1:01 X2:00 X3:05 X4:01 X5:00 X6:00 X7:05 X8:03 X9:01 X0:01"
   */
@@ -166,15 +159,53 @@ void LD2415HComponent::parse_config_(uint8_t* cfg) {
     int relay_trigger_speed = 1;    // 1 km/h
     int negotiation_mode = 1;       // Custom Agreement
   */
-  ESP_LOGD(TAG, "Length: %i", s.length());
 
-  std::string d = ' '; // Parameter Delimeter
-  int p = s.find(d); // Delimeter Position
+  char* tokens = strtok(cfg,": ");
+  uint8_t ct = sizeof(tokens) / 2;
 
-  for(int i = 0; i <> npos; i = p) {
-    std::string param = s.substr(i, s.find(d));
-    
-    ESP_LOGD(TAG, "Param: %s", param);
+  ESP_LOGD(TAG, "Length: %i", sizeof(tokens));
+  ESP_LOGD(TAG, "Params: %i", ct);
+
+  for(uint8_t i = 0; i < ct; i++)
+    store_config_(tokens[i], tokens[i+1]);
+}
+
+void LD2415HComponent::store_config_(char* key, char* value) {
+
+  switch(key) {
+    case 'X1':
+      this->min_speed_reported_ = std::stoi(value, nullptr, 16);
+      break;
+    case 'X2':
+      this->angle_comp_ = std::stoi(value, nullptr, 16);
+      break;
+    case 'X3':
+      this->sensitivity_ = std::stoi(value, nullptr, 16);
+      break;
+    case 'X4':
+      this->tracking_mode_ = std::stoi(value, nullptr, 16);
+      break;
+    case 'X5':
+      this->sample_rate_ = std::stoi(value, nullptr, 16);
+      break;
+    case 'X6':
+      this->unit_of_measure = std::stoi(value, nullptr, 16);
+      break;
+    case 'X7':
+      this->vibration_correction = std::stoi(value, nullptr, 16);
+      break;
+    case 'X8':
+      this->relay_trigger_duration = std::stoi(value, nullptr, 16);
+      break;
+    case 'X9':
+      this->relay_trigger_speed = std::stoi(value, nullptr, 16);
+      break;
+    case 'X0':
+      this->negotiation_mode = std::stoi(value, nullptr, 16);
+      break;
+    default:
+      ESP_LOGD(TAG, "Unknown Config: %s::%s", key, value);
+      break;
   }
 }
 
