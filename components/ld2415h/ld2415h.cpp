@@ -38,12 +38,12 @@ void LD2415HComponent::update() {
 
 void LD2415HComponent::dump_config() {
   ESP_LOGCONFIG(TAG, "LD2415H:");
-  //ESP_LOGE(TAG, "Firmware: %s", this->firmware);
+  ESP_LOGE(TAG, "Firmware: %s", this->firmware);
 
   // This triggers current sensor configurations to be dumped
   issue_command_(LD2415H_CONFIG_CMD, sizeof(LD2415H_CONFIG_CMD));
 
-  //ESP_LOGE(TAG, "Firmware: %s", this->firmware);
+  ESP_LOGE(TAG, "Firmware: %s", this->firmware);
   //LOG_UART_DEVICE(this);
   //LOG_SENSOR("  ", "Speed", this->speed_sensor_);
   //LOG_UPDATE_INTERVAL(this);
@@ -174,22 +174,22 @@ void LD2415HComponent::parse_config_() {
   }
 }
 
+char firmware[20] = "";
+
 void LD2415HComponent::parse_firmware_() {
-  // Example: "No.:20230801E v5.0"
+    // Example: "No.:20230801E v5.0"
 
-  ESP_LOGE(TAG, "Buffer: %s", this->response_buffer_);
+    ESP_LOGD(TAG, "Buffer: %s", this->response_buffer_);
+
+    const char* delim = ":";
+    char* fw = strtok(this->response_buffer_, delim);
 
 
-  const char* delim = ":";
-  char* fw = strtok(this->response_buffer_, delim);
-
-  ESP_LOGE(TAG, "fw: %s", fw);
-
-//  if(fw != nullptr)
-//    this->firmware = fw;  
-  
+    if (fw != nullptr) {
+        ESP_LOGD(TAG, "fw: %s", fw);
+        std::strcpy(this->firmware, fw);
+    }
 }
-
 void LD2415HComponent::parse_velocity_() {
   // Example: "V+001.9"
 
