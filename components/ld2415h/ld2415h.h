@@ -39,15 +39,15 @@ class LD2415HComponent : public PollingComponent, public uart::UARTDevice {
   uint8_t sensitivity_ = 0;           // High
   uint8_t tracking_mode_ = 1;         // Approaching
   uint8_t sample_rate_ = 0;           // 22 fps
-  uint8_t unit_of_measure = 0;        // km/h
-  uint8_t vibration_correction = 5;   // 0-112
-  uint8_t relay_trigger_duration = 3; // 3 sec
-  uint8_t relay_trigger_speed = 1;    // 1 km/h
-  uint8_t negotiation_mode = 1;       // Custom Agreement
+  uint8_t unit_of_measure_ = 0;        // km/h
+  uint8_t vibration_correction_ = 5;   // 0-112
+  uint8_t relay_trigger_duration_ = 3; // 3 sec
+  uint8_t relay_trigger_speed_ = 1;    // 1 km/h
+  uint8_t negotiation_mode_ = 1;       // Custom Agreement
 
-  char firmware[20] = "";
-  float velocity = 0;
-  bool approaching = 1;
+  char firmware_[20] = "";
+  float velocity_ = 0;
+  bool approaching_ = 1;
 
   char response_buffer_[64];
   uint8_t response_buffer_index_ = 0;
