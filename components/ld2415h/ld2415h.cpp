@@ -161,7 +161,7 @@ for (token = strtok(str, delim); token; token = strtok(NULL, delim))
       break;
     }
 
-    std::memcpy(key, token, std::strlen(token));
+    std::memcpy(key, token, std::strlen(key));
     ESP_LOGD(TAG, "Key: %s", key);
     ESP_LOGD(TAG, "Length::%i", std::strlen(key));
 
@@ -175,7 +175,7 @@ for (token = strtok(str, delim); token; token = strtok(NULL, delim))
       break;
     }
     
-    std::memcpy(value, token, std::strlen(token));
+    std::memcpy(value, token, std::strlen(value));
     ESP_LOGD(TAG, "Value: %s", value);
     ESP_LOGD(TAG, "Length::%i", std::strlen(value));
 
