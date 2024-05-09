@@ -26,8 +26,6 @@ static const uint8_t LD2415H_RESPONSE_FOOTER[] = {0x0D, 0x0A};
 */
 
 
-
-
 void LD2415HComponent::setup() {
   // because this implementation is currently rx-only, there is nothing to setup
 }
@@ -41,9 +39,8 @@ void LD2415HComponent::update() {
 void LD2415HComponent::dump_config() {
   ESP_LOGCONFIG(TAG, "LD2415H:");
 
-  // Don't assume the buffer is full, clear it before issuing command.
-  clear_remaining_buffer_(0);
-  this->write_array(LD2415H_CONFIG_CMD, sizeof(LD2415H_CONFIG_CMD));
+  // This triggers current sensor configurations to be dumped
+  issue_command_(LD2415H_CONFIG_CMD);
 
   //LOG_UART_DEVICE(this);
   //LOG_SENSOR("  ", "Speed", this->speed_sensor_);
@@ -52,11 +49,18 @@ void LD2415HComponent::dump_config() {
 }
 
 void LD2415HComponent::loop() {
+  // Process the stream from the sensor UART
   while (this->available()) {
     if (this->fill_buffer_(this->read())) {
       this->parse_buffer_();
     }
   }
+}
+
+void LD2415HComponent::issue_command_(char* cmd) {
+  // Don't assume the response buffer is empty, clear it before issuing a command.
+  clear_remaining_buffer_(0);
+  this->write_array(cmd, std::strlen(cmd));
 }
 
 /*
@@ -75,15 +79,18 @@ bool LD2415HComponent::fill_buffer_(char c) {
     case 0x00:
     case 0xFF:
     case '\r':
+      // Ignore these characters
       break;
 
     case '\n':
+      // End of response
       if(this->response_buffer_index_ == 0) break;
 
       clear_remaining_buffer_(this->response_buffer_index_);
       return true;
 
     default:
+      // Append to response
       this->response_buffer_[this->response_buffer_index_] = c;
       this->response_buffer_index_++;
       break;
@@ -157,19 +164,17 @@ void LD2415HComponent::parse_config_() {
     }
     val = token;
     
-    ESP_LOGD(TAG, "Storing Key:Value :: %s:%s", key, val);
-    this->store_config_(key, val);
+    this->fetch_config_(key, val);
 
     token = strtok(NULL, delim);
   }
-
 }
 
-void LD2415HComponent::store_config_(char* key, char* value) {
-  if(std::strlen(key) != 2 || std::strlen(value) != 2 || key[0] != 'X')
+void LD2415HComponent::fetch_config_(char* key, char* value) {
+  if(std::strlen(key) != 2 || std::strlen(value) != 2 || key[0] != 'X') {
       ESP_LOGE(TAG, "Invalid Parameter %s:%s", key, value);
       return;
-
+  }
 
   switch(key[1]) {
     case '1':
@@ -202,6 +207,9 @@ void LD2415HComponent::store_config_(char* key, char* value) {
     case '0':
       this->negotiation_mode = std::stoi(value, nullptr, 16);
       break;
+    default:
+      ESP_LOGD(TAG, "Unknown Parameter %s:%s", key, value);
+      break
   }
 }
 
