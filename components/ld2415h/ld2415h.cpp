@@ -38,10 +38,12 @@ void LD2415HComponent::update() {
 
 void LD2415HComponent::dump_config() {
   ESP_LOGCONFIG(TAG, "LD2415H:");
+  ESP_LOGE(TAG, "Firmware: %s", this->firmware);
 
   // This triggers current sensor configurations to be dumped
   issue_command_(LD2415H_CONFIG_CMD, sizeof(LD2415H_CONFIG_CMD));
 
+  ESP_LOGE(TAG, "Firmware: %s", this->firmware);
   //LOG_UART_DEVICE(this);
   //LOG_SENSOR("  ", "Speed", this->speed_sensor_);
   //LOG_UPDATE_INTERVAL(this);
@@ -61,11 +63,6 @@ void LD2415HComponent::issue_command_(const uint8_t cmd[], const uint8_t size) {
   // Don't assume the response buffer is empty, clear it before issuing a command.
   clear_remaining_buffer_(0);
   this->write_array(cmd, size);
-
-  //ESP_LOGD(TAG, "Command: %x", cmd);
-  //ESP_LOGD(TAG, "Command Length: %i", size);
-  //ESP_LOGD(TAG, "Command Size: %i", size);
-
 }
 
 /*
@@ -127,6 +124,7 @@ void LD2415HComponent::parse_buffer_() {
     case 'N':
       // Firmware Version
       ESP_LOGD(TAG, "Firmware Response: %s", this->response_buffer_);
+      this->parse_firmware_();
       break;
     case 'X':
       // Config Response
@@ -135,7 +133,8 @@ void LD2415HComponent::parse_buffer_() {
       break;
     case 'V':
       // Velocity
-      ESP_LOGD(TAG, "Speed Response: %s", this->response_buffer_);
+      ESP_LOGD(TAG, "Velocity Response: %s", this->response_buffer_);
+      this->parse_velocity_();
       break;
 
     default:
@@ -146,6 +145,51 @@ void LD2415HComponent::parse_buffer_() {
 
 void LD2415HComponent::parse_config_() {
   // Example: "X1:01 X2:00 X3:05 X4:01 X5:00 X6:00 X7:05 X8:03 X9:01 X0:01"
+
+  const char* delim = ": ";
+  uint8_t token_len = 2;
+  char* key;
+  char* val;
+
+  char* token = strtok(this->response_buffer_, delim);
+  
+  while (token != NULL)
+  {
+    if(std::strlen(token) != token_len) {
+      ESP_LOGE(TAG, "Configuration key length invalid.");
+      break;
+    }
+    key = token;
+
+    token = strtok(NULL, delim);
+    if(std::strlen(token) != token_len) {
+      ESP_LOGE(TAG, "Configuration value length invalid.");
+      break;
+    }
+    val = token;
+    
+    this->render_config_(key, val);
+
+    token = strtok(NULL, delim);
+  }
+}
+
+void LD2415HComponent::parse_firmware_() {
+  // Example: "No.:20230801E v5.0"
+
+  const char* delim = ":";
+  char* fw = strtok(this->response_buffer_, delim);
+
+  if(fw != nullptr)
+    this->firmware = fw;  
+  
+}
+
+void LD2415HComponent::parse_velocity_() {
+  // Example: "V+001.9"
+
+  // float velocity = 0;
+  // bool approaching = 1;
 
   const char* delim = ": ";
   uint8_t token_len = 2;
