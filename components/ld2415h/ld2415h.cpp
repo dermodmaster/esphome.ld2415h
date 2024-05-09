@@ -135,17 +135,22 @@ void LD2415HComponent::parse_buffer_() {
 void LD2415HComponent::parse_config_(char* cfg) {
   // "X1:01 X2:00 X3:05 X4:01 X5:00 X6:00 X7:05 X8:03 X9:01 X0:01"
  
-  char* tokens = strtok(cfg,": ");
-  uint8_t ct = sizeof(tokens);
+  char* ds = ":";
 
+  char* key = strtok(cfg, ':');
+  while (cfg != NULL)
+  {
+    char* value = strtok(cfg, ' ');
+    store_config_(key, value);
+  }
+
+/*
   if(ct % 2 != 0)
     ESP_LOGE(TAG, "Invalid Configuration: %s", cfg);
 
   ESP_LOGD(TAG, "Length: %i", sizeof(tokens));
   ESP_LOGD(TAG, "Params: %i", ct/2);
-
-  for(uint8_t i = 0; i < ct; i+2)
-    store_config_(tokens[i], tokens[i+1]);
+*/
 }
 
 void LD2415HComponent::store_config_(char* key, char* value) {
