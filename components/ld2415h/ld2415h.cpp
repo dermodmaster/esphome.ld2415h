@@ -162,14 +162,14 @@ for (token = strtok(str, delim); token; token = strtok(NULL, delim))
       ESP_LOGE(TAG, "Configuration key length invalid.");
       break;
     }
-    std::memcpy(key, token, token_len);
+    std::strcpy(key, token, token_len);
 
     token = strtok(NULL, delim);
     if(std::strlen(token) != token_len) {
       ESP_LOGE(TAG, "Configuration value length invalid.");
       break;
     }
-    std::memcpy(value, token, token_len);
+    std::strcpy(value, token, token_len);
     
     ESP_LOGD(TAG, "Key: %s", key);
     ESP_LOGD(TAG, "Value: %s", value);
