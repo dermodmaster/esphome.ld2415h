@@ -35,6 +35,27 @@ void LD2415HComponent::update() {
   // Possibly setting config?
   //ESP_LOGV(TAG, "sending measurement request");
   //this->write_array(LD2415H_REQUEST, sizeof(LD2415H_REQUEST));
+
+
+  if (this->speed_sensor_ != nullptr)
+    this->speed_sensor_->publish_state(this->velocity_);
+
+/*
+uint8_t min_speed_reported_ = 1;    // 1 km/h
+uint8_t angle_comp_ = 0;            // None
+uint8_t sensitivity_ = 0;           // High
+uint8_t tracking_mode_ = 1;         // Approaching
+uint8_t sample_rate_ = 0;           // 22 fps
+uint8_t unit_of_measure = 0;        // km/h
+uint8_t vibration_correction = 5;   // 0-112
+uint8_t relay_trigger_duration = 3; // 3 sec
+uint8_t relay_trigger_speed = 1;    // 1 km/h
+uint8_t negotiation_mode = 1;       // Custom Agreement
+
+char firmware_[20] = "";
+float velocity_ = 0;
+bool approaching_ = 1;
+*/
 }
 
 void LD2415HComponent::dump_config() {
@@ -123,22 +144,22 @@ void LD2415HComponent::parse_buffer_() {
   switch(c) {
     case 'N':
       // Firmware Version
-      ESP_LOGD(TAG, "Firmware Response: %s", this->response_buffer_);
+      //ESP_LOGD(TAG, "Firmware Response: %s", this->response_buffer_);
       this->parse_firmware_();
       break;
     case 'X':
       // Config Response
-      ESP_LOGD(TAG, "Config Response: %s", this->response_buffer_);
+      //ESP_LOGD(TAG, "Config Response: %s", this->response_buffer_);
       this->parse_config_();
       break;
     case 'V':
       // Velocity
-      ESP_LOGD(TAG, "Velocity Response: %s", this->response_buffer_);
+      //ESP_LOGD(TAG, "Velocity Response: %s", this->response_buffer_);
       this->parse_velocity_();
       break;
 
     default:
-      ESP_LOGD(TAG, "Unknown Response: %s", this->response_buffer_);
+      ESP_LOGE(TAG, "Unknown Response: %s", this->response_buffer_);
       break;
   }
 }
@@ -184,7 +205,7 @@ void LD2415HComponent::parse_firmware_() {
       ++fw;
 
       // Copy string into firmware
-      std::strcpy(this->firmware, fw);
+      std::strcpy(this->firmware_, fw);
     } else {
       ESP_LOGE(TAG, "Firmware value invalid.");
     }
@@ -197,9 +218,9 @@ void LD2415HComponent::parse_velocity_() {
 
     if (p != nullptr) {
       ++p;
-      bool approaching = (*p == '+');
+      bool approaching_ = (*p == '+');
       ++p;
-      float velocity = atof(p);
+      float velocity_ = atof(p);
     } else {
       ESP_LOGE(TAG, "Firmware value invalid.");
     }
