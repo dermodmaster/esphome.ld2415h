@@ -211,9 +211,9 @@ void LD2415HComponent::parse_velocity_() {
 
     if (p != nullptr) {
       ++p;
-      bool approaching_ = (*p == '+');
+      this->approaching_ = (*p == '+');
       ++p;
-      float velocity_ = atof(p);
+      this->velocity_ = atof(p);
     } else {
       ESP_LOGE(TAG, "Firmware value invalid.");
     }
