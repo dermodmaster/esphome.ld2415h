@@ -127,14 +127,6 @@ void LD2415HComponent::parse_buffer_() {
       break;
 
     default:
-      /*
-      uint8_t len = 0;
-      while(len < sizeof(this->response_buffer_)) {
-        if (this->response_buffer_[len] == 0x00) break;
-        len++;
-      }
-      */
-
       ESP_LOGD(TAG, "Unknown Response Length: %i", len);
       ESP_LOGD(TAG, "Unknown Response: %s", this->response_buffer_);
       break;
@@ -142,69 +134,57 @@ void LD2415HComponent::parse_buffer_() {
 }
 
 void LD2415HComponent::parse_config_(char* cfg) {
-
-  /*
-  "X1:01 X2:00 X3:05 X4:01 X5:00 X6:00 X7:05 X8:03 X9:01 X0:01"
-  */
+  // "X1:01 X2:00 X3:05 X4:01 X5:00 X6:00 X7:05 X8:03 X9:01 X0:01"
  
-  /*
-    int min_speed_reported_ = 1;    // 1 km/h
-    int angle_comp_ = 0;            // None
-    int sensitivity_ = 0;           // High
-    int tracking_mode_ = 1;         // Approaching
-    int sample_rate_ = 0;           // 22 fps
-    int unit_of_measure = 0;        // km/h
-    int vibration_correction = 5;   // 0-112
-    int relay_trigger_duration = 3; // 3 sec
-    int relay_trigger_speed = 1;    // 1 km/h
-    int negotiation_mode = 1;       // Custom Agreement
-  */
-
   char* tokens = strtok(cfg,": ");
-  uint8_t ct = sizeof(tokens) / 2;
+  uint8_t ct = sizeof(tokens);
+
+  if(ct % 2 != 0)
+    ESP_LOGE(TAG, "Invalid Configuration: %s", cfg);
 
   ESP_LOGD(TAG, "Length: %i", sizeof(tokens));
-  ESP_LOGD(TAG, "Params: %i", ct);
+  ESP_LOGD(TAG, "Params: %i", ct/2);
 
-  for(uint8_t i = 0; i < ct; i++)
+  for(uint8_t i = 0; i < ct; i+2)
     store_config_(tokens[i], tokens[i+1]);
 }
 
 void LD2415HComponent::store_config_(char* key, char* value) {
+  if(sizeof(key) != 2 || sizeof(value) != 2 || key[0] != 'X')
+      ESP_LOGE(TAG, "Invalid Parameter %s:%s", key, value);
+      return;
 
-  switch(key) {
-    case "X1":
+
+  switch(key[1]) {
+    case '1':
       this->min_speed_reported_ = std::stoi(value, nullptr, 16);
       break;
-    case "X2":
+    case '2':
       this->angle_comp_ = std::stoi(value, nullptr, 16);
       break;
-    case "X3":
+    case '3':
       this->sensitivity_ = std::stoi(value, nullptr, 16);
       break;
-    case "X4":
+    case '4':
       this->tracking_mode_ = std::stoi(value, nullptr, 16);
       break;
-    case "X5":
+    case '5':
       this->sample_rate_ = std::stoi(value, nullptr, 16);
       break;
-    case "X6":
+    case '6':
       this->unit_of_measure = std::stoi(value, nullptr, 16);
       break;
-    case "X7":
+    case '7':
       this->vibration_correction = std::stoi(value, nullptr, 16);
       break;
-    case "X8":
+    case '8':
       this->relay_trigger_duration = std::stoi(value, nullptr, 16);
       break;
-    case "X9":
+    case '9':
       this->relay_trigger_speed = std::stoi(value, nullptr, 16);
       break;
-    case "X0":
+    case '0':
       this->negotiation_mode = std::stoi(value, nullptr, 16);
-      break;
-    default:
-      ESP_LOGD(TAG, "Unknown Config: %s::%s", key, value);
       break;
   }
 }
