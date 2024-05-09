@@ -27,7 +27,8 @@ static const uint8_t LD2415H_RESPONSE_FOOTER[] = {0x0D, 0x0A};
 
 
 void LD2415HComponent::setup() {
-  // because this implementation is currently rx-only, there is nothing to setup
+  // This triggers current sensor configurations to be dumped
+  issue_command_(LD2415H_CONFIG_CMD, sizeof(LD2415H_CONFIG_CMD));
 }
 
 void LD2415HComponent::update() {
@@ -38,12 +39,11 @@ void LD2415HComponent::update() {
 
 void LD2415HComponent::dump_config() {
   ESP_LOGCONFIG(TAG, "LD2415H:");
-  ESP_LOGE(TAG, "Firmware: %s", this->firmware);
+  ESP_LOGD(TAG, "Firmware: %s", this->firmware);
 
   // This triggers current sensor configurations to be dumped
-  issue_command_(LD2415H_CONFIG_CMD, sizeof(LD2415H_CONFIG_CMD));
+  //issue_command_(LD2415H_CONFIG_CMD, sizeof(LD2415H_CONFIG_CMD));
 
-  ESP_LOGE(TAG, "Firmware: %s", this->firmware);
   //LOG_UART_DEVICE(this);
   //LOG_SENSOR("  ", "Speed", this->speed_sensor_);
   //LOG_UPDATE_INTERVAL(this);
@@ -177,18 +177,12 @@ void LD2415HComponent::parse_config_() {
 void LD2415HComponent::parse_firmware_() {
     // Example: "No.:20230801E v5.0"
 
-    ESP_LOGD(TAG, "Buffer: %s", this->response_buffer_);
-
-    //const char* delim = ':';
-    //char* fw = strtok(this->response_buffer_, delim);
-
     const char* fw = strchr(this->response_buffer_, ':');
 
     if (fw != nullptr) {
       // Move p to the character after ':'
       ++fw;
 
-      ESP_LOGD(TAG, "fw: %s", fw);
       // Copy string into firmware
       std::strcpy(this->firmware, fw);
     } else {
@@ -199,25 +193,13 @@ void LD2415HComponent::parse_firmware_() {
 void LD2415HComponent::parse_velocity_() {
     // Example: "V+001.9"
 
-    ESP_LOGD(TAG, "Buffer: %s", this->response_buffer_);
-
-    // Find 'V' in the buffer
     const char* p = strchr(this->response_buffer_, 'V');
 
     if (p != nullptr) {
-      // Move p to the character after 'V'
       ++p;
-
-      // Determine approaching based on the character after 'V'
       bool approaching = (*p == '+');
-
-      // Move p to the beginning of the velocity value
       ++p;
-
-      // Parse velocity
       float velocity = atof(p);
-
-      ESP_LOGD(TAG, "Velocity: %f, Approaching: %s", velocity, approaching ? "true" : "false");
     } else {
       ESP_LOGE(TAG, "Firmware value invalid.");
     }
