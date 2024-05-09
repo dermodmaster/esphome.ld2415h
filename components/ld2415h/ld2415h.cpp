@@ -133,27 +133,13 @@ void LD2415HComponent::parse_buffer_() {
 }
 
 void LD2415HComponent::parse_config_() {
-  // "X1:01 X2:00 X3:05 X4:01 X5:00 X6:00 X7:05 X8:03 X9:01 X0:01"
+  // Example: "X1:01 X2:00 X3:05 X4:01 X5:00 X6:00 X7:05 X8:03 X9:01 X0:01"
 
-
-/*
-char str[] = "this, is the string - I want to parse";
-char delim[] = " ,-";
-char* token;
-
-for (token = strtok(str, delim); token; token = strtok(NULL, delim))
-{
-    printf("token=%s\n", token);
-}
-
-*/
-
-  char delim[] = ": ";
+  const char* delim = ": ";
   uint8_t token_len = 2;
   char* key = "";
   char* val = "";
 
-  ESP_LOGD(TAG, "Extracting first Key...");
   char* token = strtok(this->response_buffer_, delim);
   
   while (token != NULL)
@@ -162,7 +148,6 @@ for (token = strtok(str, delim); token; token = strtok(NULL, delim))
       ESP_LOGE(TAG, "Configuration key length invalid.");
       break;
     }
-    //std::strncpy(key, token, token_len);
     key = token;
 
     token = strtok(NULL, delim);
@@ -170,16 +155,10 @@ for (token = strtok(str, delim); token; token = strtok(NULL, delim))
       ESP_LOGE(TAG, "Configuration value length invalid.");
       break;
     }
-    //std::strncpy(val, token, token_len);
     val = token;
     
-    ESP_LOGD(TAG, "Key: %s", key);
-    ESP_LOGD(TAG, "Val: %s", val);
-   
     ESP_LOGD(TAG, "Storing Key:Value :: %s:%s", key, val);
-    //store_config_(key, val);
-
-    ESP_LOGD(TAG, "Extracting next Key...");
+    this->store_config_(key, val);
 
     token = strtok(NULL, delim);
   }
