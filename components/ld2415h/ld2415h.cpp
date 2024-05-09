@@ -173,34 +173,34 @@ void LD2415HComponent::parse_config_(char* cfg) {
 void LD2415HComponent::store_config_(char* key, char* value) {
 
   switch(key) {
-    case 'X1':
+    case "X1":
       this->min_speed_reported_ = std::stoi(value, nullptr, 16);
       break;
-    case 'X2':
+    case "X2":
       this->angle_comp_ = std::stoi(value, nullptr, 16);
       break;
-    case 'X3':
+    case "X3":
       this->sensitivity_ = std::stoi(value, nullptr, 16);
       break;
-    case 'X4':
+    case "X4":
       this->tracking_mode_ = std::stoi(value, nullptr, 16);
       break;
-    case 'X5':
+    case "X5":
       this->sample_rate_ = std::stoi(value, nullptr, 16);
       break;
-    case 'X6':
+    case "X6":
       this->unit_of_measure = std::stoi(value, nullptr, 16);
       break;
-    case 'X7':
+    case "X7":
       this->vibration_correction = std::stoi(value, nullptr, 16);
       break;
-    case 'X8':
+    case "X8":
       this->relay_trigger_duration = std::stoi(value, nullptr, 16);
       break;
-    case 'X9':
+    case "X9":
       this->relay_trigger_speed = std::stoi(value, nullptr, 16);
       break;
-    case 'X0':
+    case "X0":
       this->negotiation_mode = std::stoi(value, nullptr, 16);
       break;
     default:
