@@ -182,10 +182,14 @@ void LD2415HComponent::parse_firmware_() {
     ESP_LOGD(TAG, "Buffer: %s", this->response_buffer_);
 
     const char* delim = ":";
-    char* fw = strtok(this->response_buffer_, delim);
+    //char* fw = strtok(this->response_buffer_, delim);
+
+    const char* defwlim = strchr(this->response_buffer_, delim);
 
 
     if (fw != nullptr) {
+        ++fw;
+
         ESP_LOGD(TAG, "fw: %s", fw);
         std::strcpy(this->firmware, fw);
     }
