@@ -148,7 +148,8 @@ void LD2415HComponent::parse_buffer_() {
   }
 }
 
-void LD2415HComponent::parse_config_(std::string cfg) {
+void LD2415HComponent::parse_config_(uint8_t* cfg) {
+  std::string s = std::string(cfg);
   /*
   "X1:01 X2:00 X3:05 X4:01 X5:00 X6:00 X7:05 X8:03 X9:01 X0:01"
   */
@@ -165,7 +166,7 @@ void LD2415HComponent::parse_config_(std::string cfg) {
     int relay_trigger_speed = 1;    // 1 km/h
     int negotiation_mode = 1;       // Custom Agreement
   */
-  ESP_LOGD(TAG, "Length: %i", cfg.length());
+  ESP_LOGD(TAG, "Length: %i", s.length());
 
   std::string d = ' '; // Parameter Delimeter
   int p = s.find(delimiter); // Delimeter Position
