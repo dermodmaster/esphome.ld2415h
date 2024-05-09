@@ -12,6 +12,7 @@ from esphome.const import (
 CODEOWNERS = ["@cptskippy"]
 
 DEPENDENCIES = ["uart"]
+AUTO_LOAD = ["sensor"]
 
 ld2415h_ns = cg.esphome_ns.namespace("ld2415h")
 LD2415HComponent = ld2415h_ns.class_("LD2415HComponent", cg.Component, uart.UARTDevice)
@@ -34,6 +35,7 @@ CONFIG_SCHEMA = (
             ),
         }   
     )
+    .extend(cv.polling_component_schema("45ms"))
     .extend(uart.UART_DEVICE_SCHEMA)
     .extend(cv.COMPONENT_SCHEMA)
 )
