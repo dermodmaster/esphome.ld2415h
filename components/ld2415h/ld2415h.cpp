@@ -153,6 +153,10 @@ void LD2415HComponent::parse_config_() {
   ESP_LOGD(TAG, "Extracting First Key...");
   char* key = strtok(this->response_buffer_, ": ");
 
+  ESP_LOGD(TAG, "Token: %s", key);
+  //ESP_LOGD(TAG, "Buffer Lenght: %i", std::strlen(this->response_buffer_));
+
+/*
   while (this->response_buffer_ != NULL)
   {
     ESP_LOGD(TAG, "Extracting Value...");
@@ -169,6 +173,7 @@ void LD2415HComponent::parse_config_() {
     ESP_LOGD(TAG, "Extracting Next Key...");
     char* key = strtok(NULL, ": ");
   }
+*/
 }
 
 void LD2415HComponent::store_config_(char* key, char* value) {
