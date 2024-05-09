@@ -137,8 +137,8 @@ void LD2415HComponent::parse_config_() {
 
   const char* delim = ": ";
   uint8_t token_len = 2;
-  char* key = "";
-  char* val = "";
+  char* key;
+  char* val;
 
   char* token = strtok(this->response_buffer_, delim);
   
