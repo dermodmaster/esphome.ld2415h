@@ -164,7 +164,7 @@ void LD2415HComponent::parse_config_() {
     }
     val = token;
     
-    this->fetch_config_(key, val);
+    this->render_config_(key, val);
 
     token = strtok(NULL, delim);
   }
