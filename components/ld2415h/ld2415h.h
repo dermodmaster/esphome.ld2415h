@@ -59,7 +59,7 @@ class LD2415HComponent : public PollingComponent, public uart::UARTDevice {
   void clear_remaining_buffer_(uint8_t pos);
   void parse_buffer_();
 
-  void parse_config_(std::string cfg)
+  void parse_config_(std::string cfg);
 };
 
 }  // namespace ld2415h
