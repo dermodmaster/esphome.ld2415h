@@ -30,41 +30,11 @@ void LD2415HComponent::setup() {
   // This triggers current sensor configurations to be dumped
 }
 
-/*
-uint8_t min_speed_reported_ = 1;    // 1 km/h
-uint8_t angle_comp_ = 0;            // None
-uint8_t sensitivity_ = 0;           // High
-uint8_t tracking_mode_ = 1;         // Approaching
-uint8_t sample_rate_ = 0;           // 22 fps
-uint8_t unit_of_measure = 0;        // km/h
-uint8_t vibration_correction = 5;   // 0-112
-uint8_t relay_trigger_duration = 3; // 3 sec
-uint8_t relay_trigger_speed = 1;    // 1 km/h
-uint8_t negotiation_mode = 1;       // Custom Agreement
-
-char firmware_[20] = "";
-float velocity_ = 0;
-bool approaching_ = 1;
-*/
-/*
-void LD2415HComponent::update() {
-  // Possibly setting config?
-  //ESP_LOGV(TAG, "sending measurement request");
-  //this->write_array(LD2415H_REQUEST, sizeof(LD2415H_REQUEST));
-
-
-//  if (this->speed_sensor_ != nullptr)
-//    this->speed_sensor_->publish_state(this->velocity_);
-
-
-}
-*/
-
 void LD2415HComponent::dump_config() {
   issue_command_(LD2415H_CONFIG_CMD, sizeof(LD2415H_CONFIG_CMD));
   ESP_LOGCONFIG(TAG, "LD2415H:");
   ESP_LOGCONFIG(TAG, "  Firmware: %s", this->firmware_);
-  ESP_LOGCONFIG(TAG, "  Minimum Speed Reported: %u", this->min_speed_reported_);
+  ESP_LOGCONFIG(TAG, "  Minimum Speed Reported: %u kph", this->min_speed_reported_);
   ESP_LOGCONFIG(TAG, "  Angle Compensation: %u", this->angle_comp_);
   ESP_LOGCONFIG(TAG, "  Sensitivity: %u", this->sensitivity_);
   ESP_LOGCONFIG(TAG, "  Tracking Mode: %u", uint8_t(this->tracking_mode_));
@@ -72,17 +42,8 @@ void LD2415HComponent::dump_config() {
   ESP_LOGCONFIG(TAG, "  Unit of Measure: %u", uint8_t(this->unit_of_measure_));
   ESP_LOGCONFIG(TAG, "  Vibration Correction: %u", this->vibration_correction_);
   ESP_LOGCONFIG(TAG, "  Relay Trigger Duration: %u", this->relay_trigger_duration_);
-  ESP_LOGCONFIG(TAG, "  Relay Trigger Speed: %u", this->relay_trigger_speed_);
+  ESP_LOGCONFIG(TAG, "  Relay Trigger Speed: %u kph", this->relay_trigger_speed_);
   ESP_LOGCONFIG(TAG, "  Negotiation Mode: %u", uint8_t(this->negotiation_mode_));
-
-
-  // This triggers current sensor configurations to be dumped
-  //issue_command_(LD2415H_CONFIG_CMD, sizeof(LD2415H_CONFIG_CMD));
-
-  //LOG_UART_DEVICE(this);
-  //LOG_SENSOR("  ", "Speed", this->speed_sensor_);
-  //LOG_UPDATE_INTERVAL(this);
-  //this->check_uart_settings(9600);
 }
 
 void LD2415HComponent::loop() {
@@ -99,17 +60,6 @@ void LD2415HComponent::issue_command_(const uint8_t cmd[], const uint8_t size) {
   clear_remaining_buffer_(0);
   this->write_array(cmd, size);
 }
-
-/*
-void LD2415HComponent::parse_data_() {
-  const int speed = this->get_16_bit_uint_(5);
-
-  ESP_LOGD(TAG, "Got Speed: %d km/h", speed);
-
-  if (this->speed_sensor_ != nullptr) {
-    this->speed_sensor_->publish_state(speed);
-  }
-*/
 
 bool LD2415HComponent::fill_buffer_(char c) {
   switch(c) {
@@ -205,49 +155,49 @@ void LD2415HComponent::parse_config_() {
 }
 
 void LD2415HComponent::parse_firmware_() {
-    // Example: "No.:20230801E v5.0"
+  // Example: "No.:20230801E v5.0"
 
-    const char* fw = strchr(this->response_buffer_, ':');
+  const char* fw = strchr(this->response_buffer_, ':');
 
-    if (fw != nullptr) {
-      // Move p to the character after ':'
-      ++fw;
+  if (fw != nullptr) {
+    // Move p to the character after ':'
+    ++fw;
 
-      // Copy string into firmware
-      std::strcpy(this->firmware_, fw);
-    } else {
-      ESP_LOGE(TAG, "Firmware value invalid.");
-    }
+    // Copy string into firmware
+    std::strcpy(this->firmware_, fw);
+  } else {
+    ESP_LOGE(TAG, "Firmware value invalid.");
+  }
 }
 
 void LD2415HComponent::parse_velocity_() {
-    // Example: "V+001.9"
+  // Example: "V+001.9"
 
-    const char* p = strchr(this->response_buffer_, 'V');
+  const char* p = strchr(this->response_buffer_, 'V');
 
-    if (p != nullptr) {
-      ++p;
-      this->approaching_ = (*p == '+');
-      ++p;
-      this->velocity_ = atof(p);
+  if (p != nullptr) {
+    ++p;
+    this->approaching_ = (*p == '+');
+    ++p;
+    this->velocity_ = atof(p);
 
-      ESP_LOGD(TAG, "Velocity updated: %f km/h", this->velocity_);
-      
-      if (this->speed_sensor_ != nullptr)
-        this->speed_sensor_->publish_state(this->velocity_);
+    ESP_LOGD(TAG, "Velocity updated: %f km/h", this->velocity_);
+    
+    if (this->speed_sensor_ != nullptr)
+      this->speed_sensor_->publish_state(this->velocity_);
 
-    } else {
-      ESP_LOGE(TAG, "Firmware value invalid.");
-    }
+  } else {
+    ESP_LOGE(TAG, "Firmware value invalid.");
+  }
 }
 
 void LD2415HComponent::parse_config_param_(char* key, char* value) {
   if(std::strlen(key) != 2 || std::strlen(value) != 2 || key[0] != 'X') {
       ESP_LOGE(TAG, "Invalid Parameter %s:%s", key, value);
       return;
-}
+  }
 
-uint8_t v = std::stoi(value, nullptr, 16);
+  uint8_t v = std::stoi(value, nullptr, 16);
 
   switch(key[1]) {
     case '1':
@@ -260,21 +210,13 @@ uint8_t v = std::stoi(value, nullptr, 16);
       this->sensitivity_ = std::stoi(value, nullptr, 16);
       break;
     case '4':
-      if(v >= int8_t(TrackingMode::ApproachingAndRetreating) && v <= uint8_t(TrackingMode::Restreating)) {
-        this->tracking_mode_ = TrackingMode(v);
-      } else {
-        ESP_LOGE(TAG, "Invalid Value %s:%s", key, value);
-      }
+      this->tracking_mode_ = this->i_to_TrackingMode_(v);
       break;
     case '5':
       this->sample_rate_ = v;
       break;
     case '6':
-      if(v >= uint8_t(UnitOfMeasure::kph) && v <= uint8_t(UnitOfMeasure::mps)) {
-        this->unit_of_measure_ = UnitOfMeasure(v);
-      } else {
-        ESP_LOGE(TAG, "Invalid Value %s:%s", key, value);
-      }
+      this->unit_of_measure_ = this->i_to_UnitOfMeasure_(v);
       break;
     case '7':
       this->vibration_correction_ = v;
@@ -286,11 +228,7 @@ uint8_t v = std::stoi(value, nullptr, 16);
       this->relay_trigger_speed_ = v;
       break;
     case '0':
-      if(v >= uint8_t(NegotiationMode::CustomAgreement) && v <= uint8_t(NegotiationMode::StandardProtocol)) {
-        this->negotiation_mode_ = NegotiationMode(v);
-      } else {
-        ESP_LOGE(TAG, "Invalid Value %s:%s", key, value);
-      }
+      this->negotiation_mode_ = this->i_to_NegotiationMode_(v);
       break;
     default:
       ESP_LOGD(TAG, "Unknown Parameter %s:%s", key, value);
@@ -298,22 +236,91 @@ uint8_t v = std::stoi(value, nullptr, 16);
   }
 }
 
-/*
-  char byteArray[] = "V+002.6\r\n";
-
-  // Extract bytes 3-7 (index 2-6) and store them in a string
-  char floatStr[6];
-  std::memcpy(floatStr, &byteArray[2], 5);
-  floatStr[5] = '\0'; // Null-terminate the string
-
-  // Convert the string to a float
-  float floatValue = std::atof(floatStr);
-
-  // Output the result
-  std::cout << "Parsed float value: " << floatValue << std::endl;
-
+TrackingMode LD2415HComponent::i_to_TrackingMode_(uint8_t value) {
+  TrackingMode u = TrackingMode(value);
+  switch (u)
+  {
+    case TrackingMode::APPROACHING_AND_RETREATING:
+      return TrackingMode::APPROACHING_AND_RETREATING;
+    case TrackingMode::APPROACHING:
+      return TrackingMode::APPROACHING;
+    case TrackingMode::RETREATING:
+      return TrackingMode::RETREATING
+    default:
+      ESP_LOGE(TAG, "Invalid TrackingMode:%s", value);
+      return TrackingMode::APPROACHING_AND_RETREATING
+  }
 }
-*/
+
+char* LD2415HComponent::TrackingMode_to_s_(TrackingMode value) {
+  switch (value)
+  {
+    case TrackingMode::APPROACHING_AND_RETREATING:
+      return "APPROACHING_AND_RETREATING";
+    case TrackingMode::APPROACHING:
+      return "APPROACHING";
+    case TrackingMode::RETREATING:
+    default:
+      return "RETREATING"
+  }
+}
+
+UnitOfMeasure LD2415HComponent::i_to_UnitOfMeasure_(uint8_t value) {
+  UnitOfMeasure u = UnitOfMeasure(value);
+  switch (u)
+  {
+    case UnitOfMeasure::MPS:
+      return UnitOfMeasure::MPS;
+    case UnitOfMeasure::MPH:
+      return UnitOfMeasure::MPH;
+    case UnitOfMeasure::KPH:
+      return UnitOfMeasure::KPH
+    default:
+      ESP_LOGE(TAG, "Invalid UnitOfMeasure:%s", value);
+      return UnitOfMeasure::KPH
+  }
+}
+
+char* LD2415HComponent::UnitOfMeasure_to_s_(UnitOfMeasure value) {
+  switch (value)
+  {
+    case UnitOfMeasure::MPS:
+      return "MPS";
+    case UnitOfMeasure::MPH:
+      return "MPH";
+    case UnitOfMeasure::KPH:
+    default:
+      return "KPH"
+  }
+}
+
+NegotiationMode LD2415HComponent::i_to_NegotiationMode_(uint8_t value) {
+  NegotiationMode u = NegotiationMode(value);
+  
+  switch (u)
+  {
+    case NegotiationMode::CUSTOM_AGREEMENT:
+      return NegotiationMode::CUSTOM_AGREEMENT;
+    case NegotiationMode::STANDARD_PROTOCOL:
+      return NegotiationMode::STANDARD_PROTOCOL;
+    default:
+      ESP_LOGE(TAG, "Invalid UnitOfMeasure:%s", key, value);
+      return NegotiationMode::CUSTOM_AGREEMENT
+  }
+}
+
+char* LD2415HComponent::NegotiationMode_to_s_(NegotiationMode value) {
+  switch (value)
+  {
+    case NegotiationMode::CUSTOM_AGREEMENT:
+      return "CUSTOM_AGREEMENT";
+    case NegotiationMode::STANDARD_PROTOCOL:
+    default:
+      return "STANDARD_PROTOCOL"
+  }
+}
+
+
 
 }  // namespace ld2415h
 }  // namespace esphome

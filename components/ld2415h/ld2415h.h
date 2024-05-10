@@ -8,20 +8,20 @@ namespace esphome {
 namespace ld2415h {
 
 enum class TrackingMode {
-  ApproachingAndRetreating = 0x00,
-  Approaching = 0x01,
-  Restreating = 0x02
+  APPROACHING_AND_RETREATING = 0x00,
+  APPROACHING = 0x01,
+  RETREATING = 0x02
 };
 
 enum class UnitOfMeasure {
-  kph = 0x00,
-  mph = 0x01,
-  mps = 0x02
+  KPH = 0x00,
+  MPH = 0x01,
+  MPS = 0x02
 };
 
 enum class NegotiationMode {
-  CustomAgreement = 0x01,
-  StandardProtocol = 0x02
+  CUSTOM_AGREEMENT = 0x01,
+  STANDARD_PROTOCOL = 0x02
 };
 
 
@@ -56,13 +56,13 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
   uint8_t min_speed_reported_ = 0;
   uint8_t angle_comp_ = 0;
   uint8_t sensitivity_ = 0;
-  TrackingMode tracking_mode_ = TrackingMode::ApproachingAndRetreating;
+  TrackingMode tracking_mode_ = TrackingMode::APPROACHING_AND_RETREATING;
   uint8_t sample_rate_ = 0;
-  UnitOfMeasure unit_of_measure_ = UnitOfMeasure::kph;
+  UnitOfMeasure unit_of_measure_ = UnitOfMeasure::KPH;
   uint8_t vibration_correction_ = 0;
   uint8_t relay_trigger_duration_ = 0;
   uint8_t relay_trigger_speed_ = 0;
-  NegotiationMode negotiation_mode_ = NegotiationMode::CustomAgreement;
+  NegotiationMode negotiation_mode_ = NegotiationMode::CUSTOM_AGREEMENT;
 
   char firmware_[20] = "";
   float velocity_ = 0;
