@@ -249,7 +249,7 @@ TrackingMode LD2415HComponent::i_to_TrackingMode_(uint8_t value) {
   }
 }
 
-char* LD2415HComponent::TrackingMode_to_s_(TrackingMode value) {
+const char* LD2415HComponent::TrackingMode_to_s_(TrackingMode value) {
   switch (value)
   {
     case TrackingMode::APPROACHING_AND_RETREATING:
@@ -278,7 +278,7 @@ UnitOfMeasure LD2415HComponent::i_to_UnitOfMeasure_(uint8_t value) {
   }
 }
 
-char* LD2415HComponent::UnitOfMeasure_to_s_(UnitOfMeasure value) {
+const char* LD2415HComponent::UnitOfMeasure_to_s_(UnitOfMeasure value) {
   switch (value)
   {
     case UnitOfMeasure::MPS:
@@ -306,7 +306,7 @@ NegotiationMode LD2415HComponent::i_to_NegotiationMode_(uint8_t value) {
   }
 }
 
-char* LD2415HComponent::NegotiationMode_to_s_(NegotiationMode value) {
+const char* LD2415HComponent::NegotiationMode_to_s_(NegotiationMode value) {
   switch (value)
   {
     case NegotiationMode::CUSTOM_AGREEMENT:
