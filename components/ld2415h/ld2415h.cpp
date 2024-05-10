@@ -17,10 +17,10 @@ static const uint8_t LD2415H_RESPONSE_FOOTER[] = {0x0D, 0x0A};
      * Create controls that expose settings
      * Setup should initialize settings
      * parse array should interpret response and update internal settings
-     * If not read available set speed to 0km/h
+     * If not read available set speed to 0KPH
 
      * Create Detected Sensor?
-     * If not read available and last read was 1km/h then set detected to false
+     * If not read available and last read was 1KPH then set detected to false
      * Create Last Top Speed Sensor
      * While Detected, if speed is greater than top speed update top speed
 */
@@ -103,18 +103,15 @@ void LD2415HComponent::parse_buffer_() {
   switch(c) {
     case 'N':
       // Firmware Version
-      //ESP_LOGD(TAG, "Firmware Response: %s", this->response_buffer_);
       this->parse_firmware_();
       break;
     case 'X':
       // Config Response
-      //ESP_LOGD(TAG, "Config Response: %s", this->response_buffer_);
       this->parse_config_();
       break;
     case 'V':
-      // Velocity
-      //ESP_LOGD(TAG, "Velocity Response: %s", this->response_buffer_);
-      this->parse_velocity_();
+      // Speed
+      this->parse_speed_();
       break;
 
     default:
@@ -170,7 +167,7 @@ void LD2415HComponent::parse_firmware_() {
   }
 }
 
-void LD2415HComponent::parse_velocity_() {
+void LD2415HComponent::parse_speed_() {
   // Example: "V+001.9"
 
   const char* p = strchr(this->response_buffer_, 'V');
@@ -179,12 +176,12 @@ void LD2415HComponent::parse_velocity_() {
     ++p;
     this->approaching_ = (*p == '+');
     ++p;
-    this->velocity_ = atof(p);
+    this->speed_ = atof(p);
 
-    ESP_LOGD(TAG, "Velocity updated: %f km/h", this->velocity_);
+    ESP_LOGD(TAG, "Speed updated: %f KPH", this->speed_);
     
     if (this->speed_sensor_ != nullptr)
-      this->speed_sensor_->publish_state(this->velocity_);
+      this->speed_sensor_->publish_state(this->speed_);
 
   } else {
     ESP_LOGE(TAG, "Firmware value invalid.");

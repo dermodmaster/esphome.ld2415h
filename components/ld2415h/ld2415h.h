@@ -65,7 +65,7 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
   NegotiationMode negotiation_mode_ = NegotiationMode::CUSTOM_AGREEMENT;
 
   char firmware_[20] = "";
-  float velocity_ = 0;
+  float speed_ = 0;
   bool approaching_ = 1;
 
   char response_buffer_[64];
@@ -77,7 +77,7 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
   void parse_buffer_();
   void parse_config_();
   void parse_firmware_();
-  void parse_velocity_();
+  void parse_speed_();
   void parse_config_param_(char* key, char* value);
 
   TrackingMode i_to_TrackingMode_(uint8_t value);
