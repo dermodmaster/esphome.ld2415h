@@ -245,10 +245,10 @@ TrackingMode LD2415HComponent::i_to_TrackingMode_(uint8_t value) {
     case TrackingMode::APPROACHING:
       return TrackingMode::APPROACHING;
     case TrackingMode::RETREATING:
-      return TrackingMode::RETREATING
+      return TrackingMode::RETREATING;
     default:
       ESP_LOGE(TAG, "Invalid TrackingMode:%s", value);
-      return TrackingMode::APPROACHING_AND_RETREATING
+      return TrackingMode::APPROACHING_AND_RETREATING;
   }
 }
 
@@ -261,7 +261,7 @@ char* LD2415HComponent::TrackingMode_to_s_(TrackingMode value) {
       return "APPROACHING";
     case TrackingMode::RETREATING:
     default:
-      return "RETREATING"
+      return "RETREATING";
   }
 }
 
@@ -274,10 +274,10 @@ UnitOfMeasure LD2415HComponent::i_to_UnitOfMeasure_(uint8_t value) {
     case UnitOfMeasure::MPH:
       return UnitOfMeasure::MPH;
     case UnitOfMeasure::KPH:
-      return UnitOfMeasure::KPH
+      return UnitOfMeasure::KPH;
     default:
       ESP_LOGE(TAG, "Invalid UnitOfMeasure:%s", value);
-      return UnitOfMeasure::KPH
+      return UnitOfMeasure::KPH;
   }
 }
 
@@ -290,7 +290,7 @@ char* LD2415HComponent::UnitOfMeasure_to_s_(UnitOfMeasure value) {
       return "MPH";
     case UnitOfMeasure::KPH:
     default:
-      return "KPH"
+      return "KPH";
   }
 }
 
@@ -305,7 +305,7 @@ NegotiationMode LD2415HComponent::i_to_NegotiationMode_(uint8_t value) {
       return NegotiationMode::STANDARD_PROTOCOL;
     default:
       ESP_LOGE(TAG, "Invalid UnitOfMeasure:%s", key, value);
-      return NegotiationMode::CUSTOM_AGREEMENT
+      return NegotiationMode::CUSTOM_AGREEMENT;
   }
 }
 
@@ -316,7 +316,7 @@ char* LD2415HComponent::NegotiationMode_to_s_(NegotiationMode value) {
       return "CUSTOM_AGREEMENT";
     case NegotiationMode::STANDARD_PROTOCOL:
     default:
-      return "STANDARD_PROTOCOL"
+      return "STANDARD_PROTOCOL";
   }
 }
 
