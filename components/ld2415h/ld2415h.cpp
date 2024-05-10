@@ -67,13 +67,13 @@ void LD2415HComponent::dump_config() {
   ESP_LOGCONFIG(TAG, "  Minimum Speed Reported: %i", this->min_speed_reported_);
   ESP_LOGCONFIG(TAG, "  Angle Compensation: %i", this->angle_comp_);
   ESP_LOGCONFIG(TAG, "  Sensitivity: %i", this->sensitivity_);
-  ESP_LOGCONFIG(TAG, "  Tracking Mode: %s", this->tracking_mode_);
+  ESP_LOGCONFIG(TAG, "  Tracking Mode: %x", this->tracking_mode_);
   ESP_LOGCONFIG(TAG, "  Sampling Rate: %i", this->sample_rate_);
-  ESP_LOGCONFIG(TAG, "  Unit of Measure: %s", this->unit_of_measure_);
+  ESP_LOGCONFIG(TAG, "  Unit of Measure: %x", this->unit_of_measure_);
   ESP_LOGCONFIG(TAG, "  Vibration Correction: %i", this->vibration_correction_);
   ESP_LOGCONFIG(TAG, "  Relay Trigger Duration: %i", this->relay_trigger_duration_);
   ESP_LOGCONFIG(TAG, "  Relay Trigger Speed: %i", this->relay_trigger_speed_);
-  ESP_LOGCONFIG(TAG, "  Negotiation Mode: %s", this->negotiation_mode_);
+  ESP_LOGCONFIG(TAG, "  Negotiation Mode: %x", this->negotiation_mode_);
 
 
   // This triggers current sensor configurations to be dumped
