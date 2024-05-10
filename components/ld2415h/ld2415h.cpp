@@ -198,7 +198,7 @@ void LD2415HComponent::parse_config_() {
     }
     val = token;
     
-    this->render_config_(key, val);
+    this->parse_config_param_(key, val);
 
     token = strtok(NULL, delim);
   }
@@ -241,7 +241,7 @@ void LD2415HComponent::parse_velocity_() {
     }
 }
 
-void LD2415HComponent::render_config_(char* key, char* value) {
+void LD2415HComponent::parse_config_param_(char* key, char* value) {
   if(std::strlen(key) != 2 || std::strlen(value) != 2 || key[0] != 'X') {
       ESP_LOGE(TAG, "Invalid Parameter %s:%s", key, value);
       return;

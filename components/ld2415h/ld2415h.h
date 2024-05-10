@@ -78,7 +78,7 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
   void parse_config_();
   void parse_firmware_();
   void parse_velocity_();
-  void render_config_(char* key, char* value);
+  void parse_config_param_(char* key, char* value);
 };
 
 }  // namespace ld2415h
