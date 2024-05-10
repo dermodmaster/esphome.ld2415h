@@ -56,13 +56,13 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
   uint8_t min_speed_reported_ = 1;
   uint8_t angle_comp_ = 0;
   uint8_t sensitivity_ = 0;
-  TrackingMode tracking_mode_ = TrackingMode.Approaching;
+  TrackingMode tracking_mode_ = TrackingMode::Approaching;
   uint8_t sample_rate_ = 0;
-  UnitOfMeasure unit_of_measure_ = UnitOfMeasure.kph;
+  UnitOfMeasure unit_of_measure_ = UnitOfMeasure::kph;
   uint8_t vibration_correction_ = 5;
   uint8_t relay_trigger_duration_ = 3;
   uint8_t relay_trigger_speed_ = 1;
-  NegotiationMode negotiation_mode_ = NegotiationMode.CustomAgreement;
+  NegotiationMode negotiation_mode_ = NegotiationMode::CustomAgreement;
 
   char firmware_[20] = "";
   float velocity_ = 0;
