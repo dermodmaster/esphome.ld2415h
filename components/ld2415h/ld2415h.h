@@ -9,12 +9,12 @@ namespace ld2415h {
 
 class LD2415HComponent;
 
-class LD2415HComponent : public PollingComponent, public uart::UARTDevice {
+class LD2415HComponent : public Component, public uart::UARTDevice {
  public:
   float get_setup_priority() const override { return setup_priority::HARDWARE; }
 
   void setup() override;
-  void update() override;
+  //void update() override;
   void dump_config() override;
   void loop() override;
 

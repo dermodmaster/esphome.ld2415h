@@ -31,15 +31,6 @@ void LD2415HComponent::setup() {
   issue_command_(LD2415H_CONFIG_CMD, sizeof(LD2415H_CONFIG_CMD));
 }
 
-void LD2415HComponent::update() {
-  // Possibly setting config?
-  //ESP_LOGV(TAG, "sending measurement request");
-  //this->write_array(LD2415H_REQUEST, sizeof(LD2415H_REQUEST));
-
-
-//  if (this->speed_sensor_ != nullptr)
-//    this->speed_sensor_->publish_state(this->velocity_);
-
 /*
 uint8_t min_speed_reported_ = 1;    // 1 km/h
 uint8_t angle_comp_ = 0;            // None
@@ -56,7 +47,19 @@ char firmware_[20] = "";
 float velocity_ = 0;
 bool approaching_ = 1;
 */
+/*
+void LD2415HComponent::update() {
+  // Possibly setting config?
+  //ESP_LOGV(TAG, "sending measurement request");
+  //this->write_array(LD2415H_REQUEST, sizeof(LD2415H_REQUEST));
+
+
+//  if (this->speed_sensor_ != nullptr)
+//    this->speed_sensor_->publish_state(this->velocity_);
+
+
 }
+*/
 
 void LD2415HComponent::dump_config() {
   ESP_LOGCONFIG(TAG, "LD2415H:");
