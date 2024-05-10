@@ -214,6 +214,7 @@ void LD2415HComponent::parse_velocity_() {
       this->approaching_ = (*p == '+');
       ++p;
       this->velocity_ = atof(p);
+      ESP_LOGE(TAG, "Velocity updated: %f km/h", this->velocity_);
     } else {
       ESP_LOGE(TAG, "Firmware value invalid.");
     }
