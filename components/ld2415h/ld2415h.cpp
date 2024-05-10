@@ -37,13 +37,13 @@ void LD2415HComponent::dump_config() {
   ESP_LOGCONFIG(TAG, "  Minimum Speed Reported: %u kph", this->min_speed_reported_);
   ESP_LOGCONFIG(TAG, "  Angle Compensation: %u", this->angle_comp_);
   ESP_LOGCONFIG(TAG, "  Sensitivity: %u", this->sensitivity_);
-  ESP_LOGCONFIG(TAG, "  Tracking Mode: %u", uint8_t(this->tracking_mode_));
+  ESP_LOGCONFIG(TAG, "  Tracking Mode: %s", TrackingMode_to_s_(this->tracking_mode_));
   ESP_LOGCONFIG(TAG, "  Sampling Rate: %u", this->sample_rate_);
-  ESP_LOGCONFIG(TAG, "  Unit of Measure: %u", uint8_t(this->unit_of_measure_));
+  ESP_LOGCONFIG(TAG, "  Unit of Measure: %s", UnitOfMeasure_to_s_(this->unit_of_measure_));
   ESP_LOGCONFIG(TAG, "  Vibration Correction: %u", this->vibration_correction_);
   ESP_LOGCONFIG(TAG, "  Relay Trigger Duration: %u", this->relay_trigger_duration_);
   ESP_LOGCONFIG(TAG, "  Relay Trigger Speed: %u kph", this->relay_trigger_speed_);
-  ESP_LOGCONFIG(TAG, "  Negotiation Mode: %u", uint8_t(this->negotiation_mode_));
+  ESP_LOGCONFIG(TAG, "  Negotiation Mode: %s", NegotiationMode_to_s_(this->negotiation_mode_));
 }
 
 void LD2415HComponent::loop() {
@@ -247,7 +247,7 @@ TrackingMode LD2415HComponent::i_to_TrackingMode_(uint8_t value) {
     case TrackingMode::RETREATING:
       return TrackingMode::RETREATING;
     default:
-      ESP_LOGE(TAG, "Invalid TrackingMode:%s", value);
+      ESP_LOGE(TAG, "Invalid TrackingMode:%u", value);
       return TrackingMode::APPROACHING_AND_RETREATING;
   }
 }
@@ -276,7 +276,7 @@ UnitOfMeasure LD2415HComponent::i_to_UnitOfMeasure_(uint8_t value) {
     case UnitOfMeasure::KPH:
       return UnitOfMeasure::KPH;
     default:
-      ESP_LOGE(TAG, "Invalid UnitOfMeasure:%s", value);
+      ESP_LOGE(TAG, "Invalid UnitOfMeasure:%u", value);
       return UnitOfMeasure::KPH;
   }
 }
@@ -304,7 +304,7 @@ NegotiationMode LD2415HComponent::i_to_NegotiationMode_(uint8_t value) {
     case NegotiationMode::STANDARD_PROTOCOL:
       return NegotiationMode::STANDARD_PROTOCOL;
     default:
-      ESP_LOGE(TAG, "Invalid UnitOfMeasure:%s", key, value);
+      ESP_LOGE(TAG, "Invalid UnitOfMeasure:%u", value);
       return NegotiationMode::CUSTOM_AGREEMENT;
   }
 }
