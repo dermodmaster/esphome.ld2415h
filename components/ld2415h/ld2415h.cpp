@@ -178,7 +178,7 @@ void LD2415HComponent::parse_speed_() {
     ++p;
     this->speed_ = atof(p);
 
-    ESP_LOGD(TAG, "Speed updated: %f KPH", this->speed_);
+    ESP_LOGV(TAG, "Speed updated: %f KPH", this->speed_);
     
     if (this->speed_sensor_ != nullptr)
       this->speed_sensor_->publish_state(this->speed_);
