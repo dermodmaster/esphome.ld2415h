@@ -125,7 +125,7 @@ bool LD2415HComponent::fill_buffer_(char c) {
         break;
 
       clear_remaining_buffer_(this->response_buffer_index_);
-      ESP_LOGD(TAG, "Response Received:: %s", this->response_buffer_);
+      ESP_LOGV(TAG, "Response Received:: %s", this->response_buffer_);
       return true;
 
     default:
