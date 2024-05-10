@@ -260,7 +260,7 @@ uint8_t v = std::stoi(value, nullptr, 16);
       this->sensitivity_ = std::stoi(value, nullptr, 16);
       break;
     case '4':
-      if(uint8_t(TrackingMode::ApproachingAndRetreating) <= v && v <= uint8_t(TrackingMode::Restreating)) {
+      if(uv >= int8_t(TrackingMode::ApproachingAndRetreating) && v <= uint8_t(TrackingMode::Restreating)) {
         this->tracking_mode_ = TrackingMode(v);
       } else {
         ESP_LOGE(TAG, "Invalid Value %s:%s", key, value);
@@ -270,7 +270,7 @@ uint8_t v = std::stoi(value, nullptr, 16);
       this->sample_rate_ = v;
       break;
     case '6':
-      if(uint8_t(UnitOfMeasure::kph) <= v && v <= uint8_t(UnitOfMeasure::mps)) {
+      if(v >= uint8_t(UnitOfMeasure::kph) && v <= uint8_t(UnitOfMeasure::mps)) {
         this->unit_of_measure_ = UnitOfMeasure(v);
       } else {
         ESP_LOGE(TAG, "Invalid Value %s:%s", key, value);
@@ -286,7 +286,7 @@ uint8_t v = std::stoi(value, nullptr, 16);
       this->relay_trigger_speed_ = v;
       break;
     case '0':
-      if(uint8_t(NegotiationMode::CustomAgreement) <= v && v <= uint8_t(NegotiationMode::StandardProtocol)) {
+      if(v >= uint8_t(NegotiationMode::CustomAgreement) && v <= uint8_t(NegotiationMode::StandardProtocol)) {
         this->negotiation_mode_ = NegotiationMode(v);
       } else {
         ESP_LOGE(TAG, "Invalid Value %s:%s", key, value);
