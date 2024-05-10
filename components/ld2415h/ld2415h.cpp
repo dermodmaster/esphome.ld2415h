@@ -121,9 +121,11 @@ bool LD2415HComponent::fill_buffer_(char c) {
 
     case '\n':
       // End of response
-      if(this->response_buffer_index_ == 0) break;
+      if(this->response_buffer_index_ == 0)
+        break;
 
       clear_remaining_buffer_(this->response_buffer_index_);
+      ESP_LOGD(TAG, "Response Received:: %s", this->response_buffer_index_);
       return true;
 
     default:
