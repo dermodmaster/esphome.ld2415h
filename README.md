@@ -59,7 +59,7 @@ Example:
     | ----- | --------| ---- | ---- | ----------- |
     | 1     | ????    | 0x00 | 0x02 | Tracking Mode: <br>**0x00** : Approaching and retreating <br>**0x01** : Approaching <br>**0x02** : Retreating
     | 2     | 0x01    | 0x00 | ???? | The sample rate, higher values lower the rate. A value of 0 is ~22 samples per second, 1 is ~11. |
-    | 3     | 0x00    | 0x00 | 0x02 | Unit of Measure: <br>**0x00** : km/h <br>**0x01** : mi/h <br>**0x02** : m/s |
+    | 3     | 0x00    | 0x00 | 0x02 | Unit of Measure: <br>**0x00** : kph <br>**0x01** : mph <br>**0x02** : mps |
 
     Example:
 
@@ -82,7 +82,7 @@ Example:
     | Param | Default | Min  | Max  | Description |
     | ----- | --------| ---- | ---- | ----------- |
     | 1     | 0x00    | 0x00 | 0xff | Relay closure time when speed exceeds Param 2. |
-    | 2     | 0x00    | 0x00 | 0xff | The lowest detection value for the photocoupler pickup in km/h. |
+    | 2     | 0x00    | 0x00 | 0xff | The lowest detection value for the photocoupler pickup in kph. |
     | 3     | 0x00    | ???? | ???? | Undefined |
 
     Example:
@@ -125,10 +125,10 @@ Example:
     | X3    | Radar sensitivity. Smaller values have higher sensitivity and more interference. Larger values are less sensitive and more resilient to interference. |
     | X4    | Tracking Mode: <br>**0x00** : Approaching and retreating <br>**0x01** : Approaching <br>**0x02** : Retreating
     | X5    | The sample rate, higher values lower the rate. A value of 0 is ~22 samples per second, 1 is ~11. |
-    | X6    | Unit of Measure: <br>**0x00** : km/h <br>**0x01** : mi/h <br>**0x02** : m/s |
+    | X6    | Unit of Measure: <br>**0x00** : kph <br>**0x01** : mph <br>**0x02** : mps |
     | X7    | Vibration anti-interference coefficient used to reject false positives.  For example if the sensor is mounted to gently swaying pole. |
     | X8    | Relay closure time when speed exceeds Param 9. |
-    | X9    | The lowest detection value for the photocoupler pickup in km/h. |
+    | X9    | The lowest detection value for the photocoupler pickup in kph. |
     | X0    | Negotiation Mode: <br>**0x01** : Custom Agreement <br>**0x02** : Standard Protocol |
 
 
