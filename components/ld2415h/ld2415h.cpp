@@ -37,8 +37,8 @@ void LD2415HComponent::update() {
   //this->write_array(LD2415H_REQUEST, sizeof(LD2415H_REQUEST));
 
 
-  if (this->speed_sensor_ != nullptr)
-    this->speed_sensor_->publish_state(this->velocity_);
+//  if (this->speed_sensor_ != nullptr)
+//    this->speed_sensor_->publish_state(this->velocity_);
 
 /*
 uint8_t min_speed_reported_ = 1;    // 1 km/h
@@ -214,7 +214,11 @@ void LD2415HComponent::parse_velocity_() {
       this->approaching_ = (*p == '+');
       ++p;
       this->velocity_ = atof(p);
-      ESP_LOGE(TAG, "Velocity updated: %f km/h", this->velocity_);
+
+      ESP_LOGD(TAG, "Velocity updated: %f km/h", this->velocity_);
+      if (this->speed_sensor_ != nullptr)
+        this->speed_sensor_->publish_state(this->velocity_);
+
     } else {
       ESP_LOGE(TAG, "Firmware value invalid.");
     }
