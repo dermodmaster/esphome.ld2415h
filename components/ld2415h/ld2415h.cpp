@@ -260,7 +260,7 @@ uint8_t v = std::stoi(value, nullptr, 16);
       this->sensitivity_ = std::stoi(value, nullptr, 16);
       break;
     case '4':
-      if(uv >= int8_t(TrackingMode::ApproachingAndRetreating) && v <= uint8_t(TrackingMode::Restreating)) {
+      if(v >= int8_t(TrackingMode::ApproachingAndRetreating) && v <= uint8_t(TrackingMode::Restreating)) {
         this->tracking_mode_ = TrackingMode(v);
       } else {
         ESP_LOGE(TAG, "Invalid Value %s:%s", key, value);
