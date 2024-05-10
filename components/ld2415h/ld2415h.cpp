@@ -28,7 +28,6 @@ static const uint8_t LD2415H_RESPONSE_FOOTER[] = {0x0D, 0x0A};
 
 void LD2415HComponent::setup() {
   // This triggers current sensor configurations to be dumped
-  issue_command_(LD2415H_CONFIG_CMD, sizeof(LD2415H_CONFIG_CMD));
 }
 
 /*
@@ -62,8 +61,20 @@ void LD2415HComponent::update() {
 */
 
 void LD2415HComponent::dump_config() {
+  issue_command_(LD2415H_CONFIG_CMD, sizeof(LD2415H_CONFIG_CMD));
   ESP_LOGCONFIG(TAG, "LD2415H:");
-  ESP_LOGD(TAG, "Firmware: %s", this->firmware_);
+  ESP_LOGCONFIG(TAG, "  Firmware: %s", this->firmware_);
+  ESP_LOGCONFIG(TAG, "  Minimum Speed Reported: %i", this->min_speed_reported_);
+  ESP_LOGCONFIG(TAG, "  Angle Compensation: %i", this->angle_comp_);
+  ESP_LOGCONFIG(TAG, "  Sensitivity: %i", this->sensitivity_);
+  ESP_LOGCONFIG(TAG, "  Tracking Mode: %s", this->tracking_mode_);
+  ESP_LOGCONFIG(TAG, "  Sampling Rate: %i", this->sample_rate_);
+  ESP_LOGCONFIG(TAG, "  Unit of Measure: %s", this->unit_of_measure_);
+  ESP_LOGCONFIG(TAG, "  Vibration Correction: %i", this->vibration_correction_);
+  ESP_LOGCONFIG(TAG, "  Relay Trigger Duration: %i", this->relay_trigger_duration_);
+  ESP_LOGCONFIG(TAG, "  Relay Trigger Speed: %i", this->relay_trigger_speed_);
+  ESP_LOGCONFIG(TAG, "  Negotiation Mode: %s", this->negotiation_mode_);
+
 
   // This triggers current sensor configurations to be dumped
   //issue_command_(LD2415H_CONFIG_CMD, sizeof(LD2415H_CONFIG_CMD));
@@ -219,6 +230,7 @@ void LD2415HComponent::parse_velocity_() {
       this->velocity_ = atof(p);
 
       ESP_LOGD(TAG, "Velocity updated: %f km/h", this->velocity_);
+      
       if (this->speed_sensor_ != nullptr)
         this->speed_sensor_->publish_state(this->velocity_);
 
@@ -231,11 +243,13 @@ void LD2415HComponent::render_config_(char* key, char* value) {
   if(std::strlen(key) != 2 || std::strlen(value) != 2 || key[0] != 'X') {
       ESP_LOGE(TAG, "Invalid Parameter %s:%s", key, value);
       return;
-  }
+}
+
+uint8_t v = std::stoi(value, nullptr, 16);
 
   switch(key[1]) {
     case '1':
-      this->min_speed_reported_ = std::stoi(value, nullptr, 16);
+      this->min_speed_reported_ = v;
       break;
     case '2':
       this->angle_comp_ = std::stoi(value, nullptr, 16);
@@ -244,25 +258,38 @@ void LD2415HComponent::render_config_(char* key, char* value) {
       this->sensitivity_ = std::stoi(value, nullptr, 16);
       break;
     case '4':
-      this->tracking_mode_ = std::stoi(value, nullptr, 16);
+      if(TrackingMode.AproachingAndRetreating <= v <= TrackingMode.Retreating) {
+        this->tracking_mode_ = TrackingMode(v);
+      } else {
+        ESP_LOGE(TAG, "Invalid Value %s:%s", key, value);
+      }
       break;
     case '5':
-      this->sample_rate_ = std::stoi(value, nullptr, 16);
+      this->sample_rate_ = v;
       break;
     case '6':
-      this->unit_of_measure_ = std::stoi(value, nullptr, 16);
+      if(UnitOfMeasure.kph <= v <= UnitOfMeasure.mps) {
+        this->unit_of_measure_ = UnitOfMeasure(v);
+      } else {
+        ESP_LOGE(TAG, "Invalid Value %s:%s", key, value);
+      }
       break;
     case '7':
-      this->vibration_correction_ = std::stoi(value, nullptr, 16);
+      this->vibration_correction_ = v;
       break;
     case '8':
-      this->relay_trigger_duration_ = std::stoi(value, nullptr, 16);
+      this->relay_trigger_duration_ = v;
       break;
     case '9':
-      this->relay_trigger_speed_ = std::stoi(value, nullptr, 16);
+      this->relay_trigger_speed_ = v;
       break;
     case '0':
-      this->negotiation_mode_ = std::stoi(value, nullptr, 16);
+      if(NegotiationMode.CustomAgreement <= v <= NegotiationMode.StandardProtocol) {
+        this->negotiation_mode_ = NegotiationMode(v);
+      } else {
+        ESP_LOGE(TAG, "Invalid Value %s:%s", key, value);
+      }
+      this->negotiation_mode_ = v;
       break;
     default:
       ESP_LOGD(TAG, "Unknown Parameter %s:%s", key, value);

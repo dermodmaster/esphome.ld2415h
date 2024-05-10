@@ -7,6 +7,25 @@
 namespace esphome {
 namespace ld2415h {
 
+enum class TrackingMode {
+  ApproachingAndRetreating = 0x00,
+  Approaching = 0x01,
+  Restreating = 0x02
+};
+
+enum class UnitOfMeasure {
+  kph = 0x00,
+  mph = 0x01,
+  mps = 0x02
+};
+
+enum class NegotiationMode {
+  CustomAgreement = 0x01,
+  StandardProtocol = 0x02
+};
+
+
+
 class LD2415HComponent;
 
 class LD2415HComponent : public Component, public uart::UARTDevice {
@@ -34,16 +53,16 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
  protected:
   sensor::Sensor *speed_sensor_{nullptr};
   
-  uint8_t min_speed_reported_ = 1;    // 1 km/h
-  uint8_t angle_comp_ = 0;            // None
-  uint8_t sensitivity_ = 0;           // High
-  uint8_t tracking_mode_ = 1;         // Approaching
-  uint8_t sample_rate_ = 0;           // 22 fps
-  uint8_t unit_of_measure_ = 0;        // km/h
-  uint8_t vibration_correction_ = 5;   // 0-112
-  uint8_t relay_trigger_duration_ = 3; // 3 sec
-  uint8_t relay_trigger_speed_ = 1;    // 1 km/h
-  uint8_t negotiation_mode_ = 1;       // Custom Agreement
+  uint8_t min_speed_reported_ = 1;
+  uint8_t angle_comp_ = 0;
+  uint8_t sensitivity_ = 0;
+  TrackingMode tracking_mode_ = TrackingMode.Approaching;
+  uint8_t sample_rate_ = 0;
+  UnitOfMeasure unit_of_measure_ = UnitOfMeasure.kph;
+  uint8_t vibration_correction_ = 5;
+  uint8_t relay_trigger_duration_ = 3;
+  uint8_t relay_trigger_speed_ = 1;
+  NegotiationMode negotiation_mode_ = NegotiationMode.CustomAgreement;
 
   char firmware_[20] = "";
   float velocity_ = 0;
