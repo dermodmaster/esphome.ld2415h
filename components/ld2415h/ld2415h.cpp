@@ -56,7 +56,7 @@ void LD2415HComponent::set_min_speed_threshold(uint8_t speed) {
   cmd[4] = this->compensation_angle_;
   cmd[5] = this->sensitivity_;
 
-  this->issue_command_(cmd, sizeof(cmd));
+  //this->issue_command_(cmd, sizeof(cmd));
 };
 
 void LD2415HComponent::set_compensation_angle(uint8_t angle) {
@@ -69,7 +69,7 @@ void LD2415HComponent::set_compensation_angle(uint8_t angle) {
   cmd[4] = this->compensation_angle_;
   cmd[5] = this->sensitivity_;
 
-  this->issue_command_(cmd, sizeof(cmd));
+  //this->issue_command_(cmd, sizeof(cmd));
 };
 
 void LD2415HComponent::set_sensitivity(uint8_t sensitivity) {
@@ -82,7 +82,7 @@ void LD2415HComponent::set_sensitivity(uint8_t sensitivity) {
   cmd[4] = this->compensation_angle_;
   cmd[5] = this->sensitivity_;
 
-  this->issue_command_(cmd, sizeof(cmd));
+  //this->issue_command_(cmd, sizeof(cmd));
 };
 
 void LD2415HComponent::set_tracking_mode(TrackingMode mode) {
@@ -94,7 +94,7 @@ void LD2415HComponent::set_tracking_mode(TrackingMode mode) {
   cmd[3] = static_cast<uint8_t>(this->tracking_mode_);
   cmd[4] = this->sample_rate_;
 
-  this->issue_command_(cmd, sizeof(cmd));
+  //this->issue_command_(cmd, sizeof(cmd));
 };
 
 void LD2415HComponent::set_tracking_mode(uint8_t mode) {
@@ -110,7 +110,7 @@ void LD2415HComponent::set_sample_rate(uint8_t rate) {
   cmd[3] = static_cast<uint8_t>(this->tracking_mode_);
   cmd[4] = this->sample_rate_;
 
-  this->issue_command_(cmd, sizeof(cmd));
+  //this->issue_command_(cmd, sizeof(cmd));
 };
 
 void LD2415HComponent::set_vibration_correction(uint8_t correction) {
@@ -121,7 +121,7 @@ void LD2415HComponent::set_vibration_correction(uint8_t correction) {
 
   cmd[3] = this->vibration_correction_;
 
-  this->issue_command_(cmd, sizeof(cmd));
+  //this->issue_command_(cmd, sizeof(cmd));
 };
 
 void LD2415HComponent::set_relay_trigger_duration(uint8_t duration) {
@@ -133,7 +133,7 @@ void LD2415HComponent::set_relay_trigger_duration(uint8_t duration) {
   cmd[3] = this->relay_trigger_duration_;
   cmd[4] = this->relay_trigger_speed_;
 
-  this->issue_command_(cmd, sizeof(cmd));
+  //this->issue_command_(cmd, sizeof(cmd));
 };
 
 void LD2415HComponent::set_relay_trigger_speed(uint8_t speed) {
@@ -145,7 +145,7 @@ void LD2415HComponent::set_relay_trigger_speed(uint8_t speed) {
   cmd[3] = this->relay_trigger_duration_;
   cmd[4] = this->relay_trigger_speed_;
 
-  this->issue_command_(cmd, sizeof(cmd));
+  //this->issue_command_(cmd, sizeof(cmd));
 };
 
 void LD2415HComponent::issue_command_(const uint8_t cmd[], const uint8_t size) {
