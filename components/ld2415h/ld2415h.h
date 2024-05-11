@@ -40,6 +40,7 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
   void set_compensation_angle(uint8_t angle);
   void set_sensitivity(uint8_t sensitivity);
   void set_tracking_mode(TrackingMode mode);
+  void set_tracking_mode(uint8_t mode);
   void set_sample_rate(uint8_t rate);
   void set_vibration_correction(uint8_t correction);
   void set_relay_trigger_duration(uint8_t duration);
