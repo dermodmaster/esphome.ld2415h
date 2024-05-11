@@ -40,23 +40,13 @@ void LD2415HComponent::dump_config() {
   uint8_t cmd[sizeof(LD2415H_CMD_SET_SPEED_ANGLE_SENSE)];
   std::memcpy(cmd, LD2415H_CMD_SET_SPEED_ANGLE_SENSE, sizeof(LD2415H_CMD_SET_SPEED_ANGLE_SENSE));
 
-  std::stringstream ss;
-
-  ss << std::hex << std::setfill('0');
-  for (int i = 0; cmd[i] != 0; ++i) { ss << std::setw(2) << static_cast<int>(cmd[i]) << " "; }
-  std::string hexStr = ss.str();
- 
-  ESP_LOGD(TAG, "LD2415H_CMD_SET_SPEED_ANGLE_SENSE: %s", hexStr);
+  ESP_LOGD(TAG, "LD2415H_CMD_SET_SPEED_ANGLE_SENSE: %s", String(cmd));
 
   cmd[3] = this->min_speed_threshold_;
   cmd[4] = this->compensation_angle_;
   cmd[5] = this->sensitivity_;
 
-  for (int i = 0; cmd[i] != 0; ++i) { ss << std::setw(2) << static_cast<int>(cmd[i]) << " "; }
-  hexStr = ss.str();
-
-
-  ESP_LOGD(TAG, "LD2415H_CMD_SET_SPEED_ANGLE_SENSE: %s", hexStr);
+  ESP_LOGD(TAG, "LD2415H_CMD_SET_SPEED_ANGLE_SENSE: %s", String(cmd));
 
 }
 
