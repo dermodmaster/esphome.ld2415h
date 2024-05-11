@@ -42,7 +42,7 @@ void LD2415HComponent::dump_config() {
 
   ESP_LOGD(TAG, "LD2415H_CMD_SET_SPEED_ANGLE_SENSE: ");
   for(uint8_t i = 0; i < sizeof(cmd); i++)
-    ESP_LOGD(TAG, " %x", cmd[i]);
+    ESP_LOGD(TAG, " %02x", cmd[i]);
 
   cmd[3] = this->min_speed_threshold_;
   cmd[4] = this->compensation_angle_;
@@ -50,8 +50,9 @@ void LD2415HComponent::dump_config() {
 
   ESP_LOGD(TAG, "LD2415H_CMD_SET_SPEED_ANGLE_SENSE: ");
   for(uint8_t i = 0; i < sizeof(cmd); i++)
-    ESP_LOGD(TAG, " %x", cmd[i]);
+    ESP_LOGD(TAG, " %02x", cmd[i]);
 
+  this->issue_command_(cmd, sizeof(cmd));
 }
 
 void LD2415HComponent::loop() {
