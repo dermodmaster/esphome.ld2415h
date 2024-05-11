@@ -77,11 +77,11 @@ Example:
 
         > 0x43 0x46 0x03 0x00 0x00 0x00 0x0d 0x0a
 
-  - **0x04** : Set relay trigger time and trigger speed (only when using the photocoupler function)
+  - **0x04** : Set relay trigger duration and trigger speed threshold (only when using the photocoupler function)
 
     | Param | Default | Min  | Max  | Description |
     | ----- | --------| ---- | ---- | ----------- |
-    | 1     | 0x00    | 0x00 | 0xff | Relay closure time when speed exceeds Param 2. |
+    | 1     | 0x00    | 0x00 | 0xff | Relay closure duration when speed exceeds threshold. |
     | 2     | 0x00    | 0x00 | 0xff | The lowest detection value for the photocoupler pickup in kph. |
     | 3     | 0x00    | ???? | ???? | Undefined |
 
