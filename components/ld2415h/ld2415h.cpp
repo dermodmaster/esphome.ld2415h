@@ -37,20 +37,20 @@ void LD2415HComponent::dump_config() {
   ESP_LOGCONFIG(TAG, "  Negotiation Mode: %s", NegotiationMode_to_s_(this->negotiation_mode_));
 
 
-  uint8_t cmd[sizeof(LD2415H_CMD_SET_SPEED_ANGLE_SENSE)];
-  std::memcpy(cmd, LD2415H_CMD_SET_SPEED_ANGLE_SENSE, sizeof(LD2415H_CMD_SET_SPEED_ANGLE_SENSE));
+  //uint8_t cmd[sizeof(LD2415H_CMD_SET_SPEED_ANGLE_SENSE)];
+  //std::memcpy(cmd, LD2415H_CMD_SET_SPEED_ANGLE_SENSE, sizeof(LD2415H_CMD_SET_SPEED_ANGLE_SENSE));
 
-  cmd[3] = this->min_speed_threshold_;
-  cmd[4] = 45;
-  cmd[5] = this->sensitivity_;
+  //cmd[3] = this->min_speed_threshold;
+  //cmd[4] = 45;
+  //cmd[5] = this->sensitivity_;
 
-  ESP_LOGD(TAG, "LD2415H_CMD_SET_SPEED_ANGLE_SENSE: ");
-  for(uint8_t i = 0; i < sizeof(cmd); i++)
-    ESP_LOGD(TAG, "  0x%02x", cmd[i]);
+  //ESP_LOGD(TAG, "LD2415H_CMD_SET_SPEED_ANGLE_SENSE: ");
+  //for(uint8_t i = 0; i < sizeof(cmd); i++)
+  //  ESP_LOGD(TAG, "  0x%02x", cmd[i]);
 
-  this->issue_command_(cmd, sizeof(cmd));
+  //this->issue_command_(cmd, sizeof(cmd));
 
-  this->issue_command_(LD2415H_CMD_GET_CONFIG, sizeof(LD2415H_CMD_GET_CONFIG));
+  //this->issue_command_(LD2415H_CMD_GET_CONFIG, sizeof(LD2415H_CMD_GET_CONFIG));
 
 }
 
@@ -73,6 +73,10 @@ void LD2415HComponent::set_min_speed_threshold(uint8_t speed) {
   cmd[4] = this->compensation_angle_;
   cmd[5] = this->sensitivity_;
 
+  ESP_LOGD(TAG, "LD2415H_CMD_SET_SPEED_ANGLE_SENSE: ");
+  for(uint8_t i = 0; i < sizeof(cmd); i++)
+    ESP_LOGD(TAG, "  0x%02x", cmd[i]);
+  
   //this->issue_command_(cmd, sizeof(cmd));
 };
 
