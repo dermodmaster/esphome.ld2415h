@@ -174,7 +174,7 @@ void LD2415HComponent::set_relay_trigger_speed(uint8_t speed) {
 };
 
 void LD2415HComponent::issue_command_(const uint8_t cmd[], const uint8_t size) {
-  for(uint8_t i = 0; i < sizeof(cmd); i++)
+  for(uint8_t i = 0; i < size; i++)
     ESP_LOGD(TAG, "  0x%02x", cmd[i]);
 
   // Don't assume the response buffer is empty, clear it before issuing a command.
