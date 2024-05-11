@@ -36,6 +36,15 @@ void LD2415HComponent::dump_config() {
   ESP_LOGCONFIG(TAG, "  Relay Trigger Speed: %u KPH", this->relay_trigger_speed_);
   ESP_LOGCONFIG(TAG, "  Negotiation Mode: %s", NegotiationMode_to_s_(this->negotiation_mode_));
 
+  uint8_t cmd[sizeof(LD2415H_CMD_SET_SPEED_ANGLE_SENSE)];
+  std::memcpy(cmd, LD2415H_CMD_SET_SPEED_ANGLE_SENSE, sizeof(LD2415H_CMD_SET_SPEED_ANGLE_SENSE));
+
+  cmd[3] = this->min_speed_threshold_;
+  cmd[4] = this->compensation_angle_;
+  cmd[5] = this->sensitivity_;
+
+  ESP_LOGD(TAG, "LD2415H_CMD_SET_SPEED_ANGLE_SENSE: ");
+  this->issue_command_(cmd, sizeof(cmd));
 }
 
 void LD2415HComponent::loop() {
@@ -58,7 +67,7 @@ void LD2415HComponent::set_min_speed_threshold(uint8_t speed) {
   cmd[5] = this->sensitivity_;
 
   ESP_LOGD(TAG, "LD2415H_CMD_SET_SPEED_ANGLE_SENSE: ");
-  this->issue_command_(cmd, sizeof(cmd));
+  //this->issue_command_(cmd, sizeof(cmd));
 };
 
 void LD2415HComponent::set_compensation_angle(uint8_t angle) {
@@ -163,7 +172,7 @@ void LD2415HComponent::issue_command_(const uint8_t cmd[], const uint8_t size) {
 
   // Don't assume the response buffer is empty, clear it before issuing a command.
   clear_remaining_buffer_(0);
-  this->write_array(cmd, size);
+  //this->write_array(cmd, size);
 }
 
 bool LD2415HComponent::fill_buffer_(char c) {
