@@ -39,9 +39,7 @@ Example:
     0x43 0x46 0x01 0x01 0x00 0x05 0x0d 0x0a
 
 #### Supported Commands:
-  - **0x01** : 
-     
-     Set speed threshold, angular compensation, and sensitivity
+  - **0x01** : Set speed threshold, angular compensation, and sensitivity
 
     | Param | Default | Min  | Max  | Description |
     | ----- | --------| ---- | ---- | ----------- |
@@ -51,7 +49,7 @@ Example:
 
     Example:
 
-        > 0x43 0x46 0x01 0x01 0x00 0x05 0x0d 0x0a
+        >>> 0x43 0x46 0x01 0x01 0x00 0x05 0x0d 0x0a
 
   - **0x02** : Set tracking mode, sample rate, and unit of measure
 
@@ -63,7 +61,7 @@ Example:
 
     Example:
 
-        > 0x43 0x46 0x02 0x01 0x01 0x02 0x0d 0x0a
+        >>> 0x43 0x46 0x02 0x01 0x01 0x02 0x0d 0x0a
 
   - **0x03** : Set anti-vibration compensation
 
@@ -75,7 +73,7 @@ Example:
 
     Example:
 
-        > 0x43 0x46 0x03 0x00 0x00 0x00 0x0d 0x0a
+        >>> 0x43 0x46 0x03 0x00 0x00 0x00 0x0d 0x0a
 
   - **0x04** : Set relay trigger duration and trigger speed threshold (only when using the photocoupler function)
 
@@ -87,7 +85,7 @@ Example:
 
     Example:
 
-        > 0x43 0x46 0x04 0x05 0x20 0x00 0x0d 0x0a
+        >>> 0x43 0x46 0x04 0x05 0x20 0x00 0x0d 0x0a
 
   - **0x05** : Changes the Negotiation Mode (unknown purpose)
 
@@ -98,9 +96,9 @@ Example:
 
     Example:
 
-        > 0x43 0x46 0x05 0xfa 0x31 0x30 0x3d 0xfb 0x00
-        > 0x43 0x46 0x05 0xfa 0x55 0xaa 0xff 0xfb 0x00
-        Switch to CSR Mode... Done.
+        >>> 0x43 0x46 0x05 0xfa 0x31 0x30 0x3d 0xfb 0x00
+        >>> 0x43 0x46 0x05 0xfa 0x55 0xaa 0xff 0xfb 0x00
+        <<< Switch to CSR Mode... Done.
 
 
   - **0x07** : Read sensor configuration when in Standard Protocol mode.
@@ -145,11 +143,24 @@ external_components:
     components: ld2415h
     refresh: 0s
 
-sensor:
-  - platform: ld2415h
-
 uart:
   tx_pin: 36
   rx_pin: 34
   baud_rate: 9600
+
+sensor:
+  - platform: ld2415h
+    speed:
+      name: Speed
+      filters:
+        # Sensor reports on speed down to 1km/h
+        # we must zero out the speed manually
+        # when the sensor stops reporting.
+        - timeout:
+            timeout: 0.1s
+            value: 0
+        # Sensor will constantly report speed
+        # at the confgiured sample rate
+        # this ensures we only report changes
+        - delta: 0.1
 ```
