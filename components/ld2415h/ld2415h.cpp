@@ -46,7 +46,7 @@ void LD2415HComponent::dump_config() {
 
   ESP_LOGD(TAG, "LD2415H_CMD_SET_SPEED_ANGLE_SENSE: ");
   for(uint8_t i = 0; i < sizeof(cmd); i++)
-    ESP_LOGD(TAG, " %02x", cmd[i]);
+    ESP_LOGD(TAG, "  0x%02x", cmd[i]);
 
   this->issue_command_(cmd, sizeof(cmd));
 }
@@ -182,7 +182,7 @@ bool LD2415HComponent::fill_buffer_(char c) {
         break;
 
       clear_remaining_buffer_(this->response_buffer_index_);
-      ESP_LOGV(TAG, "Response Received:: %s", this->response_buffer_);
+      ESP_LOGD(TAG, "Response Received:: %s", this->response_buffer_);
       return true;
 
     default:
