@@ -263,6 +263,9 @@ void LD2415HComponent::parse_config_() {
 
     token = strtok(NULL, delim);
   }
+
+  ESP_LOGD(TAG, "Configuration received:");
+  this->dump_config();
 }
 
 void LD2415HComponent::parse_firmware_() {
