@@ -72,7 +72,7 @@ void LD2415HComponent::set_min_speed_threshold(uint8_t speed) {
   cmd[5] = this->sensitivity_;
 
   ESP_LOGD(TAG, "LD2415H_CMD_SET_SPEED_ANGLE_SENSE: ");
-  this->issue_command_(cmd, size);
+//  this->issue_command_(cmd, size);
 };
 
 void LD2415HComponent::set_compensation_angle(uint8_t angle) {
