@@ -45,6 +45,8 @@ void LD2415HComponent::dump_config() {
 
   ESP_LOGD(TAG, "LD2415H_CMD_SET_SPEED_ANGLE_SENSE: ");
   this->issue_command_(cmd, sizeof(cmd));
+
+  this->issue_command_(LD2415H_CMD_GET_CONFIG, sizeof(LD2415H_CMD_GET_CONFIG));
 }
 
 void LD2415HComponent::loop() {
