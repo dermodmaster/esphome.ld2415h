@@ -35,6 +35,19 @@ void LD2415HComponent::dump_config() {
   ESP_LOGCONFIG(TAG, "  Relay Trigger Duration: %u", this->relay_trigger_duration_);
   ESP_LOGCONFIG(TAG, "  Relay Trigger Speed: %u KPH", this->relay_trigger_speed_);
   ESP_LOGCONFIG(TAG, "  Negotiation Mode: %s", NegotiationMode_to_s_(this->negotiation_mode_));
+
+
+  uint8_t cmd[sizeof(LD2415H_CMD_SET_SPEED_ANGLE_SENSE)];
+  std::memcpy(cmd, LD2415H_CMD_SET_SPEED_ANGLE_SENSE, sizeof(LD2415H_CMD_SET_SPEED_ANGLE_SENSE));
+
+  ESP_LOGD(TAG, "LD2415H_CMD_SET_SPEED_ANGLE_SENSE: %s", cmd);
+
+  cmd[3] = this->min_speed_threshold_;
+  cmd[4] = this->compensation_angle_;
+  cmd[5] = this->sensitivity_;
+
+  ESP_LOGD(TAG, "LD2415H_CMD_SET_SPEED_ANGLE_SENSE: %s", cmd);
+
 }
 
 void LD2415HComponent::loop() {
