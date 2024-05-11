@@ -267,7 +267,19 @@ void LD2415HComponent::parse_config_() {
   }
 
   ESP_LOGD(TAG, "Configuration received:");
-  this->dump_config();
+  ESP_LOGCONFIG(TAG, "LD2415H:");
+  ESP_LOGCONFIG(TAG, "  Firmware: %s", this->firmware_);
+  ESP_LOGCONFIG(TAG, "  Minimum Speed Threshold: %u KPH", this->min_speed_threshold_);
+  ESP_LOGCONFIG(TAG, "  Compensation Angle: %u", this->compensation_angle_);
+  ESP_LOGCONFIG(TAG, "  Sensitivity: %u", this->sensitivity_);
+  ESP_LOGCONFIG(TAG, "  Tracking Mode: %s", TrackingMode_to_s_(this->tracking_mode_));
+  ESP_LOGCONFIG(TAG, "  Sampling Rate: %u", this->sample_rate_);
+  ESP_LOGCONFIG(TAG, "  Unit of Measure: %s", UnitOfMeasure_to_s_(this->unit_of_measure_));
+  ESP_LOGCONFIG(TAG, "  Vibration Correction: %u", this->vibration_correction_);
+  ESP_LOGCONFIG(TAG, "  Relay Trigger Duration: %u", this->relay_trigger_duration_);
+  ESP_LOGCONFIG(TAG, "  Relay Trigger Speed: %u KPH", this->relay_trigger_speed_);
+  ESP_LOGCONFIG(TAG, "  Negotiation Mode: %s", NegotiationMode_to_s_(this->negotiation_mode_));
+
 }
 
 void LD2415HComponent::parse_firmware_() {
