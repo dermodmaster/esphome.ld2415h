@@ -41,7 +41,7 @@ void LD2415HComponent::dump_config() {
   std::memcpy(cmd, LD2415H_CMD_SET_SPEED_ANGLE_SENSE, sizeof(LD2415H_CMD_SET_SPEED_ANGLE_SENSE));
 
   cmd[3] = this->min_speed_threshold_;
-  cmd[4] = this->compensation_angle_;
+  cmd[4] = 45;
   cmd[5] = this->sensitivity_;
 
   ESP_LOGD(TAG, "LD2415H_CMD_SET_SPEED_ANGLE_SENSE: ");
