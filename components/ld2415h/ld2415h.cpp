@@ -34,7 +34,7 @@ void LD2415HComponent::setup() {
 void LD2415HComponent::dump_config() {
   ESP_LOGCONFIG(TAG, "LD2415H:");
   ESP_LOGCONFIG(TAG, "  Firmware: %s", this->firmware_);
-  ESP_LOGCONFIG(TAG, "  Minimum Speed Reported: %u KPH", this->min_speed_reported_);
+  ESP_LOGCONFIG(TAG, "  Minimum Speed Threshold: %u KPH", this->min_speed_threshold_);
   ESP_LOGCONFIG(TAG, "  Angle Compensation: %u", this->angle_comp_);
   ESP_LOGCONFIG(TAG, "  Sensitivity: %u", this->sensitivity_);
   ESP_LOGCONFIG(TAG, "  Tracking Mode: %s", TrackingMode_to_s_(this->tracking_mode_));
@@ -198,7 +198,7 @@ void LD2415HComponent::parse_config_param_(char* key, char* value) {
 
   switch(key[1]) {
     case '1':
-      this->min_speed_reported_ = v;
+      this->min_speed_threshold_ = v;
       break;
     case '2':
       this->angle_comp_ = std::stoi(value, nullptr, 16);
