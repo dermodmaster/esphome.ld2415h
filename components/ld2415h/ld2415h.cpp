@@ -172,7 +172,7 @@ void LD2415HComponent::issue_command_(const uint8_t cmd[], const uint8_t size) {
 
   // Don't assume the response buffer is empty, clear it before issuing a command.
   clear_remaining_buffer_(0);
-  //this->write_array(cmd, size);
+  this->write_array(cmd, size);
 }
 
 bool LD2415HComponent::fill_buffer_(char c) {
