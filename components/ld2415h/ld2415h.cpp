@@ -28,10 +28,10 @@ static const uint8_t LD2415H_RESPONSE_FOOTER[] = {0x0D, 0x0A};
 
 void LD2415HComponent::setup() {
   // This triggers current sensor configurations to be dumped
+  issue_command_(LD2415H_CONFIG_CMD, sizeof(LD2415H_CONFIG_CMD));
 }
 
 void LD2415HComponent::dump_config() {
-  issue_command_(LD2415H_CONFIG_CMD, sizeof(LD2415H_CONFIG_CMD));
   ESP_LOGCONFIG(TAG, "LD2415H:");
   ESP_LOGCONFIG(TAG, "  Firmware: %s", this->firmware_);
   ESP_LOGCONFIG(TAG, "  Minimum Speed Reported: %u KPH", this->min_speed_reported_);
@@ -249,19 +249,6 @@ TrackingMode LD2415HComponent::i_to_TrackingMode_(uint8_t value) {
   }
 }
 
-const char* LD2415HComponent::TrackingMode_to_s_(TrackingMode value) {
-  switch (value)
-  {
-    case TrackingMode::APPROACHING_AND_RETREATING:
-      return "APPROACHING_AND_RETREATING";
-    case TrackingMode::APPROACHING:
-      return "APPROACHING";
-    case TrackingMode::RETREATING:
-    default:
-      return "RETREATING";
-  }
-}
-
 UnitOfMeasure LD2415HComponent::i_to_UnitOfMeasure_(uint8_t value) {
   UnitOfMeasure u = UnitOfMeasure(value);
   switch (u)
@@ -275,19 +262,6 @@ UnitOfMeasure LD2415HComponent::i_to_UnitOfMeasure_(uint8_t value) {
     default:
       ESP_LOGE(TAG, "Invalid UnitOfMeasure:%u", value);
       return UnitOfMeasure::KPH;
-  }
-}
-
-const char* LD2415HComponent::UnitOfMeasure_to_s_(UnitOfMeasure value) {
-  switch (value)
-  {
-    case UnitOfMeasure::MPS:
-      return "MPS";
-    case UnitOfMeasure::MPH:
-      return "MPH";
-    case UnitOfMeasure::KPH:
-    default:
-      return "KPH";
   }
 }
 
@@ -306,6 +280,32 @@ NegotiationMode LD2415HComponent::i_to_NegotiationMode_(uint8_t value) {
   }
 }
 
+const char* LD2415HComponent::TrackingMode_to_s_(TrackingMode value) {
+  switch (value)
+  {
+    case TrackingMode::APPROACHING_AND_RETREATING:
+      return "APPROACHING_AND_RETREATING";
+    case TrackingMode::APPROACHING:
+      return "APPROACHING";
+    case TrackingMode::RETREATING:
+    default:
+      return "RETREATING";
+  }
+}
+
+const char* LD2415HComponent::UnitOfMeasure_to_s_(UnitOfMeasure value) {
+  switch (value)
+  {
+    case UnitOfMeasure::MPS:
+      return "MPS";
+    case UnitOfMeasure::MPH:
+      return "MPH";
+    case UnitOfMeasure::KPH:
+    default:
+      return "KPH";
+  }
+}
+
 const char* LD2415HComponent::NegotiationMode_to_s_(NegotiationMode value) {
   switch (value)
   {
@@ -316,8 +316,6 @@ const char* LD2415HComponent::NegotiationMode_to_s_(NegotiationMode value) {
       return "STANDARD_PROTOCOL";
   }
 }
-
-
 
 }  // namespace ld2415h
 }  // namespace esphome
