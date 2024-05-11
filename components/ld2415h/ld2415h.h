@@ -81,11 +81,11 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
   void parse_config_param_(char* key, char* value);
 
   TrackingMode i_to_TrackingMode_(uint8_t value);
-  char* TrackingMode_to_s_(TrackingMode value);
+  const char* TrackingMode_to_s_(TrackingMode value);
   UnitOfMeasure i_to_UnitOfMeasure_(uint8_t value);
-  char* UnitOfMeasure_to_s_(UnitOfMeasure value);
+  const char* UnitOfMeasure_to_s_(UnitOfMeasure value);
   NegotiationMode i_to_NegotiationMode_(uint8_t value);
-  char* NegotiationMode_to_s_(NegotiationMode value);
+  const char* NegotiationMode_to_s_(NegotiationMode value);
 
 };
 
