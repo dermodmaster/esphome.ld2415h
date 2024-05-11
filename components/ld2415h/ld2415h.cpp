@@ -91,7 +91,7 @@ void LD2415HComponent::set_tracking_mode(TrackingMode mode) {
   uint8_t cmd[sizeof(LD2415H_CMD_SET_MODE_RATE_UOM)];
   std::memcpy(cmd, LD2415H_CMD_SET_MODE_RATE_UOM, sizeof(LD2415H_CMD_SET_MODE_RATE_UOM));
 
-  cmd[3] = this->tracking_mode_;
+  cmd[3] = static_cast<uint8_t>(this->tracking_mode_);
   cmd[4] = this->sample_rate_;
 
   issue_command_(cmd, sizeof(cmd));
@@ -103,7 +103,7 @@ void LD2415HComponent::set_sample_rate(uint8_t rate) {
   uint8_t cmd[sizeof(LD2415H_CMD_SET_MODE_RATE_UOM)];
   std::memcpy(cmd, LD2415H_CMD_SET_MODE_RATE_UOM, sizeof(LD2415H_CMD_SET_MODE_RATE_UOM));
 
-  cmd[3] = this->tracking_mode_;
+  cmd[3] = static_cast<uint8_t>(this->tracking_mode_);
   cmd[4] = this->sample_rate_;
 
   issue_command_(cmd, sizeof(cmd));
