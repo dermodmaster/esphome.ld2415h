@@ -46,7 +46,7 @@ void LD2415HComponent::loop() {
   }
 }
 
-void LD2415HComponent::set_min_speed_angle_sense(uint8_t speed) {
+void LD2415HComponent::set_min_speed_threshold(uint8_t speed) {
   this->min_speed_threshold_ = speed;
 
   uint8_t cmd[sizeof(LD2415H_CMD_SET_SPEED_ANGLE_SENSE)];
