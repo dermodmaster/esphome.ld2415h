@@ -44,7 +44,7 @@ Example:
     | Param | Default | Min  | Max  | Description |
     | ----- | --------| ---- | ---- | ----------- |
     | 1     | 0x01    | 0x01 | ???? | Represents the minimum speed reported by the sensor. |
-    | 2     | 0x00    | 0x00 | ???? | Angle of compensation between the center of the radar beam axis and the travel direction of objects. |
+    | 2     | 0x00    | 0x00 | ???? | Compensation angle between the center of the radar beam axis and the travel direction of objects. |
     | 3     | 0x05    | 0x01 | 0x0f | Radar sensitivity.  Smaller values have higher sensitivity and more interference.  Larger values are less sensitive and more resilient to interference. |
 
     Example:
@@ -119,7 +119,7 @@ Example:
     | Param | Description |
     | ----- | ----------- |
     | X1    | Represents the minimum speed reported by the sensor. |
-    | X2    | Angle of compensation between the center of the radar beam axis and the travel direction of objects. |
+    | X2    | Compensation angle between the center of the radar beam axis and the travel direction of objects. |
     | X3    | Radar sensitivity. Smaller values have higher sensitivity and more interference. Larger values are less sensitive and more resilient to interference. |
     | X4    | Tracking Mode: <br>**0x00** : Approaching and retreating <br>**0x01** : Approaching <br>**0x02** : Retreating
     | X5    | The sample rate, higher values lower the rate. A value of 0 is ~22 samples per second, 1 is ~11. |
