@@ -19,7 +19,7 @@ static const uint8_t LD2415H_CMD_GET_CONFIG[]               = {0x43, 0x46, 0x07,
 
 void LD2415HComponent::setup() {
   // This triggers current sensor configurations to be dumped
-  issue_command_(LD2415H_CMD_GET_CONFIG, sizeof(LD2415H_CMD_GET_CONFIG));
+  this->issue_command_(LD2415H_CMD_GET_CONFIG, sizeof(LD2415H_CMD_GET_CONFIG));
 }
 
 void LD2415HComponent::dump_config() {
@@ -49,6 +49,9 @@ void LD2415HComponent::dump_config() {
     ESP_LOGD(TAG, "  0x%02x", cmd[i]);
 
   this->issue_command_(cmd, sizeof(cmd));
+
+  this->issue_command_(LD2415H_CMD_GET_CONFIG, sizeof(LD2415H_CMD_GET_CONFIG));
+
 }
 
 void LD2415HComponent::loop() {
