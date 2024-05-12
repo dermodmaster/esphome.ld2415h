@@ -12,6 +12,7 @@ static const uint8_t LD2415H_CMD_SET_ANTI_VIB_COMP[]        = {0x43, 0x46, 0x03,
 static const uint8_t LD2415H_CMD_SET_RELAY_DURATION_SPEED[] = {0x43, 0x46, 0x04, 0x03, 0x01, 0x00, 0x0d, 0x0a};
 static const uint8_t LD2415H_CMD_GET_CONFIG[]               = {0x43, 0x46, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
+
 /* TODO ::
      * Create controls that expose settings
 */
@@ -19,7 +20,8 @@ static const uint8_t LD2415H_CMD_GET_CONFIG[]               = {0x43, 0x46, 0x07,
 
 void LD2415HComponent::setup() {
   // This triggers current sensor configurations to be dumped
-  this->issue_command_(LD2415H_CMD_GET_CONFIG, sizeof(LD2415H_CMD_GET_CONFIG));
+  //this->issue_command_(LD2415H_CMD_GET_CONFIG, sizeof(LD2415H_CMD_GET_CONFIG));
+  this->update_config_ = true;
 }
 
 void LD2415HComponent::dump_config() {
@@ -58,118 +60,102 @@ void LD2415HComponent::loop() {
       this->parse_buffer_();
     }
   }
+
+  if(this->update_speed_angle_sense_) {
+    ESP_LOGD(TAG, "LD2415H_CMD_SET_SPEED_ANGLE_SENSE: ");
+    this->cmd_speed_angle_sense_[3] = this->min_speed_threshold_;
+    this->cmd_speed_angle_sense_[4] = this->compensation_angle_;
+    this->cmd_speed_angle_sense_[5] = this->sensitivity_;
+
+    //this->issue_command_(this->cmd_speed_angle_sense_, sizeof(this->cmd_speed_angle_sense_));
+    this->update_speed_angle_sense_ = false;
+    return;
+  }
+
+  if(this->update_mode_rate_uom_) {
+    ESP_LOGD(TAG, "LD2415H_CMD_SET_MODE_RATE_UOM: ");
+    this->cmd_mode_rate_uom_[3] = static_cast<uint8_t>(this->tracking_mode_);
+    this->cmd_mode_rate_uom_[4] = this->sample_rate_;
+
+    //this->issue_command_(this->cmd_mode_rate_uom_, sizeof(this->cmd_mode_rate_uom_));
+    this->update_mode_rate_uom_ = false;
+    return;
+  }
+
+  if(this->update_anti_vib_comp_) {
+    ESP_LOGD(TAG, "LD2415H_CMD_SET_ANTI_VIB_COMP: ");
+    this->cmd_anti_vib_comp_[3] = this->vibration_correction_;
+
+    //this->issue_command_(this->cmd_anti_vib_comp_, sizeof(this->cmd_anti_vib_comp_));
+    this->update_anti_vib_comp_ = false;
+    return;
+  }
+
+  if(this->update_relay_duration_speed_) {
+    ESP_LOGD(TAG, "LD2415H_CMD_SET_RELAY_DURATION_SPEED: ");
+    this->cmd_relay_duration_speed_[3] = this->relay_trigger_duration_;
+    this->cmd_relay_duration_speed_[4] = this->relay_trigger_speed_;
+
+    //this->issue_command_(this->cmd_relay_duration_speed_, sizeof(this->cmd_relay_duration_speed_));
+    this->update_relay_duration_speed_ = false;
+    return;
+  }
+
+  if(this->update_config_) {
+    ESP_LOGD(TAG, "LD2415H_CMD_GET_CONFIG: ");
+
+    this->issue_command_(this->cmd_config_, sizeof(this->cmd_config_));
+    this->update_config_ = false;
+    return;
+  }
 }
 
-void LD2415HComponent::set_min_speed_threshold(uint8_t speed) {
+void LD2415HComponent::set_min_speed_threshold(uint8_t speed) {  
+  //uint8_t size = sizeof(LD2415H_CMD_SET_SPEED_ANGLE_SENSE);
+  //std::memcpy(this->cmd_speed_angle_sense_, LD2415H_CMD_SET_SPEED_ANGLE_SENSE, size);
+
   this->min_speed_threshold_ = speed;
-  
-  uint8_t size = sizeof(LD2415H_CMD_SET_SPEED_ANGLE_SENSE);
-  uint8_t cmd[size];
-  std::memcpy(cmd, LD2415H_CMD_SET_SPEED_ANGLE_SENSE, size);
-
-  cmd[3] = this->min_speed_threshold_;
-  cmd[4] = this->compensation_angle_;
-  cmd[5] = this->sensitivity_;
-
-  ESP_LOGD(TAG, "LD2415H_CMD_SET_SPEED_ANGLE_SENSE: ");
-//  this->issue_command_(cmd, size);
-};
+  this->update_speed_angle_sense_ = true;
+}
 
 void LD2415HComponent::set_compensation_angle(uint8_t angle) {
   this->compensation_angle_ = angle;
-
-  uint8_t cmd[sizeof(LD2415H_CMD_SET_SPEED_ANGLE_SENSE)];
-  std::memcpy(cmd, LD2415H_CMD_SET_SPEED_ANGLE_SENSE, sizeof(LD2415H_CMD_SET_SPEED_ANGLE_SENSE));
-
-  cmd[3] = this->min_speed_threshold_;
-  cmd[4] = this->compensation_angle_;
-  cmd[5] = this->sensitivity_;
-
-  ESP_LOGD(TAG, "LD2415H_CMD_SET_SPEED_ANGLE_SENSE: ");
-  //this->issue_command_(cmd, sizeof(cmd));
-};
+  this->update_speed_angle_sense_ = true;
+}
 
 void LD2415HComponent::set_sensitivity(uint8_t sensitivity) {
   this->sensitivity_ = sensitivity;
-
-  uint8_t cmd[sizeof(LD2415H_CMD_SET_SPEED_ANGLE_SENSE)];
-  std::memcpy(cmd, LD2415H_CMD_SET_SPEED_ANGLE_SENSE, sizeof(LD2415H_CMD_SET_SPEED_ANGLE_SENSE));
-
-  cmd[3] = this->min_speed_threshold_;
-  cmd[4] = this->compensation_angle_;
-  cmd[5] = this->sensitivity_;
-
-  ESP_LOGD(TAG, "LD2415H_CMD_SET_SPEED_ANGLE_SENSE: ");
-  //this->issue_command_(cmd, sizeof(cmd));
-};
+  this->update_speed_angle_sense_ = true;
+}
 
 void LD2415HComponent::set_tracking_mode(TrackingMode mode) {
   this->tracking_mode_ = mode;
-
-  uint8_t cmd[sizeof(LD2415H_CMD_SET_MODE_RATE_UOM)];
-  std::memcpy(cmd, LD2415H_CMD_SET_MODE_RATE_UOM, sizeof(LD2415H_CMD_SET_MODE_RATE_UOM));
-
-  cmd[3] = static_cast<uint8_t>(this->tracking_mode_);
-  cmd[4] = this->sample_rate_;
-
-  ESP_LOGD(TAG, "LD2415H_CMD_SET_MODE_RATE_UOM: ");
-  //this->issue_command_(cmd, sizeof(cmd));
-};
+  this->update_mode_rate_uom_ = true;
+}
 
 void LD2415HComponent::set_tracking_mode(uint8_t mode) {
   this->set_tracking_mode(i_to_TrackingMode_(mode));
-};
+}
 
 void LD2415HComponent::set_sample_rate(uint8_t rate) {
   this->sample_rate_ = rate;
-
-  uint8_t cmd[sizeof(LD2415H_CMD_SET_MODE_RATE_UOM)];
-  std::memcpy(cmd, LD2415H_CMD_SET_MODE_RATE_UOM, sizeof(LD2415H_CMD_SET_MODE_RATE_UOM));
-
-  cmd[3] = static_cast<uint8_t>(this->tracking_mode_);
-  cmd[4] = this->sample_rate_;
-
-  ESP_LOGD(TAG, "LD2415H_CMD_SET_MODE_RATE_UOM: ");
-  //this->issue_command_(cmd, sizeof(cmd));
-};
+  this->update_mode_rate_uom_ = true;
+}
 
 void LD2415HComponent::set_vibration_correction(uint8_t correction) {
   this->vibration_correction_ = correction;
-
-  uint8_t cmd[sizeof(LD2415H_CMD_SET_ANTI_VIB_COMP)];
-  std::memcpy(cmd, LD2415H_CMD_SET_ANTI_VIB_COMP, sizeof(LD2415H_CMD_SET_ANTI_VIB_COMP));
-
-  cmd[3] = this->vibration_correction_;
-
-  ESP_LOGD(TAG, "LD2415H_CMD_SET_ANTI_VIB_COMP: ");
-  //this->issue_command_(cmd, sizeof(cmd));
-};
+  this->update_anti_vib_comp_ = true;
+}
 
 void LD2415HComponent::set_relay_trigger_duration(uint8_t duration) {
   this->relay_trigger_duration_ = duration;
-
-  uint8_t cmd[sizeof(LD2415H_CMD_SET_RELAY_DURATION_SPEED)];
-  std::memcpy(cmd, LD2415H_CMD_SET_RELAY_DURATION_SPEED, sizeof(LD2415H_CMD_SET_RELAY_DURATION_SPEED));
-
-  cmd[3] = this->relay_trigger_duration_;
-  cmd[4] = this->relay_trigger_speed_;
-
-  ESP_LOGD(TAG, "LD2415H_CMD_SET_RELAY_DURATION_SPEED: ");
-  //this->issue_command_(cmd, sizeof(cmd));
-};
+  this->update_relay_duration_speed_ = true;
+}
 
 void LD2415HComponent::set_relay_trigger_speed(uint8_t speed) {
   this->relay_trigger_speed_ = speed;
-
-  uint8_t cmd[sizeof(LD2415H_CMD_SET_RELAY_DURATION_SPEED)];
-  std::memcpy(cmd, LD2415H_CMD_SET_RELAY_DURATION_SPEED, sizeof(LD2415H_CMD_SET_RELAY_DURATION_SPEED));
-
-  cmd[3] = this->relay_trigger_duration_;
-  cmd[4] = this->relay_trigger_speed_;
-
-  ESP_LOGD(TAG, "LD2415H_CMD_SET_RELAY_DURATION_SPEED: ");
-  //this->issue_command_(cmd, sizeof(cmd));
-};
+  this->update_relay_duration_speed_ = true;
+}
 
 void LD2415HComponent::issue_command_(const uint8_t cmd[], const uint8_t size) {
   for(uint8_t i = 0; i < size; i++)

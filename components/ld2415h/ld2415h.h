@@ -62,6 +62,18 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
   NegotiationMode negotiation_mode_ = NegotiationMode::CUSTOM_AGREEMENT;
 
   // State
+  uint8_t cmd_speed_angle_sense_[]    = {0x43, 0x46, 0x01, 0x01, 0x00, 0x05, 0x0d, 0x0a};
+  uint8_t cmd_mode_rate_uom_[]        = {0x43, 0x46, 0x02, 0x01, 0x01, 0x00, 0x0d, 0x0a};
+  uint8_t cmd_anti_vib_comp_[]        = {0x43, 0x46, 0x03, 0x05, 0x00, 0x00, 0x0d, 0x0a};
+  uint8_t cmd_relay_duration_speed_[] = {0x43, 0x46, 0x04, 0x03, 0x01, 0x00, 0x0d, 0x0a};
+  uint8_t cmd_config_[]               = {0x43, 0x46, 0x07, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+
+  bool update_speed_angle_sense_ = false;
+  bool update_mode_rate_uom_ = false;
+  bool update_anti_vib_comp_ = false;
+  bool update_relay_duration_speed_ = false;
+  bool update_config_ = false;
+
   char firmware_[20] = "";
   float speed_ = 0;
   bool approaching_ = 1;
