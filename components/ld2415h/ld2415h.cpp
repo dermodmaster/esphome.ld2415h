@@ -43,22 +43,6 @@ void LD2415HComponent::dump_config() {
   ESP_LOGCONFIG(TAG, "  Relay Trigger Duration: %u", this->relay_trigger_duration_);
   ESP_LOGCONFIG(TAG, "  Relay Trigger Speed: %u KPH", this->relay_trigger_speed_);
   ESP_LOGCONFIG(TAG, "  Negotiation Mode: %s", NegotiationMode_to_s_(this->negotiation_mode_));
-
-/*
-  uint8_t size = sizeof(LD2415H_CMD_SET_SPEED_ANGLE_SENSE);
-  uint8_t cmd[size];
-  std::memcpy(cmd, LD2415H_CMD_SET_SPEED_ANGLE_SENSE, size);
-
-  cmd[3] = this->min_speed_threshold_;
-  cmd[4] = this->compensation_angle_;
-  cmd[5] = this->sensitivity_;
-
-  ESP_LOGD(TAG, "LD2415H_CMD_SET_SPEED_ANGLE_SENSE: ");
-  this->issue_command_(cmd, size);
-
-  ESP_LOGD(TAG, "LD2415H_CMD_GET_CONFIG: ");
-  this->issue_command_(LD2415H_CMD_GET_CONFIG, sizeof(LD2415H_CMD_GET_CONFIG));
-*/
 }
 
 void LD2415HComponent::loop() {
@@ -77,6 +61,7 @@ void LD2415HComponent::loop() {
 
     this->issue_command_(this->cmd_speed_angle_sense_, sizeof(this->cmd_speed_angle_sense_));
     this->update_speed_angle_sense_ = false;
+    this->update_config_ = true;
     return;
   }
 
@@ -85,8 +70,9 @@ void LD2415HComponent::loop() {
     this->cmd_mode_rate_uom_[3] = static_cast<uint8_t>(this->tracking_mode_);
     this->cmd_mode_rate_uom_[4] = this->sample_rate_;
 
-    //this->issue_command_(this->cmd_mode_rate_uom_, sizeof(this->cmd_mode_rate_uom_));
+    this->issue_command_(this->cmd_mode_rate_uom_, sizeof(this->cmd_mode_rate_uom_));
     this->update_mode_rate_uom_ = false;
+    this->update_config_ = true;
     return;
   }
 
@@ -94,8 +80,9 @@ void LD2415HComponent::loop() {
     ESP_LOGD(TAG, "LD2415H_CMD_SET_ANTI_VIB_COMP: ");
     this->cmd_anti_vib_comp_[3] = this->vibration_correction_;
 
-    //this->issue_command_(this->cmd_anti_vib_comp_, sizeof(this->cmd_anti_vib_comp_));
+    this->issue_command_(this->cmd_anti_vib_comp_, sizeof(this->cmd_anti_vib_comp_));
     this->update_anti_vib_comp_ = false;
+    this->update_config_ = true;
     return;
   }
 
@@ -104,8 +91,9 @@ void LD2415HComponent::loop() {
     this->cmd_relay_duration_speed_[3] = this->relay_trigger_duration_;
     this->cmd_relay_duration_speed_[4] = this->relay_trigger_speed_;
 
-    //this->issue_command_(this->cmd_relay_duration_speed_, sizeof(this->cmd_relay_duration_speed_));
+    this->issue_command_(this->cmd_relay_duration_speed_, sizeof(this->cmd_relay_duration_speed_));
     this->update_relay_duration_speed_ = false;
+    this->update_config_ = true;
     return;
   }
 
