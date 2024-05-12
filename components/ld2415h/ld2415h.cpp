@@ -61,7 +61,6 @@ void LD2415HComponent::loop() {
 
     this->issue_command_(this->cmd_speed_angle_sense_, sizeof(this->cmd_speed_angle_sense_));
     this->update_speed_angle_sense_ = false;
-    this->update_config_ = true;
     return;
   }
 
@@ -72,7 +71,6 @@ void LD2415HComponent::loop() {
 
     this->issue_command_(this->cmd_mode_rate_uom_, sizeof(this->cmd_mode_rate_uom_));
     this->update_mode_rate_uom_ = false;
-    this->update_config_ = true;
     return;
   }
 
@@ -82,7 +80,6 @@ void LD2415HComponent::loop() {
 
     this->issue_command_(this->cmd_anti_vib_comp_, sizeof(this->cmd_anti_vib_comp_));
     this->update_anti_vib_comp_ = false;
-    this->update_config_ = true;
     return;
   }
 
@@ -93,7 +90,6 @@ void LD2415HComponent::loop() {
 
     this->issue_command_(this->cmd_relay_duration_speed_, sizeof(this->cmd_relay_duration_speed_));
     this->update_relay_duration_speed_ = false;
-    this->update_config_ = true;
     return;
   }
 
@@ -351,6 +347,7 @@ void LD2415HComponent::parse_config_param_(char* key, char* value) {
 
 TrackingMode LD2415HComponent::i_to_TrackingMode_(uint8_t value) {
   TrackingMode u = TrackingMode(value);
+  ESP_LOGD(TAG, "i_to_TrackingMode_: %i, %i", value, static_cast<uint8_t>(u));
   switch (u)
   {
     case TrackingMode::APPROACHING_AND_RETREATING:
