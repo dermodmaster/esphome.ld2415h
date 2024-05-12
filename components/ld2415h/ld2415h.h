@@ -69,7 +69,7 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
     uint8_t cmd_mode_rate_uom_[8];
     uint8_t cmd_anti_vib_comp_[8];
     uint8_t cmd_relay_duration_speed_[8];
-    uint8_t cmd_config_[8];
+    uint8_t cmd_config_[13];
 
     bool update_speed_angle_sense_ = false;
     bool update_mode_rate_uom_ = false;
