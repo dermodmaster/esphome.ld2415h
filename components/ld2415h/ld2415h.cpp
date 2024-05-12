@@ -163,10 +163,12 @@ bool LD2415HComponent::fill_buffer_(char c) {
     case 0x00:
     case 0xFF:
     case '\r':
+      ESP_LOGD(TAG, "Response Received:: \\r");
       // Ignore these characters
       break;
 
     case '\n':
+      ESP_LOGD(TAG, "Response Received:: \\n");
       // End of response
       if(this->response_buffer_index_ == 0)
         break;
