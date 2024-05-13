@@ -103,9 +103,6 @@ void LD2415HComponent::loop() {
 }
 
 void LD2415HComponent::set_min_speed_threshold(uint8_t speed) {  
-  //uint8_t size = sizeof(LD2415H_CMD_SET_SPEED_ANGLE_SENSE);
-  //std::memcpy(this->cmd_speed_angle_sense_, LD2415H_CMD_SET_SPEED_ANGLE_SENSE, size);
-
   this->min_speed_threshold_ = speed;
   this->update_speed_angle_sense_ = true;
 }
@@ -130,6 +127,7 @@ void LD2415HComponent::set_tracking_mode(uint8_t mode) {
 }
 
 void LD2415HComponent::set_sample_rate(uint8_t rate) {
+  ESP_LOGD(TAG, "set_sample_rate: %i", rate);
   this->sample_rate_ = rate;
   this->update_mode_rate_uom_ = true;
 }
@@ -163,18 +161,16 @@ bool LD2415HComponent::fill_buffer_(char c) {
     case 0x00:
     case 0xFF:
     case '\r':
-      ESP_LOGD(TAG, "Response Received:: \\r");
       // Ignore these characters
       break;
 
     case '\n':
-      ESP_LOGD(TAG, "Response Received:: \\n");
       // End of response
       if(this->response_buffer_index_ == 0)
         break;
 
       clear_remaining_buffer_(this->response_buffer_index_);
-      ESP_LOGD(TAG, "Response Received:: %s", this->response_buffer_);
+      ESP_LOGV(TAG, "Response Received:: %s", this->response_buffer_);
       return true;
 
     default:
