@@ -12,7 +12,7 @@
 namespace esphome {
 namespace ld2415h {
 
-enum class TrackingMode {
+enum class TrackingMode : uint8_t {
   APPROACHING_AND_RETREATING = 0x00,
   APPROACHING = 0x01,
   RETREATING = 0x02
