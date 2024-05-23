@@ -8,7 +8,6 @@
 #include "esphome/components/sensor/sensor.h"
 
 #include <map>
-#include <functional>
 
 namespace esphome {
 namespace ld2415h {
