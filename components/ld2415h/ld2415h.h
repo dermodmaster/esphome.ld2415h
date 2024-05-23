@@ -52,8 +52,10 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
     // Constructor declaration
     LD2415HComponent();
 
+#ifdef USE_SELECT
     void set_tracking_mode_select(select::Select *selector) { this->tracking_mode_ = selector; };
     void set_sample_rate_select(select::Select *selector) { this->sample_rate_ = selector; };
+#endif
 
     float get_setup_priority() const override { return setup_priority::HARDWARE; }
 
