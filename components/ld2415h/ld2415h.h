@@ -7,6 +7,8 @@
 #include "esphome/components/uart/uart.h"
 #include "esphome/components/sensor/sensor.h"
 
+#include <map>
+
 namespace esphome {
 namespace ld2415h {
 

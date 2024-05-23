@@ -43,6 +43,10 @@ void LD2415HComponent::dump_config() {
   ESP_LOGCONFIG(TAG, "  Relay Trigger Duration: %u", this->relay_trigger_duration_);
   ESP_LOGCONFIG(TAG, "  Relay Trigger Speed: %u KPH", this->relay_trigger_speed_);
   ESP_LOGCONFIG(TAG, "  Negotiation Mode: %s", NegotiationMode_to_s_(this->negotiation_mode_));
+#ifdef USE_SELECT
+  LOG_SELECT("  ", "TrackingModeSelect", this->tracking_mode_select_);
+  LOG_SELECT("  ", "SampleRateSelect", this->sample_rate_select_);
+#endif
 }
 
 void LD2415HComponent::loop() {
