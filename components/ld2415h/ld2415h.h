@@ -12,7 +12,7 @@
 namespace esphome {
 namespace ld2415h {
 
-enum class TrackingMode : uint8_t {
+enum TrackingMode : uint8_t {
   APPROACHING_AND_RETREATING = 0x00,
   APPROACHING = 0x01,
   RETREATING = 0x02
@@ -24,13 +24,13 @@ static const std::map<std::string, uint8_t> TRACKING_MODE_ENUM_TO_INT{
     {"Restreating", RETREATING}
 };
 
-enum class UnitOfMeasure {
+enum UnitOfMeasure : uint8_t {
   KPH = 0x00,
   MPH = 0x01,
   MPS = 0x02
 };
 
-enum class NegotiationMode {
+enum NegotiationMode : uint8_t{
   CUSTOM_AGREEMENT = 0x01,
   STANDARD_PROTOCOL = 0x02
 };
@@ -48,14 +48,12 @@ static const std::map<std::string, uint8_t> SAMPLE_RATE_ENUM_TO_INT{
 };
 
 class LD2415HComponent : public Component, public uart::UARTDevice {
-#ifdef USE_SELECT
-  SUB_SELECT(sample_rate)
-  SUB_SELECT(tracking_mode)
-#endif
-
   public:
     // Constructor declaration
     LD2415HComponent();
+
+    void set_tracking_mode_select(select::Select *selector) { this->tracking_mode_ = selector; };
+    void set_sample_rate_select(select::Select *selector) { this->sample_rate_ = selector; };
 
     float get_setup_priority() const override { return setup_priority::HARDWARE; }
 
@@ -64,6 +62,7 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
     void loop() override;
 
     void set_speed_sensor(sensor::Sensor *speed_sensor) { this->speed_sensor_ = speed_sensor; }
+
 
     void set_min_speed_threshold(uint8_t speed);
     void set_compensation_angle(uint8_t angle);
@@ -79,6 +78,10 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
   
   protected:
     sensor::Sensor *speed_sensor_{nullptr};
+#ifdef USE_SELECT
+    select::Select *sample_rate_{nullptr};
+    select::Select *tracking_mode_{nullptr};
+#endif
 
     // Configuration  
     uint8_t min_speed_threshold_ = 0;
