@@ -117,6 +117,11 @@ void LD2415HComponent::set_sensitivity(uint8_t sensitivity) {
   this->update_speed_angle_sense_ = true;
 }
 
+void LD2415HComponent::set_tracking_mode(const std::string &state) {
+  uint8_t rate = {TRACKING_MODE_ENUM_TO_INT.at(state), 0x00};
+  this->set_tracking_mode(rate);
+}
+
 void LD2415HComponent::set_tracking_mode(TrackingMode mode) {
   this->tracking_mode_ = mode;
   this->update_mode_rate_uom_ = true;
@@ -124,6 +129,11 @@ void LD2415HComponent::set_tracking_mode(TrackingMode mode) {
 
 void LD2415HComponent::set_tracking_mode(uint8_t mode) {
   this->set_tracking_mode(i_to_TrackingMode_(mode));
+}
+
+void LD2415HComponent::set_sample_rate(const std::string &state) {
+  uint8_t rate = {SAMPLE_RATE_ENUM_TO_INT.at(state), 0x00};
+  this->set_sample_rate(rate);
 }
 
 void LD2415HComponent::set_sample_rate(uint8_t rate) {

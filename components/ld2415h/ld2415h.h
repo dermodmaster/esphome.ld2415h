@@ -1,6 +1,9 @@
 #pragma once
 
 #include "esphome/core/component.h"
+#ifdef USE_SELECT
+#include "esphome/components/select/select.h"
+#endif
 #include "esphome/components/uart/uart.h"
 #include "esphome/components/sensor/sensor.h"
 
@@ -11,6 +14,12 @@ enum class TrackingMode {
   APPROACHING_AND_RETREATING = 0x00,
   APPROACHING = 0x01,
   RETREATING = 0x02
+};
+
+static const std::map<std::string, uint8_t> TRACKING_MODE_ENUM_TO_INT{
+    {"Approaching and Restreating", APPROACHING_AND_RETREATING},
+    {"Approaching", APPROACHING},
+    {"Restreating", RETREATING}
 };
 
 enum class UnitOfMeasure {
@@ -24,30 +33,47 @@ enum class NegotiationMode {
   STANDARD_PROTOCOL = 0x02
 };
 
-//class LD2415HComponent;
+enum SampleRateStructure : uint8_t {
+  SAMPLE_RATE_22FPS = 0x00,
+  SAMPLE_RATE_11FPS = 0x01,
+  SAMPLE_RATE_6FPS = 0x02
+};
+
+static const std::map<std::string, uint8_t> SAMPLE_RATE_ENUM_TO_INT{
+    {"~22 fps", SAMPLE_RATE_22FPS},
+    {"~11 fps", SAMPLE_RATE_11FPS},
+    {"~6 fps", SAMPLE_RATE_6FPS}
+};
 
 class LD2415HComponent : public Component, public uart::UARTDevice {
+#ifdef USE_SELECT
+  SUB_SELECT(sample_rate)
+  SUB_SELECT(tracking_mode)
+#endif
+
   public:
     // Constructor declaration
     LD2415HComponent();
 
-  float get_setup_priority() const override { return setup_priority::HARDWARE; }
+    float get_setup_priority() const override { return setup_priority::HARDWARE; }
 
-  void setup() override;
-  void dump_config() override;
-  void loop() override;
+    void setup() override;
+    void dump_config() override;
+    void loop() override;
 
-  void set_speed_sensor(sensor::Sensor *speed_sensor) { this->speed_sensor_ = speed_sensor; }
+    void set_speed_sensor(sensor::Sensor *speed_sensor) { this->speed_sensor_ = speed_sensor; }
 
-  void set_min_speed_threshold(uint8_t speed);
-  void set_compensation_angle(uint8_t angle);
-  void set_sensitivity(uint8_t sensitivity);
-  void set_tracking_mode(TrackingMode mode);
-  void set_tracking_mode(uint8_t mode);
-  void set_sample_rate(uint8_t rate);
-  void set_vibration_correction(uint8_t correction);
-  void set_relay_trigger_duration(uint8_t duration);
-  void set_relay_trigger_speed(uint8_t speed);  
+    void set_min_speed_threshold(uint8_t speed);
+    void set_compensation_angle(uint8_t angle);
+    void set_sensitivity(uint8_t sensitivity);
+    void set_tracking_mode(const std::string &state);
+    void set_tracking_mode(TrackingMode mode);
+    void set_tracking_mode(uint8_t mode);
+    void set_sample_rate(const std::string &state);
+    void set_sample_rate(uint8_t rate);
+    void set_vibration_correction(uint8_t correction);
+    void set_relay_trigger_duration(uint8_t duration);
+    void set_relay_trigger_speed(uint8_t speed);  
   
   protected:
     sensor::Sensor *speed_sensor_{nullptr};
