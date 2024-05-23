@@ -3,10 +3,11 @@ from esphome.components import select
 import esphome.config_validation as cv
 from esphome.const import (
     ENTITY_CATEGORY_CONFIG,
-    ICON_CLOCK_FAST,
-    ICON_RADAR,
 )
 from .. import CONF_LD2415H_ID, LD2415HComponent, ld2415h_ns
+
+ICON_CLOCK_FAST = "mdi:clock-fast"
+ICON_RADAR = "mdi:radar"
 
 CONF_SAMPLE_RATE = "sample_rate"
 CONF_SAMPLE_RATE_SELECTS = [
@@ -20,9 +21,6 @@ CONF_TRACKING_MODE_SELECTS = [
     "Approaching",
     "Restreating",
 ]
-
-ICON_CLOCK_FAST = "mdi:clock-fast"
-ICON_RADAR = "mdi:radar"
 
 SampleRateSelect = ld2415h_ns.class_("SampleRateSelect", select.Select)
 TrackingModeSelect = ld2415h_ns.class_("TrackingModeSelect", select.Select)
