@@ -21,6 +21,9 @@ CONF_TRACKING_MODE_SELECTS = [
     "Restreating",
 ]
 
+ICON_CLOCK_FAST = "mdi:clock-fast"
+ICON_RADAR = "mdi:radar"
+
 SampleRateSelect = ld2415h_ns.class_("SampleRateSelect", select.Select)
 TrackingModeSelect = ld2415h_ns.class_("TrackingModeSelect", select.Select)
 
