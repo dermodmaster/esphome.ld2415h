@@ -6,6 +6,9 @@ from esphome.const import (
 )
 from .. import CONF_LD2415H_ID, LD2415HComponent, ld2415h_ns
 
+SampleRateSelect = ld2415h_ns.class_("SampleRateSelect", select.Select)
+TrackingModeSelect = ld2415h_ns.class_("TrackingModeSelect", select.Select)
+
 ICON_CLOCK_FAST = "mdi:clock-fast"
 ICON_RADAR = "mdi:radar"
 
@@ -22,9 +25,6 @@ CONF_TRACKING_MODE_SELECTS = [
     "Restreating",
 ]
 
-SampleRateSelect = ld2415h_ns.class_("SampleRateSelect", select.Select)
-TrackingModeSelect = ld2415h_ns.class_("TrackingModeSelect", select.Select)
-
 CONFIG_SCHEMA = {
     cv.GenerateID(CONF_LD2415H_ID): cv.use_id(LD2415HComponent),
     cv.Optional(CONF_SAMPLE_RATE, default=1): select.select_schema(
@@ -32,7 +32,7 @@ CONFIG_SCHEMA = {
         entity_category=ENTITY_CATEGORY_CONFIG,
         icon=ICON_CLOCK_FAST,
     ),
-    cv.Optional(CONF_TRACKING_MODE): select.select_schema(
+    cv.Optional(CONF_TRACKING_MODE, default=0): select.select_schema(
         TrackingModeSelect,
         entity_category=ENTITY_CATEGORY_CONFIG,
         icon=ICON_RADAR,
