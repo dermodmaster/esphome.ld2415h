@@ -47,10 +47,19 @@ static const std::map<std::string, uint8_t> SAMPLE_RATE_ENUM_TO_INT{
     {"~6 fps", SAMPLE_RATE_6FPS}
 };
 
+class LD2415HListener {
+ public:
+  virtual void on_speed(uint8_t speed){};
+};
+
 class LD2415HComponent : public Component, public uart::UARTDevice {
   public:
     // Constructor declaration
     LD2415HComponent();
+    void setup() override;
+    void dump_config() override;
+    void loop() override;
+
 
 #ifdef USE_SELECT
     SUB_SELECT(tracking_mode)
@@ -60,12 +69,8 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
 #endif
 
     float get_setup_priority() const override { return setup_priority::HARDWARE; }
-
-    void setup() override;
-    void dump_config() override;
-    void loop() override;
-
     void set_speed_sensor(sensor::Sensor *speed_sensor) { this->speed_sensor_ = speed_sensor; }
+    void register_listener(LD2415HListener *listener) { this->listeners_.push_back(listener); }
 
 
     void set_min_speed_threshold(uint8_t speed);
@@ -135,6 +140,8 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
     const char* TrackingMode_to_s_(TrackingMode value);
     const char* UnitOfMeasure_to_s_(UnitOfMeasure value);
     const char* NegotiationMode_to_s_(NegotiationMode value);
+
+    std::vector<LD2415HListener *> listeners_{};
   };
 
 }  // namespace ld2415h
