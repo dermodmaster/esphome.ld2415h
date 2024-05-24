@@ -1,6 +1,6 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
-from esphome.components import uart, sensor
+from esphome.components import sensor
 from esphome.const import (
     CONF_ID,
     CONF_SPEED,
@@ -13,11 +13,10 @@ from .. import ld2415h_ns, LD2415HComponent, CONF_LD2415H_ID
 LD2415HSensor = ld2415h_ns.class_("LD2415HSensor", sensor.Sensor, cg.Component)
 
 #DEPENDENCIES = ["ld2415h"]
-
 ICON_SPEEDOMETER = "mdi:speedometer"
 
-CONFIG_SCHEMA = (
-    cv.Schema(
+CONFIG_SCHEMA = cv.All(
+    cv.COMPONENT_SCHEMA.extend(
         {
             cv.GenerateID(): cv.declare_id(LD2415HSensor),
             cv.GenerateID(CONF_LD2415H_ID): cv.use_id(LD2415HComponent),
@@ -28,7 +27,7 @@ CONFIG_SCHEMA = (
                 icon=ICON_SPEEDOMETER,
                 accuracy_decimals=1,
             ),
-        }   
+        }
     ),
 )
 
