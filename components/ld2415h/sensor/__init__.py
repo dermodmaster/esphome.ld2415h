@@ -8,7 +8,7 @@ from esphome.const import (
     STATE_CLASS_MEASUREMENT,
     UNIT_KILOMETER_PER_HOUR,
 )
-from . import ld2415h_ns, CONF_LD2415H_ID, LD2415HComponent
+from .. import ld2415h_ns, LD2415HComponent, CONF_LD2415H_ID
 
 LD2415HSensor = ld2415h_ns.class_("LD2415HSensor", sensor.Sensor, cg.Component)
 
@@ -40,4 +40,4 @@ async def to_code(config):
         sens = await sensor.new_sensor(speed)
         cg.add(var.set_speed_sensor(sens))
     ld2415h = await cg.get_variable(config[CONF_LD2415H_ID])
-    cg.add(ld2420.register_listener(var))
+    cg.add(ld2415h.register_listener(var))
