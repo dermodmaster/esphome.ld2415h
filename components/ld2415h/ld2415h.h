@@ -24,11 +24,13 @@ static const std::map<std::string, uint8_t> TRACKING_MODE_STR_TO_INT{
     {"Restreating", RETREATING}
 };
 
+/*
 static const std::map<std::string, uint8_t> TRACKING_MODE_INT_TO_STR{
     {APPROACHING_AND_RETREATING, "Approaching and Restreating"},
     {APPROACHING, "Approaching"},
     {RETREATING, "Restreating"}
 };
+*/
 
 enum UnitOfMeasure : uint8_t {
   KPH = 0x00,
@@ -53,11 +55,13 @@ static const std::map<std::string, uint8_t> SAMPLE_RATE_STR_TO_INT{
     {"~6 fps", SAMPLE_RATE_6FPS}
 };
 
+/*
 static const std::map<std::string, uint8_t> SAMPLE_RATE_INT_TO_STR{
     {SAMPLE_RATE_22FPS, "~22 fps"},
     {SAMPLE_RATE_11FPS, "~11 fps"},
     {SAMPLE_RATE_6FPS, "~6 fps"}
 };
+*/
 
 class LD2415HListener {
  public:
