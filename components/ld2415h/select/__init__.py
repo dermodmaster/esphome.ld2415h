@@ -46,11 +46,11 @@ async def to_code(config):
             options=[CONF_SAMPLE_RATE_SELECTS],
         )
         await cg.register_parented(sel, config[CONF_LD2415H_ID])
-        cg.add(ld2415h_component.set_sample_rate_select(s))
+        cg.add(ld2415h_component.set_sample_rate_select(sel))
     if tracking_mode_config := config.get(CONF_TRACKING_MODE):
         sel = await select.new_select(
             tracking_mode_config,
             options=[CONF_TRACKING_MODE_SELECTS],
         )
         await cg.register_parented(sel, config[CONF_LD2415H_ID])
-        cg.add(ld2415h_component.set_tracking_mode_select(s))
+        cg.add(ld2415h_component.set_tracking_mode_select(sel))
