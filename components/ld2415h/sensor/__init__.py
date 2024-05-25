@@ -12,7 +12,6 @@ from .. import ld2415h_ns, LD2415HComponent, CONF_LD2415H_ID
 
 LD2415HSensor = ld2415h_ns.class_("LD2415HSensor", sensor.Sensor, cg.Component)
 
-#DEPENDENCIES = ["ld2415h"]
 ICON_SPEEDOMETER = "mdi:speedometer"
 
 CONFIG_SCHEMA = cv.All(
