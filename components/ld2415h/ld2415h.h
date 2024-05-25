@@ -18,10 +18,16 @@ enum TrackingMode : uint8_t {
   RETREATING = 0x02
 };
 
-static const std::map<std::string, uint8_t> TRACKING_MODE_ENUM_TO_INT{
+static const std::map<std::string, uint8_t> TRACKING_MODE_STR_TO_INT{
     {"Approaching and Restreating", APPROACHING_AND_RETREATING},
     {"Approaching", APPROACHING},
     {"Restreating", RETREATING}
+};
+
+static const std::map<std::string, uint8_t> TRACKING_MODE_INT_TO_STR{
+    {APPROACHING_AND_RETREATING, "Approaching and Restreating"},
+    {APPROACHING, "Approaching"},
+    {RETREATING, "Restreating"}
 };
 
 enum UnitOfMeasure : uint8_t {
@@ -41,10 +47,16 @@ enum SampleRateStructure : uint8_t {
   SAMPLE_RATE_6FPS = 0x02
 };
 
-static const std::map<std::string, uint8_t> SAMPLE_RATE_ENUM_TO_INT{
+static const std::map<std::string, uint8_t> SAMPLE_RATE_STR_TO_INT{
     {"~22 fps", SAMPLE_RATE_22FPS},
     {"~11 fps", SAMPLE_RATE_11FPS},
     {"~6 fps", SAMPLE_RATE_6FPS}
+};
+
+static const std::map<std::string, uint8_t> SAMPLE_RATE_INT_TO_STR{
+    {SAMPLE_RATE_22FPS, "~22 fps"},
+    {SAMPLE_RATE_11FPS, "~11 fps"},
+    {SAMPLE_RATE_6FPS, "~6 fps"}
 };
 
 class LD2415HListener {

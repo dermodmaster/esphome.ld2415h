@@ -28,8 +28,8 @@ void LD2415HComponent::setup() {
   // This triggers current sensor configurations to be dumped
   //this->issue_command_(LD2415H_CMD_GET_CONFIG, sizeof(LD2415H_CMD_GET_CONFIG));
   this->update_config_ = true;
-  this->tracking_mode_selector_->publish_state(state);
-  this->sample_rate_selector_->publish_state(state);
+  this->tracking_mode_selector_->publish_state(TRACKING_MODE_INT_TO_STR(this->tracking_mode_));
+  this->sample_rate_selector_->publish_state(SAMPLE_RATE_INT_TO_STR(this->sample_rate_));
 }
 
 void LD2415HComponent::dump_config() {
@@ -125,7 +125,7 @@ void LD2415HComponent::set_sensitivity(uint8_t sensitivity) {
 }
 
 void LD2415HComponent::set_tracking_mode(const std::string &state) {
-  uint8_t mode = TRACKING_MODE_ENUM_TO_INT.at(state);
+  uint8_t mode = TRACKING_MODE_STR_TO_INT.at(state);
   this->set_tracking_mode(mode);
   this->tracking_mode_selector_->publish_state(state);
 }
@@ -140,7 +140,7 @@ void LD2415HComponent::set_tracking_mode(uint8_t mode) {
 }
 
 void LD2415HComponent::set_sample_rate(const std::string &state) {
-  uint8_t rate = SAMPLE_RATE_ENUM_TO_INT.at(state);
+  uint8_t rate = SAMPLE_RATE_STR_TO_INT.at(state);
   this->set_sample_rate(rate);
   this->sample_rate_selector_->publish_state(state);
 }
