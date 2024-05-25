@@ -6,7 +6,7 @@
 namespace esphome {
 namespace ld2415h {
 
-class SampleRateSelect : public select::Select, public Parented<LD2415HComponent> {
+class SampleRateSelect : public Component, select::Select, public Parented<LD2415HComponent> {
  public:
   SampleRateSelect() = default;
 

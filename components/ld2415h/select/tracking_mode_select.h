@@ -6,7 +6,7 @@
 namespace esphome {
 namespace ld2415h {
 
-class TrackingModeSelect : public select::Select, public Parented<LD2415HComponent> {
+class TrackingModeSelect : public Component, select::Select, public Parented<LD2415HComponent> {
  public:
   TrackingModeSelect() = default;
 

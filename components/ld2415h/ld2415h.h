@@ -62,10 +62,8 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
 
 
 #ifdef USE_SELECT
-    SUB_SELECT(tracking_mode)
-    SUB_SELECT(sample_rate)
-    //void set_tracking_mode_select(select::Select *selector) { this->tracking_mode_ = selector; };
-    //void set_sample_rate_select(select::Select *selector) { this->sample_rate_ = selector; };
+    void set_tracking_mode_select(select::Select *selector) { this->tracking_mode_ = selector; };
+    void set_sample_rate_select(select::Select *selector) { this->sample_rate_ = selector; };
 #endif
 
     float get_setup_priority() const override { return setup_priority::HARDWARE; }
