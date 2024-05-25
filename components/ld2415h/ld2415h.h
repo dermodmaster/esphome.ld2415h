@@ -2,14 +2,11 @@
 
 #include "esphome/core/component.h"
 #include "esphome/components/uart/uart.h"
-#include "esphome/core/automation.h"
-#include "esphome/core/helpers.h"
 #ifdef USE_SELECT
 #include "esphome/components/select/select.h"
 #endif
 
 #include <map>
-#include <functional>
 
 namespace esphome {
 namespace ld2415h {
@@ -64,8 +61,8 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
 
 
 #ifdef USE_SELECT
-    void set_tracking_mode_select(select::Select *selector) { this->tracking_mode_ = selector; };
-    void set_sample_rate_select(select::Select *selector) { this->sample_rate_ = selector; };
+    void set_tracking_mode_select(select::Select *selector) { this->tracking_mode_selector_ = selector; };
+    void set_sample_rate_select(select::Select *selector) { this->sample_rate_selector_ = selector; };
 #endif
 
     float get_setup_priority() const override { return setup_priority::HARDWARE; }
@@ -86,8 +83,8 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
     void set_relay_trigger_speed(uint8_t speed);  
 
 #ifdef USE_SELECT
-    select::Select *sample_rate_{nullptr};
-    select::Select *tracking_mode_{nullptr};
+    select::Select *sample_rate_selector_{nullptr};
+    select::Select *tracking_mode_selector_{nullptr};
 #endif
   
   protected:
