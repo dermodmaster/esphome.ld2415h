@@ -1,13 +1,15 @@
 #pragma once
 
 #include "esphome/core/component.h"
+#include "esphome/components/uart/uart.h"
+#include "esphome/core/automation.h"
+#include "esphome/core/helpers.h"
 #ifdef USE_SELECT
 #include "esphome/components/select/select.h"
 #endif
-#include "esphome/components/uart/uart.h"
-#include "esphome/components/sensor/sensor.h"
 
 #include <map>
+#include <functional>
 
 namespace esphome {
 namespace ld2415h {
@@ -82,13 +84,14 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
     void set_vibration_correction(uint8_t correction);
     void set_relay_trigger_duration(uint8_t duration);
     void set_relay_trigger_speed(uint8_t speed);  
-  
-  protected:
-    sensor::Sensor *speed_sensor_{nullptr};
+
 #ifdef USE_SELECT
     select::Select *sample_rate_{nullptr};
     select::Select *tracking_mode_{nullptr};
 #endif
+  
+  protected:
+    sensor::Sensor *speed_sensor_{nullptr};
 
     // Configuration  
     uint8_t min_speed_threshold_ = 0;
