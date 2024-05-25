@@ -2,6 +2,7 @@
 
 #include "esphome/core/component.h"
 #include "esphome/components/uart/uart.h"
+#include "esphome/components/sensor/sensor.h"
 #ifdef USE_SELECT
 #include "esphome/components/select/select.h"
 #endif
