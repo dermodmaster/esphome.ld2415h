@@ -23,47 +23,47 @@ CONF_VIBRATION_CORRECTION = "vibration_correction"
 CONF_RELAY_TRIGGER_DURATION = "relay_trigger_duration"
 CONF_RELAY_TRIGGER_SPEED = "relay_trigger_speed"
 
-MinSpeedThreshold    = ld2415h_ns.class_("MinSpeedThreshold"   , number.Number)
-CompensationAngle    = ld2415h_ns.class_("CompensationAngle"   , number.Number)
-Sensitivity          = ld2415h_ns.class_("Sensitivity"         , number.Number)
-VibrationCorrection  = ld2415h_ns.class_("VibrationCorrection" , number.Number)
-RelayTriggerDuration = ld2415h_ns.class_("RelayTriggerDuration", number.Number)
-RelayTriggerSpeed    = ld2415h_ns.class_("RelayTriggerSpeed"   , number.Number)
+MinSpeedThresholdNumber    = ld2415h_ns.class_("MinSpeedThresholdNumber"   , number.Number)
+CompensationAngleNumber    = ld2415h_ns.class_("CompensationAngleNumber"   , number.Number)
+SensitivityNumber          = ld2415h_ns.class_("SensitivityNumber"         , number.Number)
+VibrationCorrectionNumber  = ld2415h_ns.class_("VibrationCorrectionNumber" , number.Number)
+RelayTriggerDurationNumber = ld2415h_ns.class_("RelayTriggerDurationNumber", number.Number)
+RelayTriggerSpeedNumber    = ld2415h_ns.class_("RelayTriggerSpeedNumber"   , number.Number)
 
 CONFIG_SCHEMA = {
     cv.GenerateID(CONF_LD2415H_ID): cv.use_id(LD2415HComponent),
     cv.Optional(CONF_MIN_SPEED_THRESHOLD): number.number_schema(
-        MinSpeedThreshold,
+        MinSpeedThresholdNumber,
         unit_of_measurement=UNIT_KILOMETER_PER_HOUR,
         entity_category=ENTITY_CATEGORY_CONFIG,
         icon=ICON_SPEEDOMETER,
     ),
     cv.Optional(CONF_COMPENSATION_ANGLE): number.number_schema(
-        CompensationAngle,
+        CompensationAngleNumber,
         unit_of_measurement=UNIT_DEGREES,
         entity_category=ENTITY_CATEGORY_CONFIG,
         icon=ICON_COMPENSATION_ANGLE,
     ),
     cv.Optional(CONF_SENSITIVITY): number.number_schema(
-        Sensitivity,
+        SensitivityNumber,
         unit_of_measurement=UNIT_EMPTY,
         entity_category=ENTITY_CATEGORY_CONFIG,
         icon=ICON_SENSITIVITY,
     ),
     cv.Optional(CONF_VIBRATION_CORRECTION): number.number_schema(
-        VibrationCorrection,
+        VibrationCorrectionNumber,
         unit_of_measurement=UNIT_EMPTY,
         entity_category=ENTITY_CATEGORY_CONFIG,
         icon=ICON_VIBRATE,
     ),
     cv.Optional(CONF_RELAY_TRIGGER_DURATION): number.number_schema(
-        RelayTriggerDuration,
+        RelayTriggerDurationNumber,
         unit_of_measurement=UNIT_SECOND,
         entity_category=ENTITY_CATEGORY_CONFIG,
         icon=ICON_TIMELAPSE,
     ),
     cv.Optional(CONF_RELAY_TRIGGER_SPEED): number.number_schema(
-        RelayTriggerSpeed,
+        RelayTriggerSpeedNumber,
         unit_of_measurement=UNIT_KILOMETER_PER_HOUR,
         entity_category=ENTITY_CATEGORY_CONFIG,
         icon=ICON_SPEEDOMETER,
