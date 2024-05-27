@@ -63,12 +63,12 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
     void loop() override;
 
 #ifdef USE_NUMBER
-    void set_min_speed_threshold_number(number::Number *number) { this->min_speed_threshold_number = number; };
-    void set_compensation_angle_number(number::Number *number) { this->compensation_angle_number = number; };
-    void set_sensitivity_number(number::Number *number) { this->sensitivity_number = number; };
-    void set_vibration_correction_number(number::Number *number) { this->vibration_correction_number = number; };
-    void set_relay_trigger_duration_number(number::Number *number) { this->relay_trigger_duration_number = number; };
-    void set_relay_trigger_speed_number(number::Number *number) { this->relay_trigger_speed_number = number; };
+    void set_min_speed_threshold_number(number::Number *number) { this->min_speed_threshold_number_ = number; };
+    void set_compensation_angle_number(number::Number *number) { this->compensation_angle_number_ = number; };
+    void set_sensitivity_number(number::Number *number) { this->sensitivity_number_ = number; };
+    void set_vibration_correction_number(number::Number *number) { this->vibration_correction_number_ = number; };
+    void set_relay_trigger_duration_number(number::Number *number) { this->relay_trigger_duration_number_ = number; };
+    void set_relay_trigger_speed_number(number::Number *number) { this->relay_trigger_speed_number_ = number; };
 #endif
 #ifdef USE_SELECT
     void set_sample_rate_select(select::Select *selector) { this->sample_rate_selector_ = selector; };
@@ -91,12 +91,12 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
     void set_relay_trigger_speed(uint8_t speed);  
 
 #ifdef USE_NUMBER
-    number::Number *min_speed_threshold_number{nullptr};
-    number::Number *compensation_angle_number{nullptr};
-    number::Number *sensitivity_number{nullptr};
-    number::Number *vibration_correction_number{nullptr};
-    number::Number *relay_trigger_duration_number{nullptr};
-    number::Number *relay_trigger_speed_number{nullptr};
+    number::Number *min_speed_threshold_number_{nullptr};
+    number::Number *compensation_angle_number_{nullptr};
+    number::Number *sensitivity_number_{nullptr};
+    number::Number *vibration_correction_number_{nullptr};
+    number::Number *relay_trigger_duration_number_{nullptr};
+    number::Number *relay_trigger_speed_number_{nullptr};
 #endif
 #ifdef USE_SELECT
     select::Select *sample_rate_selector_{nullptr};
