@@ -28,8 +28,8 @@ void LD2415HComponent::setup() {
   // This triggers current sensor configurations to be dumped
   //this->issue_command_(LD2415H_CMD_GET_CONFIG, sizeof(LD2415H_CMD_GET_CONFIG));
   this->update_config_ = true;
-  //this->tracking_mode_selector_->publish_state(TRACKING_MODE_INT_TO_STR(this->tracking_mode_));
-  //this->sample_rate_selector_->publish_state(SAMPLE_RATE_INT_TO_STR(this->sample_rate_));
+  this->sample_rate_selector_->publish_state(SAMPLE_RATE_STR_TO_INT[this->sample_rate_]);
+  this->tracking_mode_selector_->publish_state(TRACKING_MODE_STR_TO_INT[this->tracking_mode_]);
 }
 
 void LD2415HComponent::dump_config() {

@@ -3,40 +3,16 @@
 #include "esphome/core/component.h"
 #include "esphome/components/uart/uart.h"
 #include "esphome/components/sensor/sensor.h"
+#ifdef USE_NUMBER
+#include "esphome/components/number/number.h"
+#endif
 #ifdef USE_SELECT
 #include "esphome/components/select/select.h"
 #endif
-
 #include <map>
 
 namespace esphome {
 namespace ld2415h {
-
-enum TrackingMode : uint8_t {
-  APPROACHING_AND_RETREATING = 0x00,
-  APPROACHING = 0x01,
-  RETREATING = 0x02
-};
-
-static const std::map<std::string, uint8_t> TRACKING_MODE_STR_TO_INT{
-    {"Approaching and Restreating", APPROACHING_AND_RETREATING},
-    {"Approaching", APPROACHING},
-    {"Restreating", RETREATING}
-};
-
-/*
-static const std::map<std::string, uint8_t> TRACKING_MODE_INT_TO_STR{
-    {APPROACHING_AND_RETREATING, "Approaching and Restreating"},
-    {APPROACHING, "Approaching"},
-    {RETREATING, "Restreating"}
-};
-*/
-
-enum UnitOfMeasure : uint8_t {
-  KPH = 0x00,
-  MPH = 0x01,
-  MPS = 0x02
-};
 
 enum NegotiationMode : uint8_t{
   CUSTOM_AGREEMENT = 0x01,
@@ -55,13 +31,23 @@ static const std::map<std::string, uint8_t> SAMPLE_RATE_STR_TO_INT{
     {"~6 fps", SAMPLE_RATE_6FPS}
 };
 
-/*
-static const std::map<std::string, uint8_t> SAMPLE_RATE_INT_TO_STR{
-    {SAMPLE_RATE_22FPS, "~22 fps"},
-    {SAMPLE_RATE_11FPS, "~11 fps"},
-    {SAMPLE_RATE_6FPS, "~6 fps"}
+enum TrackingMode : uint8_t {
+  APPROACHING_AND_RETREATING = 0x00,
+  APPROACHING = 0x01,
+  RETREATING = 0x02
 };
-*/
+
+static const std::map<std::string, uint8_t> TRACKING_MODE_STR_TO_INT{
+    {"Approaching and Restreating", APPROACHING_AND_RETREATING},
+    {"Approaching", APPROACHING},
+    {"Restreating", RETREATING}
+};
+
+enum UnitOfMeasure : uint8_t {
+  KPH = 0x00,
+  MPH = 0x01,
+  MPS = 0x02
+};
 
 class LD2415HListener {
  public:
@@ -76,16 +62,21 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
     void dump_config() override;
     void loop() override;
 
-
-#ifdef USE_SELECT
-    void set_tracking_mode_select(select::Select *selector) { this->tracking_mode_selector_ = selector; };
-    void set_sample_rate_select(select::Select *selector) { this->sample_rate_selector_ = selector; };
+#ifdef USE_NUMBER
+    void set_min_speed_threshold_number(number::Number *number) { this->min_speed_threshold_number = number; };
+    void set_compensation_angle_number(number::Number *number) { this->compensation_angle_number = number; };
+    void set_sensitivity_number(number::Number *number) { this->sensitivity_number = number; };
+    void set_vibration_correction_number(number::Number *number) { this->vibration_correction_number = number; };
+    void set_relay_trigger_duration_number(number::Number *number) { this->relay_trigger_duration_number = number; };
+    void set_relay_trigger_speed_number(number::Number *number) { this->relay_trigger_speed_number = number; };
 #endif
-
+#ifdef USE_SELECT
+    void set_sample_rate_select(select::Select *selector) { this->sample_rate_selector_ = selector; };
+    void set_tracking_mode_select(select::Select *selector) { this->tracking_mode_selector_ = selector; };
+#endif
     float get_setup_priority() const override { return setup_priority::HARDWARE; }
     //void set_speed_sensor(sensor::Sensor *speed_sensor) { this->speed_sensor_ = speed_sensor; }
     void register_listener(LD2415HListener *listener) { this->listeners_.push_back(listener); }
-
 
     void set_min_speed_threshold(uint8_t speed);
     void set_compensation_angle(uint8_t angle);
@@ -99,6 +90,14 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
     void set_relay_trigger_duration(uint8_t duration);
     void set_relay_trigger_speed(uint8_t speed);  
 
+#ifdef USE_NUMBER
+    number::Number *min_speed_threshold_number{nullptr};
+    number::Number *compensation_angle_number{nullptr};
+    number::Number *sensitivity_number{nullptr};
+    number::Number *vibration_correction_number{nullptr};
+    number::Number *relay_trigger_duration_number{nullptr};
+    number::Number *relay_trigger_speed_number{nullptr};
+#endif
 #ifdef USE_SELECT
     select::Select *sample_rate_selector_{nullptr};
     select::Select *tracking_mode_selector_{nullptr};

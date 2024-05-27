@@ -1,0 +1,19 @@
+#pragma once
+
+#include "esphome/components/number/number.h"
+#include "../ld2415h.h"
+
+namespace esphome {
+namespace ld2415h {
+
+class SensitivityNumber : public number::Number, public Parented<LD2415HComponent> {
+ public:
+  SensitivityNumber(uint8_t sensitivity);
+
+ protected:
+  uint8_t sensitivity_;
+  void control(uint8_t sensitivity) override;
+};
+
+}  // namespace ld2415h
+}  // namespace esphome
