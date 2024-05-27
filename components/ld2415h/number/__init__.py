@@ -3,8 +3,6 @@ from esphome.components import select
 import esphome.config_validation as cv
 from esphome.const import (
     ENTITY_CATEGORY_CONFIG,
-    ICON_TIMELAPSE,
-    ICON_VIBRATE,
     UNIT_DEGREES,
     UNIT_EMPTY,
     UNIT_KILOMETER_PER_HOUR,
@@ -15,6 +13,8 @@ from .. import CONF_LD2415H_ID, LD2415HComponent, ld2415h_ns
 ICON_COMPENSATION_ANGLE = "mdi:angle-acute"
 ICON_SENSITIVITY = "mdi:ear-hearing"
 ICON_SPEEDOMETER = "mdi:speedometer"
+ICON_TIMELAPSE = "mdi:timelapse"
+ICON_VIBRATE = "mdi:vibrate"
 
 CONF_MIN_SPEED_THRESHOLD = "min_speed_threshold"
 CONF_COMPENSATION_ANGLE = "compensation_angle"
