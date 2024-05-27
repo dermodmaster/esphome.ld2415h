@@ -1,5 +1,5 @@
 import esphome.codegen as cg
-from esphome.components import select
+from esphome.components import number
 import esphome.config_validation as cv
 from esphome.const import (
     ENTITY_CATEGORY_CONFIG,
