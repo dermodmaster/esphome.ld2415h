@@ -1,4 +1,6 @@
 #include "tracking_mode_select.h"
+#include "esphome/core/helpers.h"
+#include "esphome/core/log.h"
 
 namespace esphome {
 namespace ld2415h {
