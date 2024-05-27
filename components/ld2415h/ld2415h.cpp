@@ -314,6 +314,9 @@ void LD2415HComponent::parse_speed_() {
     if (this->speed_sensor_ != nullptr)
       this->speed_sensor_->publish_state(this->speed_);
 
+    if (this->approaching_binary_sensor_ != nullptr)
+      this->approaching_binary_sensor_->publish_state(this->approaching_);
+
   } else {
     ESP_LOGE(TAG, "Firmware value invalid.");
   }

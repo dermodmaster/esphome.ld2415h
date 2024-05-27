@@ -3,6 +3,7 @@
 #include "esphome/core/component.h"
 #include "esphome/components/uart/uart.h"
 #include "esphome/components/sensor/sensor.h"
+#include "esphome/components/binary_sensor/binary_sensor.h"
 #ifdef USE_NUMBER
 #include "esphome/components/number/number.h"
 #endif
@@ -33,6 +34,7 @@ enum UnitOfMeasure : uint8_t { KPH = 0x00, MPH = 0x01, MPS = 0x02 };
 class LD2415HListener {
  public:
   virtual void on_speed(uint8_t speed){};
+  virtual void on_approach(bool approaching){};
 };
 
 class LD2415HComponent : public Component, public uart::UARTDevice {
@@ -56,7 +58,6 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
   void set_tracking_mode_select(select::Select *selector) { this->tracking_mode_selector_ = selector; };
 #endif
   float get_setup_priority() const override { return setup_priority::HARDWARE; }
-  // void set_speed_sensor(sensor::Sensor *speed_sensor) { this->speed_sensor_ = speed_sensor; }
   void register_listener(LD2415HListener *listener) { this->listeners_.push_back(listener); }
 
   void set_min_speed_threshold(uint8_t speed);
@@ -86,6 +87,7 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
 
  protected:
   sensor::Sensor *speed_sensor_{nullptr};
+  binary_sensor::BinarySensor *approaching_binary_sensor_{nullptr};
 
   // Configuration
   uint8_t min_speed_threshold_ = 0;
