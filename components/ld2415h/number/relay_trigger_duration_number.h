@@ -8,10 +8,9 @@ namespace ld2415h {
 
 class RelayTriggerDurationNumber : public number::Number, public Parented<LD2415HComponent> {
  public:
-  RelayTriggerDurationNumber(uint8_t duration);
+  RelayTriggerDurationNumber() = default;
 
  protected:
-  uint8_t duration_;
   void control(uint8_t duration) override;
 };
 

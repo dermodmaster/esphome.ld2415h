@@ -3,11 +3,9 @@
 namespace esphome {
 namespace ld2415h {
 
-MinSpeedThresholdNumber::MinSpeedThresholdNumber(uint8_t speed) : speed_(speed) {}
-
 void MinSpeedThresholdNumber::control(uint8_t speed) {
   this->publish_state(speed);
-  this->parent_->set_min_speed_threshold(this->speed_);
+  this->parent_->set_min_speed_threshold(speed);
 }
 
 }  // namespace ld2415h

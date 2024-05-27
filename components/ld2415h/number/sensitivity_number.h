@@ -8,10 +8,9 @@ namespace ld2415h {
 
 class SensitivityNumber : public number::Number, public Parented<LD2415HComponent> {
  public:
-  SensitivityNumber(uint8_t sensitivity);
+  SensitivityNumber() = default;
 
  protected:
-  uint8_t sensitivity_;
   void control(uint8_t sensitivity) override;
 };
 

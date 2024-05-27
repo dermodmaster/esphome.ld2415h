@@ -8,10 +8,9 @@ namespace ld2415h {
 
 class MinSpeedThresholdNumber : public number::Number, public Parented<LD2415HComponent> {
  public:
-  MinSpeedThresholdNumber(uint8_t speed);
+  MinSpeedThresholdNumber() = default;
 
  protected:
-  uint8_t speed_;
   void control(uint8_t speed) override;
 };
 

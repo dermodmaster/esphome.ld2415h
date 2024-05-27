@@ -8,10 +8,9 @@ namespace ld2415h {
 
 class VibrationCorrectionNumber : public number::Number, public Parented<LD2415HComponent> {
  public:
-  VibrationCorrectionNumber(uint8_t correction);
+  VibrationCorrectionNumber() = default;
 
  protected:
-  uint8_t correction_;
   void control(uint8_t correction) override;
 };
 
