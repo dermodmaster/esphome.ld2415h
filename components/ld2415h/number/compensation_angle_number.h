@@ -8,10 +8,9 @@ namespace ld2415h {
 
 class CompensationAngleNumber : public number::Number, public Parented<LD2415HComponent> {
  public:
-  CompensationAngleNumber(uint8_t angle);
+  CompensationAngleNumber() = default;
 
  protected:
-  uint8_t angle_;
   void control(uint8_t angle) override;
 };
 
