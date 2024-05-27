@@ -1,7 +1,11 @@
 #include "min_speed_threshold_number.h"
+#include "esphome/core/helpers.h"
+#include "esphome/core/log.h"
 
 namespace esphome {
 namespace ld2415h {
+
+static const char *const TAG = "LD2415H.min_speed_threshold_number";
 
 void MinSpeedThresholdNumber::control(float speed) {
   this->publish_state(speed);
