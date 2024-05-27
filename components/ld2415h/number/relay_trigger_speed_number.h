@@ -11,7 +11,7 @@ class RelayTriggerSpeedNumber : public number::Number, public Parented<LD2415HCo
   RelayTriggerSpeedNumber() = default;
 
  protected:
-  void control(uint8_t speed) override;
+  void control(float speed) override;
 };
 
 }  // namespace ld2415h

@@ -11,7 +11,7 @@ class SensitivityNumber : public number::Number, public Parented<LD2415HComponen
   SensitivityNumber() = default;
 
  protected:
-  void control(uint8_t sensitivity) override;
+  void control(float sensitivity) override;
 };
 
 }  // namespace ld2415h

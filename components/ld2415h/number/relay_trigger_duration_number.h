@@ -11,7 +11,7 @@ class RelayTriggerDurationNumber : public number::Number, public Parented<LD2415
   RelayTriggerDurationNumber() = default;
 
  protected:
-  void control(uint8_t duration) override;
+  void control(float duration) override;
 };
 
 }  // namespace ld2415h

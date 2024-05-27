@@ -11,7 +11,7 @@ class VibrationCorrectionNumber : public number::Number, public Parented<LD2415H
   VibrationCorrectionNumber() = default;
 
  protected:
-  void control(uint8_t correction) override;
+  void control(float correction) override;
 };
 
 }  // namespace ld2415h
