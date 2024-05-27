@@ -37,8 +37,8 @@ void LD2415HComponent::setup() {
   this->relay_trigger_speed_number_->publish_state(this->relay_trigger_speed_);
 #endif
 #ifdef USE_SELECT
-  //this->sample_rate_selector_->publish_state(SAMPLE_RATE_STR_TO_INT.find(this->sample_rate_));
-  //this->tracking_mode_selector_->publish_state(TRACKING_MODE_STR_TO_INT.find(this->tracking_mode_));
+  this->sample_rate_selector_->publish_state(i_to_s_(SAMPLE_RATE_STR_TO_INT, this->sample_rate_));
+  this->tracking_mode_selector_->publish_state(i_to_s_(TRACKING_MODE_STR_TO_INT, this->tracking_mode_));
 #endif
 }
 
@@ -458,6 +458,15 @@ const char* LD2415HComponent::NegotiationMode_to_s_(NegotiationMode value) {
     default:
       return "STANDARD_PROTOCOL";
   }
+}
+
+const char* i_to_s_(std::map<std::string, uint8_t> map, uint8_t i) {
+  for (const auto& pair : map) {
+        if (pair.second == i) {
+            return pair.first;
+        }
+    }
+    return "Unknown";
 }
 
 }  // namespace ld2415h
