@@ -11,7 +11,7 @@ class CompensationAngleNumber : public number::Number, public Parented<LD2415HCo
   CompensationAngleNumber() = default;
 
  protected:
-  void control(uint8_t angle) override;
+  void control(float angle) override;
 };
 
 }  // namespace ld2415h
