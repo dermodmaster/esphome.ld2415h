@@ -4,11 +4,15 @@ from esphome.components import binary_sensor
 from esphome.const import (
     CONF_ID,
     CONF_BINARY_SENSOR,
+    DEVICE_CLASS_MOVING,
+    STATE_CLASS_MEASUREMENT,
 )
 from .. import ld2415h_ns, LD2415HComponent, CONF_LD2415H_ID
 
+ICON_APPROACHING = "mdi:arrow-left-right"
+
 ApproachingBinarySensor = ld2415h_ns.class_(
-    "ApproachingBinarySensor", binary_sensor.BinarySensor
+    "ApproachingBinarySensor", binary_sensor.BinarySensor, cg.Component
 )
 
 CONFIG_SCHEMA = cv.All(
@@ -17,7 +21,9 @@ CONFIG_SCHEMA = cv.All(
             cv.GenerateID(): cv.declare_id(ApproachingBinarySensor),
             cv.GenerateID(CONF_LD2415H_ID): cv.use_id(LD2415HComponent),
             cv.Optional(CONF_BINARY_SENSOR): binary_sensor.binary_sensor_schema(
-                ApproachingBinarySensor,
+                device_class=DEVICE_CLASS_MOVING,
+                state_class=STATE_CLASS_MEASUREMENT,
+                icon=ICON_APPROACHING,
             ),
         }
     ),
