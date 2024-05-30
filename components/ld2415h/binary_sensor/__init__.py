@@ -9,11 +9,11 @@ from esphome.const import (
 )
 from .. import ld2415h_ns, LD2415HComponent, CONF_LD2415H_ID
 
-ICON_APPROACHING = "mdi:arrow-left-right"
-
 LD2415HBinarySensor = ld2415h_ns.class_(
     "LD2415HBinarySensor", binary_sensor.BinarySensor, cg.Component
 )
+
+ICON_APPROACHING = "mdi:arrow-left-right"
 
 CONFIG_SCHEMA = cv.All(
     cv.COMPONENT_SCHEMA.extend(
