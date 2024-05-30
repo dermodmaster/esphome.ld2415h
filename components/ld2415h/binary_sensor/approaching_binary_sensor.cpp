@@ -5,10 +5,10 @@
 namespace esphome {
 namespace ld2415h {
 
-static const char *const TAG = "LD2415H.approaching_binary_sensor";
+static const char *const TAG = "LD2415H.binary_sensor";
 
-void ApproachingBinarySensor::dump_config() {
-  ESP_LOGCONFIG(TAG, "Approaching BinarySensor:");
+void LD2415HBinarySensor::dump_config() {
+  ESP_LOGCONFIG(TAG, "Binary Sensor:");
   LOG_SENSOR("  ", "Approaching", this->approaching_binary_sensor_);
 }
 
