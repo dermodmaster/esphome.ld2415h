@@ -1,7 +1,7 @@
 import esphome.codegen as cg
 import esphome.config_validation as cv
 from esphome.components import binary_sensor
-from esphome.const import CONF_ID, DEVICE_CLASS_MOVING
+from esphome.const import CONF_ID
 from .. import ld2415h_ns, LD2415HComponent, CONF_LD2415H_ID
 
 LD2415HBinarySensor = ld2415h_ns.class_(
@@ -18,7 +18,6 @@ CONFIG_SCHEMA = cv.All(
             cv.GenerateID(): cv.declare_id(LD2415HBinarySensor),
             cv.GenerateID(CONF_LD2415H_ID): cv.use_id(LD2415HComponent),
             cv.Optional(CONF_APPROACHING): binary_sensor.binary_sensor_schema(
-                device_class=DEVICE_CLASS_MOVING,
                 icon=ICON_APPROACHING,
             ),
         }
