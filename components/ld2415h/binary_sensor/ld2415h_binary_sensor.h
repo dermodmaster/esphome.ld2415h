@@ -14,9 +14,8 @@ class LD2415HBinarySensor : public LD2415HListener, public Component, binary_sen
   }
   void on_approach(bool approaching) override {
     if (this->approaching_binary_sensor_ != nullptr) {
-      if (this->approaching_binary_sensor_->state != approaching) {
+      if (this->approaching_binary_sensor_->state != approaching)
         this->approaching_binary_sensor_->publish_state(approaching);
-      }
     }
   }
 

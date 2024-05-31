@@ -8,7 +8,7 @@ namespace ld2415h {
 static const char *const TAG = "LD2415H.binary_sensor";
 
 void LD2415HBinarySensor::dump_config() {
-  ESP_LOGCONFIG(TAG, "Binary Sensor:");
+  ESP_LOGCONFIG(TAG, "LD2415H Binary Sensor:");
   LOG_BINARY_SENSOR("  ", "Approaching", this->approaching_binary_sensor_);
 }
 
