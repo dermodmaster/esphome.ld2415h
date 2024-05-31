@@ -9,7 +9,7 @@ namespace ld2415h {
 class LD2415HBinarySensor : public LD2415HListener, public Component, binary_sensor::BinarySensor {
  public:
   void dump_config() override;
-  void set_approaching_sensor(sensor::BinarySensor *binary_sensor) { 
+  void set_approaching_sensor(binary_sensor::BinarySensor *binary_sensor) { 
     this->approaching_binary_sensor_ = binary_sensor; 
   }
   void on_approach(bool approaching) override {
