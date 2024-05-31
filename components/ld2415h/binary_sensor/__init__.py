@@ -22,7 +22,6 @@ CONFIG_SCHEMA = cv.All(
             cv.GenerateID(CONF_LD2415H_ID): cv.use_id(LD2415HComponent),
             cv.Optional(CONF_BINARY_SENSOR): binary_sensor.binary_sensor_schema(
                 device_class=DEVICE_CLASS_MOVING,
-                state_class=STATE_CLASS_MEASUREMENT,
                 icon=ICON_APPROACHING,
             ),
         }
