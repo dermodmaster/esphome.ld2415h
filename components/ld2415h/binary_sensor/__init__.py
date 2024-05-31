@@ -5,7 +5,6 @@ from esphome.const import (
     CONF_ID,
     CONF_BINARY_SENSOR,
     DEVICE_CLASS_MOVING,
-    STATE_CLASS_MEASUREMENT,
 )
 from .. import ld2415h_ns, LD2415HComponent, CONF_LD2415H_ID
 

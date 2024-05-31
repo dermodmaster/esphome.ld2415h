@@ -1,4 +1,4 @@
-#include "ld2451h_binary_sensor.h"
+#include "ld2415h_binary_sensor.h"
 #include "esphome/core/helpers.h"
 #include "esphome/core/log.h"
 
