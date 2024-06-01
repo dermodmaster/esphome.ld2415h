@@ -42,7 +42,19 @@ CONFIG_SCHEMA = cv.All(
 )
 
 
+#async def to_code(config):
+#    var = cg.new_Pvariable(config[CONF_ID])
+#    await cg.register_component(var, config)
+#    if speed := config.get(CONF_SPEED):
+#        sens = await sensor.new_sensor(speed)
+#        cg.add(var.set_speed_sensor(sens))
+#    ld2415h = await cg.get_variable(config[CONF_LD2415H_ID])
+#    cg.add(ld2415h.register_listener(var))
+
+
 async def to_code(config):
+    var = cg.new_Pvariable(config[CONF_ID])
+    await cg.register_component(var, config)
     ld2415h_component = await cg.get_variable(config[CONF_LD2415H_ID])
     if speed := config.get(CONF_SPEED):
         sens = await sensor.new_sensor(speed)
@@ -53,5 +65,4 @@ async def to_code(config):
         sens = await sensor.new_sensor(velocity)
         await cg.register_parented(sens, config[CONF_LD2415H_ID])
         cg.add(ld2415h_component.set_speed_sensor(sens))
-    var = cg.new_Pvariable(config[CONF_ID])
     cg.add(ld2415h_component.register_listener(var))
