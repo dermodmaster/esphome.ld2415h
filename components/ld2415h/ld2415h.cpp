@@ -312,7 +312,7 @@ void LD2415HComponent::parse_speed_() {
 
     for (auto &listener : this->listeners_) {
       listener->on_speed(this->speed_);
-      listener->on_approaching(this->approaching_);
+      listener->on_approach(this->approaching_);
     }
 
     if (this->speed_sensor_ != nullptr)
