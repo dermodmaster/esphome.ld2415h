@@ -33,7 +33,8 @@ enum UnitOfMeasure : uint8_t { KPH = 0x00, MPH = 0x01, MPS = 0x02 };
 
 class LD2415HListener {
  public:
-  virtual void on_speed(uint8_t speed){};
+  virtual void on_speed(double speed){};
+  virtual void on_velocity(double velocity){};
   virtual void on_approach(bool approaching){};
 };
 
@@ -87,6 +88,7 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
 
  protected:
   sensor::Sensor *speed_sensor_{nullptr};
+  sensor::Sensor *velocity_sensor_{nullptr};
   binary_sensor::BinarySensor *approaching_binary_sensor_{nullptr};
 
   // Configuration
@@ -115,7 +117,8 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
   bool update_config_ = false;
 
   char firmware_[20] = "";
-  float speed_ = 0;
+  double speed_ = 0;
+  double velocity_ = 0;
   bool approaching_ = true;
   char response_buffer_[64];
   uint8_t response_buffer_index_ = 0;
