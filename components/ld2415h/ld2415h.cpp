@@ -304,7 +304,7 @@ void LD2415HComponent::parse_speed_() {
 
   if (p != nullptr) {
     ++p;
-    this->approaching_ = (*p == '+');
+    //this->approaching_ = (*p == '+');
     this->velocity_ = strtod(p, nullptr);
     ++p;
     this->speed_ = strtod(p, nullptr);
@@ -323,9 +323,6 @@ void LD2415HComponent::parse_speed_() {
 
     if (this->velocity_sensor_ != nullptr)
       this->velocity_sensor_->publish_state(this->velocity_);
-
-    if (this->approaching_binary_sensor_ != nullptr)
-      this->approaching_binary_sensor_->publish_state(this->approaching_);
 
   } else {
     ESP_LOGE(TAG, "Firmware value invalid.");

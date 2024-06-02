@@ -2,7 +2,6 @@
 
 #include "esphome/core/component.h"
 #include "esphome/components/uart/uart.h"
-#include "esphome/components/binary_sensor/binary_sensor.h"
 #include "esphome/components/sensor/sensor.h"
 #ifdef USE_NUMBER
 #include "esphome/components/number/number.h"
@@ -91,7 +90,6 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
  protected:
   sensor::Sensor *speed_sensor_{nullptr};
   sensor::Sensor *velocity_sensor_{nullptr};
-  binary_sensor::BinarySensor *approaching_binary_sensor_{nullptr};
 
   // Configuration
   uint8_t min_speed_threshold_ = 0;
@@ -121,7 +119,6 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
   char firmware_[20] = "";
   double speed_ = 0;
   double velocity_ = 0;
-  bool approaching_ = true;
   char response_buffer_[64];
   uint8_t response_buffer_index_ = 0;
 
