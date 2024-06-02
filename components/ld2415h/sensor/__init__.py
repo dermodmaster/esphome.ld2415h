@@ -20,8 +20,6 @@ CONF_VELOCITY = "velocity"
 CONFIG_SCHEMA = cv.All(
     cv.COMPONENT_SCHEMA.extend(
         {
-            cv.GenerateID(): cv.declare_id(SpeedSensor),
-            cv.GenerateID(): cv.declare_id(VelocitySensor),
             cv.GenerateID(CONF_LD2415H_ID): cv.use_id(LD2415HComponent),
             cv.Optional(CONF_SPEED): sensor.sensor_schema(
                 SpeedSensor,
