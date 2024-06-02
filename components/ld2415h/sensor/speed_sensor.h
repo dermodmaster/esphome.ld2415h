@@ -10,6 +10,7 @@ class SpeedSensor : public Component, sensor::Sensor {
  public:
   void dump_config() override;
   void set_speed_sensor(sensor::Sensor *sensor) { this->speed_sensor_ = sensor; }
+/*
   void on_speed(double speed) override {
     if (this->speed_sensor_ != nullptr) {
       if (this->speed_sensor_->get_state() != speed) {
@@ -17,7 +18,7 @@ class SpeedSensor : public Component, sensor::Sensor {
       }
     }
   }
-
+*/
  protected:
   sensor::Sensor *speed_sensor_{nullptr};
 };
