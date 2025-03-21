@@ -150,7 +150,6 @@ uart:
 ld2415h:
   id: radar
 
-# Der Sensor wird an den Hub gebunden
 sensor:
   - platform: ld2415h
     ld2415h_id: radar
