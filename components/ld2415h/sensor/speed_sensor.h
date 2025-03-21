@@ -10,6 +10,8 @@ class SpeedSensor : public Component, public sensor::Sensor {
  public:
   void dump_config() override;
   void set_speed_sensor(sensor::Sensor *sensor) { this->speed_sensor_ = sensor; }
+  void set_parent(LD2415HComponent *parent) { this->parent_ = parent; }
+
 /*
   void on_speed(double speed) override {
     if (this->speed_sensor_ != nullptr) {
@@ -21,6 +23,7 @@ class SpeedSensor : public Component, public sensor::Sensor {
 */
  protected:
   sensor::Sensor *speed_sensor_{nullptr};
+  LD2415HComponent *parent_{nullptr};
 };
 
 }  // namespace ld2415h
