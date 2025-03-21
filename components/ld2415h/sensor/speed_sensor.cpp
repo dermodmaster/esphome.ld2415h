@@ -12,9 +12,5 @@ void SpeedSensor::dump_config() {
   LOG_SENSOR("  ", "Speed", this->speed_sensor_);
 }
 
-void SpeedSensor::set_parent(LD2415HComponent *parent) {
-  this->parent_ = parent;
-}
-
 }  // namespace ld2415h
 }  // namespace esphome
