@@ -129,37 +129,36 @@ Example:
     | X0    | Negotiation Mode: <br>**0x01** : Custom Agreement <br>**0x02** : Standard Protocol |
 
 
-## ESPHome Example Configuration
+## ESPHome ESP8266 Example Configuration
 
 Example yaml to use in esphome device config:
 
 ```yaml
 external_components:
   - source:
-      url: https://github.com/cptskippy/esphome.ld2415h
+      url: https://github.com/dermodmaster/esphome.ld2415h
       type: git
       ref: main
-    components: ld2415h
+    components: [ld2415h]
     refresh: 0s
 
 uart:
-  tx_pin: 36
-  rx_pin: 34
+  tx_pin: GPIO1
+  rx_pin: GPIO3
   baud_rate: 9600
+  
+ld2415h:
+  id: radar
 
+# Der Sensor wird an den Hub gebunden
 sensor:
   - platform: ld2415h
+    ld2415h_id: radar
     speed:
-      name: Speed
+      name: "Speed"
       filters:
-        # Sensor reports on speed down to 1km/h
-        # we must zero out the speed manually
-        # when the sensor stops reporting.
         - timeout:
             timeout: 0.1s
             value: 0
-        # Sensor will constantly report speed
-        # at the confgiured sample rate
-        # this ensures we only report changes
         - delta: 0.1
 ```
