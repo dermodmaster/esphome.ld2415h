@@ -134,6 +134,48 @@ Example:
 Example yaml to use in esphome device config:
 
 ```yaml
+wifi:
+  ssid: [REPLACE ME]
+  password: [REPLACE ME]
+
+esphome:
+  name: esphome-web-xxxxxxx
+  friendly_name: Radar
+  min_version: 2024.11.0
+  name_add_mac_suffix: false
+  on_boot:
+    priority: 600  # Run after WiFi, before user logic
+    then: # Set the default configuration on boot here
+      - number.set: { id: compensation_angle, value: 8 }
+      - number.set: { id: sensitivity, value: 5 }
+      - number.set: { id: min_speed_threshold, value: 20 }
+      - number.set: { id: vibration_correction, value: 5 }
+      - number.set: { id: relay_trigger_duration, value: 3 }
+      - number.set: { id: relay_trigger_speed, value: 1 }
+
+esp8266:
+  board: esp01_1m
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  reboot_timeout: 0s
+
+# Optional MQTT Support
+#mqtt:
+#  broker: [broker ip/domain]
+#  username: [REPLACE ME]
+#  password: [REPLACE ME]
+
+# Allow Over-The-Air updates
+ota:
+- platform: esphome
+
+web_server:
+  port: 80
+
 external_components:
   - source:
       url: https://github.com/dermodmaster/esphome.ld2415h
@@ -143,13 +185,14 @@ external_components:
     refresh: 0s
 
 uart:
-  tx_pin: GPIO1
-  rx_pin: GPIO3
+  tx_pin: GPIO12
+  rx_pin: GPIO14
   baud_rate: 9600
   
 ld2415h:
   id: radar
 
+# Der Sensor wird an den Hub gebunden
 sensor:
   - platform: ld2415h
     ld2415h_id: radar
@@ -160,4 +203,44 @@ sensor:
             timeout: 0.1s
             value: 0
         - delta: 0.1
+
+
+
+# Numbers for all radar settings
+number:
+  - platform: ld2415h
+    ld2415h_id: radar
+
+    # Compensation Angle (0-90 degrees)
+    compensation_angle:
+      name: "Compensation Angle"
+      id: compensation_angle
+
+    # Sensitivity (0-15)
+    sensitivity:
+      name: "Sensitivity"
+      id: sensitivity
+
+    # Minimum Speed Threshold (1-60 km/h)
+    min_speed_threshold:
+      name: "Min Speed Threshold"
+      id: min_speed_threshold
+
+    # Vibration Correction (0-112)
+    vibration_correction:
+      name: "Vibration Correction"
+      id: vibration_correction
+
+    # Relay Trigger Duration (0–255 seconds)
+    relay_trigger_duration:
+      name: "Relay Trigger Duration"
+      id: relay_trigger_duration
+
+    # Relay Trigger Speed (0–255 km/h)
+    relay_trigger_speed:
+      name: "Relay Trigger Speed"
+      id: relay_trigger_speed
+
+
+
 ```
