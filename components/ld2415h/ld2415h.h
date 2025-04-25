@@ -60,6 +60,12 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
   float get_setup_priority() const override { return setup_priority::HARDWARE; }
   //void register_listener(LD2415HListener *listener) { this->listeners_.push_back(listener); }
   void set_speed_sensor(sensor::Sensor *sensor) { this->speed_sensor_ = sensor; };
+  void set_approaching_speed_sensor(sensor::Sensor *sensor) { this->approaching_speed_sensor_ = sensor; };
+  void set_departing_speed_sensor(sensor::Sensor *sensor) { this->departing_speed_sensor_ = sensor; };
+  void set_approaching_last_max_speed_sensor(sensor::Sensor *sensor) {
+    this->approaching_last_max_speed_sensor_ = sensor;
+  };
+  void set_departing_last_max_speed_sensor(sensor::Sensor *sensor) { this->departing_last_max_speed_sensor_ = sensor; };
   void set_velocity_sensor(sensor::Sensor *sensor) { this->velocity_sensor_ = sensor; };
 
   void set_min_speed_threshold(uint8_t speed);
@@ -89,6 +95,10 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
 
  protected:
   sensor::Sensor *speed_sensor_{nullptr};
+  sensor::Sensor *approaching_speed_sensor_{nullptr};
+  sensor::Sensor *departing_speed_sensor_{nullptr};
+  sensor::Sensor *approaching_last_max_speed_sensor_{nullptr};
+  sensor::Sensor *departing_last_max_speed_sensor_{nullptr};
   sensor::Sensor *velocity_sensor_{nullptr};
 
   // Configuration
@@ -119,6 +129,12 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
   char firmware_[20] = "";
   double speed_ = 0;
   double velocity_ = 0;
+  bool approaching_ = false;
+  double last_max_approaching_speed_ = 0;
+  double last_max_departing_speed_ = 0;
+  uint32_t last_approaching_update_time_ = 0;  // Time of the last update in milliseconds for approaching speed
+  uint32_t last_departing_update_time_ = 0;   // Time of the last update in milliseconds for departing speed
+  const uint32_t timeout_duration_ = 200;  // Timeout duration in milliseconds
   char response_buffer_[64];
   uint8_t response_buffer_index_ = 0;
 

@@ -204,6 +204,39 @@ sensor:
             value: 0
         - delta: 0.1
 
+  # Approaching Speed Sensor
+  - platform: ld2415h
+    ld2415h_id: radar
+    approaching_speed:
+      name: "Approaching Speed"
+      filters:
+        - timeout:
+            timeout: 0.1s
+            value: 0
+        - delta: 0.1
+
+  # Departing Speed Sensor
+  - platform: ld2415h
+    ld2415h_id: radar
+    departing_speed:
+      name: "Departing Speed"
+      filters:
+        - timeout:
+            timeout: 0.1s
+            value: 0
+        - delta: 0.1
+
+  # Approaching Last Max Speed Sensor
+  - platform: ld2415h
+    ld2415h_id: radar
+    approaching_last_max_speed:
+      name: "Approaching Last Max Speed"
+
+  # Departing Last Max Speed Sensor
+  - platform: ld2415h
+    ld2415h_id: radar
+    departing_last_max_speed:
+      name: "Departing Last Max Speed"
 
 
 # Numbers for all radar settings
