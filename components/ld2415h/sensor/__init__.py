@@ -10,35 +10,12 @@ from esphome.const import (
 )
 from .. import ld2415h_ns, LD2415HComponent, CONF_LD2415H_ID
 
-SpeedSensor = ld2415h_ns.class_(
-    "SpeedSensor",
-    base_classes=[cg.Component, sensor.Sensor]
-)
-
-ApproachingSpeedSensor = ld2415h_ns.class_(
-    "ApproachingSpeedSensor",
-    base_classes=[cg.Component, sensor.Sensor]
-)
-
-DepartingSpeedSensor = ld2415h_ns.class_(
-    "DepartingSpeedSensor",
-    base_classes=[cg.Component, sensor.Sensor]
-)
-
-ApproachingLastMaxSpeedSensor = ld2415h_ns.class_(
-    "ApproachingLastMaxSpeedSensor",
-    base_classes=[cg.Component, sensor.Sensor]
-)
-
-DepartingLastMaxSpeedSensor = ld2415h_ns.class_(
-    "DepartingLastMaxSpeedSensor",
-    base_classes=[cg.Component, sensor.Sensor]
-)
-
-VelocitySensor = ld2415h_ns.class_(
-    "VelocitySensor",
-    base_classes=[cg.Component, sensor.Sensor]
-)
+SpeedSensor = ld2415h_ns.class_("SpeedSensor", sensor.Sensor)
+ApproachingSpeedSensor = ld2415h_ns.class_("ApproachingSpeedSensor", sensor.Sensor)
+DepartingSpeedSensor = ld2415h_ns.class_("DepartingSpeedSensor", sensor.Sensor)
+ApproachingLastMaxSpeedSensor = ld2415h_ns.class_("ApproachingLastMaxSpeedSensor", sensor.Sensor)
+DepartingLastMaxSpeedSensor = ld2415h_ns.class_("DepartingLastMaxSpeedSensor", sensor.Sensor)
+VelocitySensor = ld2415h_ns.class_("VelocitySensor", sensor.Sensor)
 
 ICON_SPEEDOMETER = "mdi:speedometer"
 
