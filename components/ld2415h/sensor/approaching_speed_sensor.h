@@ -14,6 +14,9 @@ class ApproachingSpeedSensor : public Component, public sensor::Sensor {
   void publish_speed(double speed) {
     this->publish_state(speed);
   }
+ protected:
+  sensor::Sensor *approaching_speed_sensor_{nullptr};
+  LD2415HComponent *parent_{nullptr};
 };
 
 }  // namespace ld2415h

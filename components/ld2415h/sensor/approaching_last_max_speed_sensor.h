@@ -8,7 +8,7 @@ namespace ld2415h {
 
 class ApproachingLastMaxSpeedSensor : public Component, public sensor::Sensor {
  public:
-  void dump_config() override;,
+  void dump_config() override;
   void set_approaching_last_max_speed_sensor(sensor::Sensor *sensor) {
     this->approaching_last_max_speed_sensor_ = sensor;
   }
@@ -18,6 +18,9 @@ class ApproachingLastMaxSpeedSensor : public Component, public sensor::Sensor {
       this->publish_state(speed);
     }
   }
+ protected:
+  sensor::Sensor *approaching_last_max_speed_sensor_{nullptr};
+  LD2415HComponent *parent_{nullptr};
 };
 
 }  // namespace ld2415h
