@@ -25,59 +25,61 @@ CONF_APPROACHING_LAST_MAX_SPEED = "approaching_last_max_speed"
 CONF_DEPARTING_LAST_MAX_SPEED = "departing_last_max_speed"
 CONF_VELOCITY = "velocity"
 
-CONFIG_SCHEMA = cv.Schema(
-    {
-        cv.GenerateID(): cv.declare_id(LD2415HComponent),
-        cv.GenerateID(CONF_LD2415H_ID): cv.use_id(LD2415HComponent),
-        cv.Optional(CONF_SPEED): sensor.sensor_schema(
-            SpeedSensor,
-            device_class=DEVICE_CLASS_SPEED,
-            state_class=STATE_CLASS_MEASUREMENT,
-            unit_of_measurement=UNIT_KILOMETER_PER_HOUR,
-            icon=ICON_SPEEDOMETER,
-            accuracy_decimals=1,
-        ),
-        cv.Optional(CONF_APPROACHING_SPEED): sensor.sensor_schema(
-            ApproachingSpeedSensor,
-            device_class=DEVICE_CLASS_SPEED,
-            state_class=STATE_CLASS_MEASUREMENT,
-            unit_of_measurement=UNIT_KILOMETER_PER_HOUR,
-            icon=ICON_SPEEDOMETER,
-            accuracy_decimals=1,
-        ),
-        cv.Optional(CONF_DEPARTING_SPEED): sensor.sensor_schema(
-            DepartingSpeedSensor,
-            device_class=DEVICE_CLASS_SPEED,
-            state_class=STATE_CLASS_MEASUREMENT,
-            unit_of_measurement=UNIT_KILOMETER_PER_HOUR,
-            icon=ICON_SPEEDOMETER,
-            accuracy_decimals=1,
-        ),
-        cv.Optional(CONF_APPROACHING_LAST_MAX_SPEED): sensor.sensor_schema(
-            ApproachingLastMaxSpeedSensor,
-            device_class=DEVICE_CLASS_SPEED,
-            state_class=STATE_CLASS_MEASUREMENT,
-            unit_of_measurement=UNIT_KILOMETER_PER_HOUR,
-            icon=ICON_SPEEDOMETER,
-            accuracy_decimals=1,
-        ),
-        cv.Optional(CONF_DEPARTING_LAST_MAX_SPEED): sensor.sensor_schema(
-            DepartingLastMaxSpeedSensor,
-            device_class=DEVICE_CLASS_SPEED,
-            state_class=STATE_CLASS_MEASUREMENT,
-            unit_of_measurement=UNIT_KILOMETER_PER_HOUR,
-            icon=ICON_SPEEDOMETER,
-            accuracy_decimals=1,
-        ),
-        cv.Optional(CONF_VELOCITY): sensor.sensor_schema(
-            VelocitySensor,
-            device_class=DEVICE_CLASS_SPEED,
-            state_class=STATE_CLASS_MEASUREMENT,
-            unit_of_measurement=UNIT_KILOMETER_PER_HOUR,
-            icon=ICON_SPEEDOMETER,
-            accuracy_decimals=1,
-        ),
-    }
+CONFIG_SCHEMA = (
+    sensor.PLATFORM_SCHEMA.extend(  
+        {
+            cv.GenerateID(): cv.declare_id(LD2415HComponent),
+            cv.Required(CONF_LD2415H_ID): cv.use_id(LD2415HComponent),  # wir brauchen den Hub
+            cv.Optional(CONF_SPEED): sensor.sensor_schema(
+                SpeedSensor,
+                device_class=DEVICE_CLASS_SPEED,
+                state_class=STATE_CLASS_MEASUREMENT,
+                unit_of_measurement=UNIT_KILOMETER_PER_HOUR,
+                icon=ICON_SPEEDOMETER,
+                accuracy_decimals=1,
+            ),
+            cv.Optional(CONF_APPROACHING_SPEED): sensor.sensor_schema(
+                ApproachingSpeedSensor,
+                device_class=DEVICE_CLASS_SPEED,
+                state_class=STATE_CLASS_MEASUREMENT,
+                unit_of_measurement=UNIT_KILOMETER_PER_HOUR,
+                icon=ICON_SPEEDOMETER,
+                accuracy_decimals=1,
+            ),
+            cv.Optional(CONF_DEPARTING_SPEED): sensor.sensor_schema(
+                DepartingSpeedSensor,
+                device_class=DEVICE_CLASS_SPEED,
+                state_class=STATE_CLASS_MEASUREMENT,
+                unit_of_measurement=UNIT_KILOMETER_PER_HOUR,
+                icon=ICON_SPEEDOMETER,
+                accuracy_decimals=1,
+            ),
+            cv.Optional(CONF_APPROACHING_LAST_MAX_SPEED): sensor.sensor_schema(
+                ApproachingLastMaxSpeedSensor,
+                device_class=DEVICE_CLASS_SPEED,
+                state_class=STATE_CLASS_MEASUREMENT,
+                unit_of_measurement=UNIT_KILOMETER_PER_HOUR,
+                icon=ICON_SPEEDOMETER,
+                accuracy_decimals=1,
+            ),
+            cv.Optional(CONF_DEPARTING_LAST_MAX_SPEED): sensor.sensor_schema(
+                DepartingLastMaxSpeedSensor,
+                device_class=DEVICE_CLASS_SPEED,
+                state_class=STATE_CLASS_MEASUREMENT,
+                unit_of_measurement=UNIT_KILOMETER_PER_HOUR,
+                icon=ICON_SPEEDOMETER,
+                accuracy_decimals=1,
+            ),
+            cv.Optional(CONF_VELOCITY): sensor.sensor_schema(
+                VelocitySensor,
+                device_class=DEVICE_CLASS_SPEED,
+                state_class=STATE_CLASS_MEASUREMENT,
+                unit_of_measurement=UNIT_KILOMETER_PER_HOUR,
+                icon=ICON_SPEEDOMETER,
+                accuracy_decimals=1,
+            ),
+        }
+    )
 )
 
 
