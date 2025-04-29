@@ -192,7 +192,7 @@ uart:
 ld2415h:
   id: radar
 
-# Der Sensor wird an den Hub gebunden
+# Define all sensors to be handled
 sensor:
   - platform: ld2415h
     ld2415h_id: radar
@@ -203,10 +203,6 @@ sensor:
             timeout: 0.1s
             value: 0
         - delta: 0.1
-
-  # Approaching Speed Sensor
-  - platform: ld2415h
-    ld2415h_id: radar
     approaching_speed:
       name: "Approaching Speed"
       filters:
@@ -214,10 +210,6 @@ sensor:
             timeout: 0.1s
             value: 0
         - delta: 0.1
-
-  # Departing Speed Sensor
-  - platform: ld2415h
-    ld2415h_id: radar
     departing_speed:
       name: "Departing Speed"
       filters:
@@ -225,18 +217,11 @@ sensor:
             timeout: 0.1s
             value: 0
         - delta: 0.1
-
-  # Approaching Last Max Speed Sensor
-  - platform: ld2415h
-    ld2415h_id: radar
-    approaching_last_max_speed:
+    approaching_last_max_speed: # fires max speed if no new measurement is incoming for x ms. (default: 200ms)
       name: "Approaching Last Max Speed"
-
-  # Departing Last Max Speed Sensor
-  - platform: ld2415h
-    ld2415h_id: radar
     departing_last_max_speed:
       name: "Departing Last Max Speed"
+
 
 
 # Numbers for all radar settings
@@ -273,6 +258,15 @@ number:
     relay_trigger_speed:
       name: "Relay Trigger Speed"
       id: relay_trigger_speed
+
+# Settings with selections
+select:
+  - platform: ld2415h
+    ld2415h_id: radar
+    tracking_mode:
+      name: "Tracking Mode"
+    sample_rate:
+      name: "Sample Rate"
 
 
 
