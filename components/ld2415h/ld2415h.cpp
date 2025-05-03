@@ -31,6 +31,7 @@ void LD2415HComponent::setup() {
   this->vibration_correction_number_->publish_state(this->vibration_correction_);
   this->relay_trigger_duration_number_->publish_state(this->relay_trigger_duration_);
   this->relay_trigger_speed_number_->publish_state(this->relay_trigger_speed_);
+  this->timeout_duration_number_->publish_state(this->timeout_duration_);
 #endif
 #ifdef USE_SELECT
   this->sample_rate_selector_->publish_state(this->i_to_s_(SAMPLE_RATE_STR_TO_INT, this->sample_rate_));
@@ -50,6 +51,7 @@ void LD2415HComponent::dump_config() {
   ESP_LOGCONFIG(TAG, "  Vibration Correction: %u", this->vibration_correction_);
   ESP_LOGCONFIG(TAG, "  Relay Trigger Duration: %u", this->relay_trigger_duration_);
   ESP_LOGCONFIG(TAG, "  Relay Trigger Speed: %u KPH", this->relay_trigger_speed_);
+  ESP_LOGCONFIG(TAG, "  Timeout Duration: %u ms", this->timeout_duration_);
   ESP_LOGCONFIG(TAG, "  Negotiation Mode: %s", negotiation_mode_to_s_(this->negotiation_mode_));
 }
 
@@ -155,6 +157,10 @@ void LD2415HComponent::set_relay_trigger_duration(uint8_t duration) {
 void LD2415HComponent::set_relay_trigger_speed(uint8_t speed) {
   this->relay_trigger_speed_ = speed;
   this->update_relay_duration_speed_ = true;
+}
+
+void LD2415HComponent::set_timeout_duration(uint32_t duration) {
+  this->timeout_duration_ = duration;
 }
 #endif
 

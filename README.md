@@ -152,6 +152,7 @@ esphome:
       - number.set: { id: vibration_correction, value: 5 }
       - number.set: { id: relay_trigger_duration, value: 3 }
       - number.set: { id: relay_trigger_speed, value: 1 }
+      - number.set: { id: timeout_duration, value: 400 }
 
 esp8266:
   board: esp01_1m
@@ -258,6 +259,11 @@ number:
     relay_trigger_speed:
       name: "Relay Trigger Speed"
       id: relay_trigger_speed
+
+    # Relay timeout for firing max speeed measurements if no new measurement was seen for x ms
+    timeout_duration:
+      name: "Radar Timeout (ms)"
+      id: timeout_duration
 
 # Settings with selections
 select:
