@@ -217,7 +217,7 @@ sensor:
             timeout: 0.1s
             value: 0
         - delta: 0.1
-    approaching_last_max_speed: # fires max speed if no new measurement is incoming for x ms. (default: 200ms)
+    approaching_last_max_speed: # fires max speed if no new measurement is incoming for x ms. (default: 400ms)
       name: "Approaching Last Max Speed"
     departing_last_max_speed:
       name: "Departing Last Max Speed"

@@ -134,7 +134,7 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
   double last_max_departing_speed_ = 0;
   uint32_t last_approaching_update_time_ = 0;  // Time of the last update in milliseconds for approaching speed
   uint32_t last_departing_update_time_ = 0;   // Time of the last update in milliseconds for departing speed
-  const uint32_t timeout_duration_ = 200;  // Timeout duration in milliseconds
+  const uint32_t timeout_duration_ = 400;  // Timeout duration in milliseconds
   char response_buffer_[64];
   uint8_t response_buffer_index_ = 0;
 
