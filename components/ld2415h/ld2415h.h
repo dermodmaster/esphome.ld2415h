@@ -52,6 +52,7 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
   void set_vibration_correction_number(number::Number *number) { this->vibration_correction_number_ = number; };
   void set_relay_trigger_duration_number(number::Number *number) { this->relay_trigger_duration_number_ = number; };
   void set_relay_trigger_speed_number(number::Number *number) { this->relay_trigger_speed_number_ = number; };
+  void set_timeout_duration_number(number::Number *n) { this->timeout_duration_number_ = n; }
 #endif
 #ifdef USE_SELECT
   void set_sample_rate_select(select::Select *selector) { this->sample_rate_selector_ = selector; };
@@ -60,6 +61,12 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
   float get_setup_priority() const override { return setup_priority::HARDWARE; }
   //void register_listener(LD2415HListener *listener) { this->listeners_.push_back(listener); }
   void set_speed_sensor(sensor::Sensor *sensor) { this->speed_sensor_ = sensor; };
+  void set_approaching_speed_sensor(sensor::Sensor *sensor) { this->approaching_speed_sensor_ = sensor; };
+  void set_departing_speed_sensor(sensor::Sensor *sensor) { this->departing_speed_sensor_ = sensor; };
+  void set_approaching_last_max_speed_sensor(sensor::Sensor *sensor) {
+    this->approaching_last_max_speed_sensor_ = sensor;
+  };
+  void set_departing_last_max_speed_sensor(sensor::Sensor *sensor) { this->departing_last_max_speed_sensor_ = sensor; };
   void set_velocity_sensor(sensor::Sensor *sensor) { this->velocity_sensor_ = sensor; };
 
   void set_min_speed_threshold(uint8_t speed);
@@ -73,6 +80,7 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
   void set_vibration_correction(uint8_t correction);
   void set_relay_trigger_duration(uint8_t duration);
   void set_relay_trigger_speed(uint8_t speed);
+  void set_timeout_duration(uint32_t duration);
 
 #ifdef USE_NUMBER
   number::Number *min_speed_threshold_number_{nullptr};
@@ -81,6 +89,7 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
   number::Number *vibration_correction_number_{nullptr};
   number::Number *relay_trigger_duration_number_{nullptr};
   number::Number *relay_trigger_speed_number_{nullptr};
+  number::Number *timeout_duration_number_{nullptr};
 #endif
 #ifdef USE_SELECT
   select::Select *sample_rate_selector_{nullptr};
@@ -89,6 +98,10 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
 
  protected:
   sensor::Sensor *speed_sensor_{nullptr};
+  sensor::Sensor *approaching_speed_sensor_{nullptr};
+  sensor::Sensor *departing_speed_sensor_{nullptr};
+  sensor::Sensor *approaching_last_max_speed_sensor_{nullptr};
+  sensor::Sensor *departing_last_max_speed_sensor_{nullptr};
   sensor::Sensor *velocity_sensor_{nullptr};
 
   // Configuration
@@ -101,6 +114,7 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
   uint8_t vibration_correction_ = 0;
   uint8_t relay_trigger_duration_ = 0;
   uint8_t relay_trigger_speed_ = 0;
+  uint32_t timeout_duration_ = 400;  // Timeout duration in milliseconds
   NegotiationMode negotiation_mode_ = NegotiationMode::CUSTOM_AGREEMENT;
 
   // State
@@ -119,6 +133,11 @@ class LD2415HComponent : public Component, public uart::UARTDevice {
   char firmware_[20] = "";
   double speed_ = 0;
   double velocity_ = 0;
+  bool approaching_ = false;
+  double last_max_approaching_speed_ = 0;
+  double last_max_departing_speed_ = 0;
+  uint32_t last_approaching_update_time_ = 0;  // Time of the last update in milliseconds for approaching speed
+  uint32_t last_departing_update_time_ = 0;   // Time of the last update in milliseconds for departing speed
   char response_buffer_[64];
   uint8_t response_buffer_index_ = 0;
 

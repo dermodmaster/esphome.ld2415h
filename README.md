@@ -152,6 +152,7 @@ esphome:
       - number.set: { id: vibration_correction, value: 5 }
       - number.set: { id: relay_trigger_duration, value: 3 }
       - number.set: { id: relay_trigger_speed, value: 1 }
+      - number.set: { id: timeout_duration, value: 400 }
 
 esp8266:
   board: esp01_1m
@@ -192,7 +193,7 @@ uart:
 ld2415h:
   id: radar
 
-# Der Sensor wird an den Hub gebunden
+# Define all sensors to be handled
 sensor:
   - platform: ld2415h
     ld2415h_id: radar
@@ -203,6 +204,24 @@ sensor:
             timeout: 0.1s
             value: 0
         - delta: 0.1
+    approaching_speed:
+      name: "Approaching Speed"
+      filters:
+        - timeout:
+            timeout: 0.1s
+            value: 0
+        - delta: 0.1
+    departing_speed:
+      name: "Departing Speed"
+      filters:
+        - timeout:
+            timeout: 0.1s
+            value: 0
+        - delta: 0.1
+    approaching_last_max_speed: # fires max speed if no new measurement is incoming for x ms. (default: 400ms)
+      name: "Approaching Last Max Speed"
+    departing_last_max_speed:
+      name: "Departing Last Max Speed"
 
 
 
@@ -240,6 +259,20 @@ number:
     relay_trigger_speed:
       name: "Relay Trigger Speed"
       id: relay_trigger_speed
+
+    # Relay timeout for firing max speeed measurements if no new measurement was seen for x ms
+    timeout_duration:
+      name: "Radar Timeout (ms)"
+      id: timeout_duration
+
+# Settings with selections
+select:
+  - platform: ld2415h
+    ld2415h_id: radar
+    tracking_mode:
+      name: "Tracking Mode"
+    sample_rate:
+      name: "Sample Rate"
 
 
 

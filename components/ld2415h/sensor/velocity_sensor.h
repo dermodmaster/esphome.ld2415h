@@ -6,10 +6,11 @@
 namespace esphome {
 namespace ld2415h {
 
-class VelocitySensor : public Component, sensor::Sensor {
+class VelocitySensor : public Component, public sensor::Sensor {
  public:
   void dump_config() override;
   void set_velocity_sensor(sensor::Sensor *sensor) { this->velocity_sensor_ = sensor; }
+  void set_parent(LD2415HComponent *parent) { this->parent_ = parent; }
   /*
   void on_velocity(double velocity) override {
     if (this->velocity_sensor_ != nullptr) {
@@ -22,6 +23,7 @@ class VelocitySensor : public Component, sensor::Sensor {
 
  protected:
   sensor::Sensor *velocity_sensor_{nullptr};
+  LD2415HComponent *parent_{nullptr};
 };
 
 }  // namespace ld2415h

@@ -31,6 +31,7 @@ void LD2415HComponent::setup() {
   this->vibration_correction_number_->publish_state(this->vibration_correction_);
   this->relay_trigger_duration_number_->publish_state(this->relay_trigger_duration_);
   this->relay_trigger_speed_number_->publish_state(this->relay_trigger_speed_);
+  this->timeout_duration_number_->publish_state(this->timeout_duration_);
 #endif
 #ifdef USE_SELECT
   this->sample_rate_selector_->publish_state(this->i_to_s_(SAMPLE_RATE_STR_TO_INT, this->sample_rate_));
@@ -50,6 +51,7 @@ void LD2415HComponent::dump_config() {
   ESP_LOGCONFIG(TAG, "  Vibration Correction: %u", this->vibration_correction_);
   ESP_LOGCONFIG(TAG, "  Relay Trigger Duration: %u", this->relay_trigger_duration_);
   ESP_LOGCONFIG(TAG, "  Relay Trigger Speed: %u KPH", this->relay_trigger_speed_);
+  ESP_LOGCONFIG(TAG, "  Timeout Duration: %u ms", this->timeout_duration_);
   ESP_LOGCONFIG(TAG, "  Negotiation Mode: %s", negotiation_mode_to_s_(this->negotiation_mode_));
 }
 
@@ -59,6 +61,22 @@ void LD2415HComponent::loop() {
     if (this->fill_buffer_(this->read())) {
       this->parse_buffer_();
     }
+  }
+
+  // Timeout handling for last max speed
+  uint32_t now = millis();
+  // Approaching speed
+  if (this->approaching_last_max_speed_sensor_ != nullptr && last_max_approaching_speed_ > 0 && now - this->last_approaching_update_time_ > this->timeout_duration_) {
+    this->approaching_last_max_speed_sensor_->publish_state(last_max_approaching_speed_);
+    this->last_approaching_update_time_ = now;
+    this->last_max_approaching_speed_ = 0;
+  }
+
+  // Departing speed
+  if (this->departing_last_max_speed_sensor_ != nullptr && last_max_departing_speed_ > 0 && now - this->last_departing_update_time_ > this->timeout_duration_) {
+    this->departing_last_max_speed_sensor_->publish_state(last_max_departing_speed_);
+    this->last_departing_update_time_ = now;
+    this->last_max_departing_speed_ = 0;
   }
 
   if (this->update_speed_angle_sense_) {
@@ -139,6 +157,10 @@ void LD2415HComponent::set_relay_trigger_duration(uint8_t duration) {
 void LD2415HComponent::set_relay_trigger_speed(uint8_t speed) {
   this->relay_trigger_speed_ = speed;
   this->update_relay_duration_speed_ = true;
+}
+
+void LD2415HComponent::set_timeout_duration(uint32_t duration) {
+  this->timeout_duration_ = duration;
 }
 #endif
 
@@ -304,7 +326,7 @@ void LD2415HComponent::parse_speed_() {
 
   if (p != nullptr) {
     ++p;
-    //this->approaching_ = (*p == '+');
+    this->approaching_ = (*p == '+');
     this->velocity_ = strtod(p, nullptr);
     ++p;
     this->speed_ = strtod(p, nullptr);
@@ -321,6 +343,29 @@ void LD2415HComponent::parse_speed_() {
     if (this->speed_sensor_ != nullptr)
       this->speed_sensor_->publish_state(this->speed_);
 
+    if (this->approaching_) {
+      if (this->approaching_speed_sensor_ != nullptr) {
+        this->approaching_speed_sensor_->publish_state(this->speed_);
+        this->last_approaching_update_time_ = millis();
+      
+        // Update last max speed
+        if (this->speed_ > this->last_max_approaching_speed_) {
+          this->last_max_approaching_speed_ = this->speed_;
+        }
+      }
+    } else {
+      // Handle departing speed
+      if (this->departing_speed_sensor_ != nullptr) {
+        this->departing_speed_sensor_->publish_state(this->speed_);
+        this->last_departing_update_time_ = millis();
+      
+        // Update last max speed
+        if (this->speed_ > this->last_max_departing_speed_) {
+          this->last_max_departing_speed_ = this->speed_;
+        }
+      }
+    }
+  
     if (this->velocity_sensor_ != nullptr)
       this->velocity_sensor_->publish_state(this->velocity_);
 
